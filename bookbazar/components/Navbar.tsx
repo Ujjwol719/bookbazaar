@@ -111,6 +111,7 @@ export default function Navbar() {
   ) : null
 
   return (
+    <>
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-sm">
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 md:min-h-15.5 md:px-6">
 
@@ -250,10 +251,14 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+    </header>
 
-      {/* Mobile drawer */}
-      {drawerOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
+    {/* Mobile drawer — rendered as a header sibling, not a descendant: the
+        header's backdrop-blur makes it a containing block for `fixed`
+        children, which was collapsing this drawer down to the header's own
+        ~60px height instead of the full viewport. */}
+    {drawerOpen && (
+        <div className="fixed inset-0 z-60 md:hidden">
           <button
             aria-label="Close menu"
             onClick={() => setDrawerOpen(false)}
@@ -348,7 +353,7 @@ export default function Navbar() {
             )}
           </div>
         </div>
-      )}
-    </header>
+    )}
+    </>
   )
 }
