@@ -59,7 +59,8 @@ export default function Footer() {
             </h3>
             <ul className="space-y-3 text-sm text-slate-600">
               <li className="flex items-center gap-2">
-                <span>📧</span> support@bookmandu.com
+                <span>📧</span>
+                <a href="mailto:karnakreeshal@gmail.com" className="hover:text-indigo-600 transition-colors">karnakreeshal@gmail.com</a>
               </li>
               <li className="flex items-center gap-2">
                 <span>📍</span> Kathmandu, Nepal

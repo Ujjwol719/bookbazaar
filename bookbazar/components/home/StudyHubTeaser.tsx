@@ -1,6 +1,9 @@
 import Link from "next/link"
+import { getCreditSettings } from "@/lib/credits"
 
-export default function StudyHubTeaser() {
+export default async function StudyHubTeaser() {
+  const settings = await getCreditSettings()
+
   return (
     <section className="bg-white py-16">
       <div className="mx-auto max-w-7xl px-4 md:px-6">
@@ -14,6 +17,9 @@ export default function StudyHubTeaser() {
               <p className="mt-2 max-w-lg text-indigo-100">
                 Study materials organized for your class, university and semester.
               </p>
+              <p className="mt-3 flex items-center gap-1.5 text-sm font-medium text-amber-200">
+                🪙 Volunteer to contribute notes — earn {settings.contributionReward} credits per approved upload.
+              </p>
             </div>
 
             <div className="flex shrink-0 flex-wrap gap-3">
@@ -24,10 +30,10 @@ export default function StudyHubTeaser() {
                 Explore Study Hub
               </Link>
               <Link
-                href="/study/school"
+                href="/become-contributor"
                 className="rounded-xl border border-white/40 px-6 py-3 font-semibold text-white transition hover:bg-white/10"
               >
-                Browse School Notes
+                Become a Contributor
               </Link>
             </div>
           </div>

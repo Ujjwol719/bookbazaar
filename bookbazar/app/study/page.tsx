@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/home/footer";
 import { getCanonicalUrl, SITE_NAME } from "@/lib/site";
+import { getCreditSettings } from "@/lib/credits";
 
 // Same reasoning as the homepage: without this, new universities/classes
 // added in Academic Management wouldn't show up here until a redeploy.
@@ -25,7 +26,8 @@ async function getCounts() {
 }
 
 export default async function StudyHubLanding() {
-  const counts = await getCounts();
+  const [counts, creditSettings] = await Promise.all([getCounts(), getCreditSettings()]);
+  const creditValue = Number(creditSettings.creditValueInRupees) * creditSettings.contributionReward;
 
   return (
     <>
@@ -72,9 +74,28 @@ export default async function StudyHubLanding() {
           {counts.materials === 0 && (
             <p className="mx-auto mt-10 max-w-md text-sm text-slate-400">
               We&apos;re still building out the library — browse the structure below, and check back soon for notes and papers.
-              Want to help? <Link href="/become-helper" className="font-semibold text-indigo-600 hover:text-indigo-700">Volunteer to maintain a program&apos;s notes</Link>.
             </p>
           )}
+        </section>
+
+        <section className="mx-auto max-w-4xl px-6 pb-20">
+          <div className="flex flex-col items-center gap-6 rounded-3xl border border-indigo-100 bg-white p-8 text-center shadow-sm md:flex-row md:justify-between md:text-left">
+            <div>
+              <span className="text-3xl">🪙</span>
+              <h2 className="mt-2 text-xl font-bold text-slate-900">Contribute notes, earn BookMandu Credits</h2>
+              <p className="mt-1 max-w-md text-sm text-slate-500">
+                Know a subject well? Volunteer to add notes or question papers — every approved upload earns you{" "}
+                <span className="font-semibold text-slate-700">{creditSettings.contributionReward} credits (≈ Rs. {creditValue})</span>,
+                spendable on any book at checkout.
+              </p>
+            </div>
+            <Link
+              href="/become-contributor"
+              className="shrink-0 rounded-xl bg-indigo-600 px-6 py-3 font-semibold text-white shadow-lg transition hover:bg-indigo-700"
+            >
+              Become a Contributor
+            </Link>
+          </div>
         </section>
       </main>
       <Footer />
