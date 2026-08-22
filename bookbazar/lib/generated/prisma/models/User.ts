@@ -40,6 +40,8 @@ export type UserMinAggregateOutputType = {
   full_name: string | null
   password_hash: string | null
   googleId: string | null
+  githubId: string | null
+  facebookId: string | null
   avatarUrl: string | null
   role: $Enums.Role | null
   created_at: Date | null
@@ -56,6 +58,8 @@ export type UserMaxAggregateOutputType = {
   full_name: string | null
   password_hash: string | null
   googleId: string | null
+  githubId: string | null
+  facebookId: string | null
   avatarUrl: string | null
   role: $Enums.Role | null
   created_at: Date | null
@@ -72,6 +76,8 @@ export type UserCountAggregateOutputType = {
   full_name: number
   password_hash: number
   googleId: number
+  githubId: number
+  facebookId: number
   avatarUrl: number
   role: number
   created_at: number
@@ -98,6 +104,8 @@ export type UserMinAggregateInputType = {
   full_name?: true
   password_hash?: true
   googleId?: true
+  githubId?: true
+  facebookId?: true
   avatarUrl?: true
   role?: true
   created_at?: true
@@ -114,6 +122,8 @@ export type UserMaxAggregateInputType = {
   full_name?: true
   password_hash?: true
   googleId?: true
+  githubId?: true
+  facebookId?: true
   avatarUrl?: true
   role?: true
   created_at?: true
@@ -130,6 +140,8 @@ export type UserCountAggregateInputType = {
   full_name?: true
   password_hash?: true
   googleId?: true
+  githubId?: true
+  facebookId?: true
   avatarUrl?: true
   role?: true
   created_at?: true
@@ -233,6 +245,8 @@ export type UserGroupByOutputType = {
   full_name: string
   password_hash: string | null
   googleId: string | null
+  githubId: string | null
+  facebookId: string | null
   avatarUrl: string | null
   role: $Enums.Role
   created_at: Date
@@ -272,6 +286,8 @@ export type UserWhereInput = {
   full_name?: Prisma.StringFilter<"User"> | string
   password_hash?: Prisma.StringNullableFilter<"User"> | string | null
   googleId?: Prisma.StringNullableFilter<"User"> | string | null
+  githubId?: Prisma.StringNullableFilter<"User"> | string | null
+  facebookId?: Prisma.StringNullableFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   created_at?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -299,6 +315,7 @@ export type UserWhereInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportListRelationFilter
   creditTransactions?: Prisma.CreditTransactionListRelationFilter
   createdCreditAdjustments?: Prisma.CreditTransactionListRelationFilter
+  couponRedemptions?: Prisma.CouponRedemptionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -307,6 +324,8 @@ export type UserOrderByWithRelationInput = {
   full_name?: Prisma.SortOrder
   password_hash?: Prisma.SortOrderInput | Prisma.SortOrder
   googleId?: Prisma.SortOrderInput | Prisma.SortOrder
+  githubId?: Prisma.SortOrderInput | Prisma.SortOrder
+  facebookId?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -334,12 +353,15 @@ export type UserOrderByWithRelationInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportOrderByRelationAggregateInput
   creditTransactions?: Prisma.CreditTransactionOrderByRelationAggregateInput
   createdCreditAdjustments?: Prisma.CreditTransactionOrderByRelationAggregateInput
+  couponRedemptions?: Prisma.CouponRedemptionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
   googleId?: string
+  githubId?: string
+  facebookId?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
@@ -372,7 +394,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportListRelationFilter
   creditTransactions?: Prisma.CreditTransactionListRelationFilter
   createdCreditAdjustments?: Prisma.CreditTransactionListRelationFilter
-}, "id" | "email" | "googleId">
+  couponRedemptions?: Prisma.CouponRedemptionListRelationFilter
+}, "id" | "email" | "googleId" | "githubId" | "facebookId">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -380,6 +403,8 @@ export type UserOrderByWithAggregationInput = {
   full_name?: Prisma.SortOrder
   password_hash?: Prisma.SortOrderInput | Prisma.SortOrder
   googleId?: Prisma.SortOrderInput | Prisma.SortOrder
+  githubId?: Prisma.SortOrderInput | Prisma.SortOrder
+  facebookId?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -404,6 +429,8 @@ export type UserScalarWhereWithAggregatesInput = {
   full_name?: Prisma.StringWithAggregatesFilter<"User"> | string
   password_hash?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   googleId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  githubId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  facebookId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   created_at?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -420,6 +447,8 @@ export type UserCreateInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -447,6 +476,7 @@ export type UserCreateInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -455,6 +485,8 @@ export type UserUncheckedCreateInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -482,6 +514,7 @@ export type UserUncheckedCreateInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -490,6 +523,8 @@ export type UserUpdateInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -517,6 +552,7 @@ export type UserUpdateInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -525,6 +561,8 @@ export type UserUncheckedUpdateInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -552,6 +590,7 @@ export type UserUncheckedUpdateInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -560,6 +599,8 @@ export type UserCreateManyInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -576,6 +617,8 @@ export type UserUpdateManyMutationInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -592,6 +635,8 @@ export type UserUncheckedUpdateManyInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -608,6 +653,8 @@ export type UserCountOrderByAggregateInput = {
   full_name?: Prisma.SortOrder
   password_hash?: Prisma.SortOrder
   googleId?: Prisma.SortOrder
+  githubId?: Prisma.SortOrder
+  facebookId?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -628,6 +675,8 @@ export type UserMaxOrderByAggregateInput = {
   full_name?: Prisma.SortOrder
   password_hash?: Prisma.SortOrder
   googleId?: Prisma.SortOrder
+  githubId?: Prisma.SortOrder
+  facebookId?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -644,6 +693,8 @@ export type UserMinOrderByAggregateInput = {
   full_name?: Prisma.SortOrder
   password_hash?: Prisma.SortOrder
   googleId?: Prisma.SortOrder
+  githubId?: Prisma.SortOrder
+  facebookId?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -972,12 +1023,28 @@ export type UserUpdateOneRequiredWithoutMaterialPurchasesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMaterialPurchasesInput, Prisma.UserUpdateWithoutMaterialPurchasesInput>, Prisma.UserUncheckedUpdateWithoutMaterialPurchasesInput>
 }
 
+export type UserCreateNestedOneWithoutCouponRedemptionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCouponRedemptionsInput, Prisma.UserUncheckedCreateWithoutCouponRedemptionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCouponRedemptionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCouponRedemptionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCouponRedemptionsInput, Prisma.UserUncheckedCreateWithoutCouponRedemptionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCouponRedemptionsInput
+  upsert?: Prisma.UserUpsertWithoutCouponRedemptionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCouponRedemptionsInput, Prisma.UserUpdateWithoutCouponRedemptionsInput>, Prisma.UserUncheckedUpdateWithoutCouponRedemptionsInput>
+}
+
 export type UserCreateWithoutStoreInput = {
   id?: string
   email: string
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -1004,6 +1071,7 @@ export type UserCreateWithoutStoreInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStoreInput = {
@@ -1012,6 +1080,8 @@ export type UserUncheckedCreateWithoutStoreInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -1038,6 +1108,7 @@ export type UserUncheckedCreateWithoutStoreInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStoreInput = {
@@ -1062,6 +1133,8 @@ export type UserUpdateWithoutStoreInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1088,6 +1161,7 @@ export type UserUpdateWithoutStoreInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStoreInput = {
@@ -1096,6 +1170,8 @@ export type UserUncheckedUpdateWithoutStoreInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1122,6 +1198,7 @@ export type UserUncheckedUpdateWithoutStoreInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutOrdersInput = {
@@ -1130,6 +1207,8 @@ export type UserCreateWithoutOrdersInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -1156,6 +1235,7 @@ export type UserCreateWithoutOrdersInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOrdersInput = {
@@ -1164,6 +1244,8 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -1190,6 +1272,7 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOrdersInput = {
@@ -1214,6 +1297,8 @@ export type UserUpdateWithoutOrdersInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1240,6 +1325,7 @@ export type UserUpdateWithoutOrdersInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOrdersInput = {
@@ -1248,6 +1334,8 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1274,6 +1362,7 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCartItemsInput = {
@@ -1282,6 +1371,8 @@ export type UserCreateWithoutCartItemsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -1308,6 +1399,7 @@ export type UserCreateWithoutCartItemsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCartItemsInput = {
@@ -1316,6 +1408,8 @@ export type UserUncheckedCreateWithoutCartItemsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -1342,6 +1436,7 @@ export type UserUncheckedCreateWithoutCartItemsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCartItemsInput = {
@@ -1366,6 +1461,8 @@ export type UserUpdateWithoutCartItemsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1392,6 +1489,7 @@ export type UserUpdateWithoutCartItemsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCartItemsInput = {
@@ -1400,6 +1498,8 @@ export type UserUncheckedUpdateWithoutCartItemsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1426,6 +1526,7 @@ export type UserUncheckedUpdateWithoutCartItemsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWishlistItemsInput = {
@@ -1434,6 +1535,8 @@ export type UserCreateWithoutWishlistItemsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -1460,6 +1563,7 @@ export type UserCreateWithoutWishlistItemsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWishlistItemsInput = {
@@ -1468,6 +1572,8 @@ export type UserUncheckedCreateWithoutWishlistItemsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -1494,6 +1600,7 @@ export type UserUncheckedCreateWithoutWishlistItemsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWishlistItemsInput = {
@@ -1518,6 +1625,8 @@ export type UserUpdateWithoutWishlistItemsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1544,6 +1653,7 @@ export type UserUpdateWithoutWishlistItemsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWishlistItemsInput = {
@@ -1552,6 +1662,8 @@ export type UserUncheckedUpdateWithoutWishlistItemsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1578,6 +1690,7 @@ export type UserUncheckedUpdateWithoutWishlistItemsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutVerificationTokensInput = {
@@ -1586,6 +1699,8 @@ export type UserCreateWithoutVerificationTokensInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -1612,6 +1727,7 @@ export type UserCreateWithoutVerificationTokensInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutVerificationTokensInput = {
@@ -1620,6 +1736,8 @@ export type UserUncheckedCreateWithoutVerificationTokensInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -1646,6 +1764,7 @@ export type UserUncheckedCreateWithoutVerificationTokensInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutVerificationTokensInput = {
@@ -1670,6 +1789,8 @@ export type UserUpdateWithoutVerificationTokensInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1696,6 +1817,7 @@ export type UserUpdateWithoutVerificationTokensInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutVerificationTokensInput = {
@@ -1704,6 +1826,8 @@ export type UserUncheckedUpdateWithoutVerificationTokensInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1730,6 +1854,7 @@ export type UserUncheckedUpdateWithoutVerificationTokensInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPasswordResetTokensInput = {
@@ -1738,6 +1863,8 @@ export type UserCreateWithoutPasswordResetTokensInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -1764,6 +1891,7 @@ export type UserCreateWithoutPasswordResetTokensInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
@@ -1772,6 +1900,8 @@ export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -1798,6 +1928,7 @@ export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPasswordResetTokensInput = {
@@ -1822,6 +1953,8 @@ export type UserUpdateWithoutPasswordResetTokensInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1848,6 +1981,7 @@ export type UserUpdateWithoutPasswordResetTokensInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
@@ -1856,6 +1990,8 @@ export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1882,6 +2018,7 @@ export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReviewsInput = {
@@ -1890,6 +2027,8 @@ export type UserCreateWithoutReviewsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -1916,6 +2055,7 @@ export type UserCreateWithoutReviewsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewsInput = {
@@ -1924,6 +2064,8 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -1950,6 +2092,7 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -1974,6 +2117,8 @@ export type UserUpdateWithoutReviewsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2000,6 +2145,7 @@ export type UserUpdateWithoutReviewsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -2008,6 +2154,8 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2034,6 +2182,7 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutContributorRequestsInput = {
@@ -2042,6 +2191,8 @@ export type UserCreateWithoutContributorRequestsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -2068,6 +2219,7 @@ export type UserCreateWithoutContributorRequestsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutContributorRequestsInput = {
@@ -2076,6 +2228,8 @@ export type UserUncheckedCreateWithoutContributorRequestsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -2102,6 +2256,7 @@ export type UserUncheckedCreateWithoutContributorRequestsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutContributorRequestsInput = {
@@ -2115,6 +2270,8 @@ export type UserCreateWithoutReviewedContributorRequestsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -2141,6 +2298,7 @@ export type UserCreateWithoutReviewedContributorRequestsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewedContributorRequestsInput = {
@@ -2149,6 +2307,8 @@ export type UserUncheckedCreateWithoutReviewedContributorRequestsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -2175,6 +2335,7 @@ export type UserUncheckedCreateWithoutReviewedContributorRequestsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewedContributorRequestsInput = {
@@ -2199,6 +2360,8 @@ export type UserUpdateWithoutContributorRequestsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2225,6 +2388,7 @@ export type UserUpdateWithoutContributorRequestsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutContributorRequestsInput = {
@@ -2233,6 +2397,8 @@ export type UserUncheckedUpdateWithoutContributorRequestsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2259,6 +2425,7 @@ export type UserUncheckedUpdateWithoutContributorRequestsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReviewedContributorRequestsInput = {
@@ -2278,6 +2445,8 @@ export type UserUpdateWithoutReviewedContributorRequestsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2304,6 +2473,7 @@ export type UserUpdateWithoutReviewedContributorRequestsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewedContributorRequestsInput = {
@@ -2312,6 +2482,8 @@ export type UserUncheckedUpdateWithoutReviewedContributorRequestsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2338,6 +2510,7 @@ export type UserUncheckedUpdateWithoutReviewedContributorRequestsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutContributorPermissionsInput = {
@@ -2346,6 +2519,8 @@ export type UserCreateWithoutContributorPermissionsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -2372,6 +2547,7 @@ export type UserCreateWithoutContributorPermissionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutContributorPermissionsInput = {
@@ -2380,6 +2556,8 @@ export type UserUncheckedCreateWithoutContributorPermissionsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -2406,6 +2584,7 @@ export type UserUncheckedCreateWithoutContributorPermissionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutContributorPermissionsInput = {
@@ -2419,6 +2598,8 @@ export type UserCreateWithoutGrantedContributorPermsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -2445,6 +2626,7 @@ export type UserCreateWithoutGrantedContributorPermsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGrantedContributorPermsInput = {
@@ -2453,6 +2635,8 @@ export type UserUncheckedCreateWithoutGrantedContributorPermsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -2479,6 +2663,7 @@ export type UserUncheckedCreateWithoutGrantedContributorPermsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGrantedContributorPermsInput = {
@@ -2503,6 +2688,8 @@ export type UserUpdateWithoutContributorPermissionsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2529,6 +2716,7 @@ export type UserUpdateWithoutContributorPermissionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutContributorPermissionsInput = {
@@ -2537,6 +2725,8 @@ export type UserUncheckedUpdateWithoutContributorPermissionsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2563,6 +2753,7 @@ export type UserUncheckedUpdateWithoutContributorPermissionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutGrantedContributorPermsInput = {
@@ -2582,6 +2773,8 @@ export type UserUpdateWithoutGrantedContributorPermsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2608,6 +2801,7 @@ export type UserUpdateWithoutGrantedContributorPermsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGrantedContributorPermsInput = {
@@ -2616,6 +2810,8 @@ export type UserUncheckedUpdateWithoutGrantedContributorPermsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2642,6 +2838,7 @@ export type UserUncheckedUpdateWithoutGrantedContributorPermsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutChapterSuggestionsInput = {
@@ -2650,6 +2847,8 @@ export type UserCreateWithoutChapterSuggestionsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -2676,6 +2875,7 @@ export type UserCreateWithoutChapterSuggestionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChapterSuggestionsInput = {
@@ -2684,6 +2884,8 @@ export type UserUncheckedCreateWithoutChapterSuggestionsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -2710,6 +2912,7 @@ export type UserUncheckedCreateWithoutChapterSuggestionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChapterSuggestionsInput = {
@@ -2723,6 +2926,8 @@ export type UserCreateWithoutReviewedChapterSuggestionsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -2749,6 +2954,7 @@ export type UserCreateWithoutReviewedChapterSuggestionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewedChapterSuggestionsInput = {
@@ -2757,6 +2963,8 @@ export type UserUncheckedCreateWithoutReviewedChapterSuggestionsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -2783,6 +2991,7 @@ export type UserUncheckedCreateWithoutReviewedChapterSuggestionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewedChapterSuggestionsInput = {
@@ -2807,6 +3016,8 @@ export type UserUpdateWithoutChapterSuggestionsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2833,6 +3044,7 @@ export type UserUpdateWithoutChapterSuggestionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChapterSuggestionsInput = {
@@ -2841,6 +3053,8 @@ export type UserUncheckedUpdateWithoutChapterSuggestionsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2867,6 +3081,7 @@ export type UserUncheckedUpdateWithoutChapterSuggestionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReviewedChapterSuggestionsInput = {
@@ -2886,6 +3101,8 @@ export type UserUpdateWithoutReviewedChapterSuggestionsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2912,6 +3129,7 @@ export type UserUpdateWithoutReviewedChapterSuggestionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewedChapterSuggestionsInput = {
@@ -2920,6 +3138,8 @@ export type UserUncheckedUpdateWithoutReviewedChapterSuggestionsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2946,6 +3166,7 @@ export type UserUncheckedUpdateWithoutReviewedChapterSuggestionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUploadedMaterialsInput = {
@@ -2954,6 +3175,8 @@ export type UserCreateWithoutUploadedMaterialsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -2980,6 +3203,7 @@ export type UserCreateWithoutUploadedMaterialsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUploadedMaterialsInput = {
@@ -2988,6 +3212,8 @@ export type UserUncheckedCreateWithoutUploadedMaterialsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -3014,6 +3240,7 @@ export type UserUncheckedCreateWithoutUploadedMaterialsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUploadedMaterialsInput = {
@@ -3038,6 +3265,8 @@ export type UserUpdateWithoutUploadedMaterialsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3064,6 +3293,7 @@ export type UserUpdateWithoutUploadedMaterialsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUploadedMaterialsInput = {
@@ -3072,6 +3302,8 @@ export type UserUncheckedUpdateWithoutUploadedMaterialsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3098,6 +3330,7 @@ export type UserUncheckedUpdateWithoutUploadedMaterialsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutStudyMaterialReportsInput = {
@@ -3106,6 +3339,8 @@ export type UserCreateWithoutStudyMaterialReportsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -3132,6 +3367,7 @@ export type UserCreateWithoutStudyMaterialReportsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStudyMaterialReportsInput = {
@@ -3140,6 +3376,8 @@ export type UserUncheckedCreateWithoutStudyMaterialReportsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -3166,6 +3404,7 @@ export type UserUncheckedCreateWithoutStudyMaterialReportsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStudyMaterialReportsInput = {
@@ -3179,6 +3418,8 @@ export type UserCreateWithoutResolvedStudyMaterialReportsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -3205,6 +3446,7 @@ export type UserCreateWithoutResolvedStudyMaterialReportsInput = {
   studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutResolvedStudyMaterialReportsInput = {
@@ -3213,6 +3455,8 @@ export type UserUncheckedCreateWithoutResolvedStudyMaterialReportsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -3239,6 +3483,7 @@ export type UserUncheckedCreateWithoutResolvedStudyMaterialReportsInput = {
   studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutResolvedStudyMaterialReportsInput = {
@@ -3263,6 +3508,8 @@ export type UserUpdateWithoutStudyMaterialReportsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3289,6 +3536,7 @@ export type UserUpdateWithoutStudyMaterialReportsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStudyMaterialReportsInput = {
@@ -3297,6 +3545,8 @@ export type UserUncheckedUpdateWithoutStudyMaterialReportsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3323,6 +3573,7 @@ export type UserUncheckedUpdateWithoutStudyMaterialReportsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutResolvedStudyMaterialReportsInput = {
@@ -3342,6 +3593,8 @@ export type UserUpdateWithoutResolvedStudyMaterialReportsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3368,6 +3621,7 @@ export type UserUpdateWithoutResolvedStudyMaterialReportsInput = {
   studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutResolvedStudyMaterialReportsInput = {
@@ -3376,6 +3630,8 @@ export type UserUncheckedUpdateWithoutResolvedStudyMaterialReportsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3402,6 +3658,7 @@ export type UserUncheckedUpdateWithoutResolvedStudyMaterialReportsInput = {
   studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCreditTransactionsInput = {
@@ -3410,6 +3667,8 @@ export type UserCreateWithoutCreditTransactionsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -3436,6 +3695,7 @@ export type UserCreateWithoutCreditTransactionsInput = {
   studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCreditTransactionsInput = {
@@ -3444,6 +3704,8 @@ export type UserUncheckedCreateWithoutCreditTransactionsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -3470,6 +3732,7 @@ export type UserUncheckedCreateWithoutCreditTransactionsInput = {
   studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCreditTransactionsInput = {
@@ -3483,6 +3746,8 @@ export type UserCreateWithoutCreatedCreditAdjustmentsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -3509,6 +3774,7 @@ export type UserCreateWithoutCreatedCreditAdjustmentsInput = {
   studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCreatedCreditAdjustmentsInput = {
@@ -3517,6 +3783,8 @@ export type UserUncheckedCreateWithoutCreatedCreditAdjustmentsInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -3543,6 +3811,7 @@ export type UserUncheckedCreateWithoutCreatedCreditAdjustmentsInput = {
   studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCreatedCreditAdjustmentsInput = {
@@ -3567,6 +3836,8 @@ export type UserUpdateWithoutCreditTransactionsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3593,6 +3864,7 @@ export type UserUpdateWithoutCreditTransactionsInput = {
   studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreditTransactionsInput = {
@@ -3601,6 +3873,8 @@ export type UserUncheckedUpdateWithoutCreditTransactionsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3627,6 +3901,7 @@ export type UserUncheckedUpdateWithoutCreditTransactionsInput = {
   studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutCreatedCreditAdjustmentsInput = {
@@ -3646,6 +3921,8 @@ export type UserUpdateWithoutCreatedCreditAdjustmentsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3672,6 +3949,7 @@ export type UserUpdateWithoutCreatedCreditAdjustmentsInput = {
   studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedCreditAdjustmentsInput = {
@@ -3680,6 +3958,8 @@ export type UserUncheckedUpdateWithoutCreatedCreditAdjustmentsInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3706,6 +3986,7 @@ export type UserUncheckedUpdateWithoutCreatedCreditAdjustmentsInput = {
   studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMaterialPurchasesInput = {
@@ -3714,6 +3995,8 @@ export type UserCreateWithoutMaterialPurchasesInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -3740,6 +4023,7 @@ export type UserCreateWithoutMaterialPurchasesInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMaterialPurchasesInput = {
@@ -3748,6 +4032,8 @@ export type UserUncheckedCreateWithoutMaterialPurchasesInput = {
   full_name: string
   password_hash?: string | null
   googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -3774,6 +4060,7 @@ export type UserUncheckedCreateWithoutMaterialPurchasesInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMaterialPurchasesInput = {
@@ -3798,6 +4085,8 @@ export type UserUpdateWithoutMaterialPurchasesInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3824,6 +4113,7 @@ export type UserUpdateWithoutMaterialPurchasesInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMaterialPurchasesInput = {
@@ -3832,6 +4122,8 @@ export type UserUncheckedUpdateWithoutMaterialPurchasesInput = {
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3847,6 +4139,171 @@ export type UserUncheckedUpdateWithoutMaterialPurchasesInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCouponRedemptionsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutCouponRedemptionsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutCouponRedemptionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCouponRedemptionsInput, Prisma.UserUncheckedCreateWithoutCouponRedemptionsInput>
+}
+
+export type UserUpsertWithoutCouponRedemptionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCouponRedemptionsInput, Prisma.UserUncheckedUpdateWithoutCouponRedemptionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCouponRedemptionsInput, Prisma.UserUncheckedCreateWithoutCouponRedemptionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCouponRedemptionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCouponRedemptionsInput, Prisma.UserUncheckedUpdateWithoutCouponRedemptionsInput>
+}
+
+export type UserUpdateWithoutCouponRedemptionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCouponRedemptionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
   wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
   contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
   reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
@@ -3884,6 +4341,7 @@ export type UserCountOutputType = {
   resolvedStudyMaterialReports: number
   creditTransactions: number
   createdCreditAdjustments: number
+  couponRedemptions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3905,6 +4363,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   resolvedStudyMaterialReports?: boolean | UserCountOutputTypeCountResolvedStudyMaterialReportsArgs
   creditTransactions?: boolean | UserCountOutputTypeCountCreditTransactionsArgs
   createdCreditAdjustments?: boolean | UserCountOutputTypeCountCreatedCreditAdjustmentsArgs
+  couponRedemptions?: boolean | UserCountOutputTypeCountCouponRedemptionsArgs
 }
 
 /**
@@ -4043,6 +4502,13 @@ export type UserCountOutputTypeCountCreatedCreditAdjustmentsArgs<ExtArgs extends
   where?: Prisma.CreditTransactionWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCouponRedemptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CouponRedemptionWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4050,6 +4516,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   full_name?: boolean
   password_hash?: boolean
   googleId?: boolean
+  githubId?: boolean
+  facebookId?: boolean
   avatarUrl?: boolean
   role?: boolean
   created_at?: boolean
@@ -4077,6 +4545,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   resolvedStudyMaterialReports?: boolean | Prisma.User$resolvedStudyMaterialReportsArgs<ExtArgs>
   creditTransactions?: boolean | Prisma.User$creditTransactionsArgs<ExtArgs>
   createdCreditAdjustments?: boolean | Prisma.User$createdCreditAdjustmentsArgs<ExtArgs>
+  couponRedemptions?: boolean | Prisma.User$couponRedemptionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -4086,6 +4555,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   full_name?: boolean
   password_hash?: boolean
   googleId?: boolean
+  githubId?: boolean
+  facebookId?: boolean
   avatarUrl?: boolean
   role?: boolean
   created_at?: boolean
@@ -4102,6 +4573,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   full_name?: boolean
   password_hash?: boolean
   googleId?: boolean
+  githubId?: boolean
+  facebookId?: boolean
   avatarUrl?: boolean
   role?: boolean
   created_at?: boolean
@@ -4118,6 +4591,8 @@ export type UserSelectScalar = {
   full_name?: boolean
   password_hash?: boolean
   googleId?: boolean
+  githubId?: boolean
+  facebookId?: boolean
   avatarUrl?: boolean
   role?: boolean
   created_at?: boolean
@@ -4128,7 +4603,7 @@ export type UserSelectScalar = {
   creditBalance?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "full_name" | "password_hash" | "googleId" | "avatarUrl" | "role" | "created_at" | "updated_at" | "isVerified" | "isBlocked" | "phone" | "creditBalance", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "full_name" | "password_hash" | "googleId" | "githubId" | "facebookId" | "avatarUrl" | "role" | "created_at" | "updated_at" | "isVerified" | "isBlocked" | "phone" | "creditBalance", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   store?: boolean | Prisma.User$storeArgs<ExtArgs>
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
@@ -4149,6 +4624,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   resolvedStudyMaterialReports?: boolean | Prisma.User$resolvedStudyMaterialReportsArgs<ExtArgs>
   creditTransactions?: boolean | Prisma.User$creditTransactionsArgs<ExtArgs>
   createdCreditAdjustments?: boolean | Prisma.User$createdCreditAdjustmentsArgs<ExtArgs>
+  couponRedemptions?: boolean | Prisma.User$couponRedemptionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -4176,6 +4652,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     resolvedStudyMaterialReports: Prisma.$StudyMaterialReportPayload<ExtArgs>[]
     creditTransactions: Prisma.$CreditTransactionPayload<ExtArgs>[]
     createdCreditAdjustments: Prisma.$CreditTransactionPayload<ExtArgs>[]
+    couponRedemptions: Prisma.$CouponRedemptionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4183,6 +4660,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     full_name: string
     password_hash: string | null
     googleId: string | null
+    githubId: string | null
+    facebookId: string | null
     avatarUrl: string | null
     role: $Enums.Role
     created_at: Date
@@ -4604,6 +5083,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   resolvedStudyMaterialReports<T extends Prisma.User$resolvedStudyMaterialReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$resolvedStudyMaterialReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudyMaterialReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   creditTransactions<T extends Prisma.User$creditTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$creditTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdCreditAdjustments<T extends Prisma.User$createdCreditAdjustmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdCreditAdjustmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  couponRedemptions<T extends Prisma.User$couponRedemptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$couponRedemptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CouponRedemptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4638,6 +5118,8 @@ export interface UserFieldRefs {
   readonly full_name: Prisma.FieldRef<"User", 'String'>
   readonly password_hash: Prisma.FieldRef<"User", 'String'>
   readonly googleId: Prisma.FieldRef<"User", 'String'>
+  readonly githubId: Prisma.FieldRef<"User", 'String'>
+  readonly facebookId: Prisma.FieldRef<"User", 'String'>
   readonly avatarUrl: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly created_at: Prisma.FieldRef<"User", 'DateTime'>
@@ -5487,6 +5969,30 @@ export type User$createdCreditAdjustmentsArgs<ExtArgs extends runtime.Types.Exte
   take?: number
   skip?: number
   distinct?: Prisma.CreditTransactionScalarFieldEnum | Prisma.CreditTransactionScalarFieldEnum[]
+}
+
+/**
+ * User.couponRedemptions
+ */
+export type User$couponRedemptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CouponRedemption
+   */
+  select?: Prisma.CouponRedemptionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CouponRedemption
+   */
+  omit?: Prisma.CouponRedemptionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CouponRedemptionInclude<ExtArgs> | null
+  where?: Prisma.CouponRedemptionWhereInput
+  orderBy?: Prisma.CouponRedemptionOrderByWithRelationInput | Prisma.CouponRedemptionOrderByWithRelationInput[]
+  cursor?: Prisma.CouponRedemptionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CouponRedemptionScalarFieldEnum | Prisma.CouponRedemptionScalarFieldEnum[]
 }
 
 /**

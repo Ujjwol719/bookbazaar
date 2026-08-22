@@ -2,12 +2,26 @@
 
 import axios from 'axios'
 import Link from 'next/link'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { Suspense, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { trackEvent } from "@/lib/analytics"
+import { authErrorMessage } from "@/lib/auth-errors"
+import BrandPanel from "@/components/auth/BrandPanel"
+import AuthTabs from "@/components/auth/AuthTabs"
+import SocialLoginRow from "@/components/auth/SocialLoginRow"
 
 export default function Signup() {
+  return (
+    <Suspense>
+      <SignupForm />
+    </Suspense>
+  )
+}
+
+function SignupForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const oauthError = authErrorMessage(searchParams.get("error"))
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -96,30 +110,30 @@ export default function Signup() {
     }
   }
 
- return (
-  <div className="flex min-h-screen bg-slate-50">
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-slate-100 p-4">
+      <div className="flex w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-2xl">
+        <BrandPanel />
 
-    {/* LEFT FORM */}
-    <div className="flex w-full items-center justify-center px-6 py-10 lg:w-[560px] lg:shrink-0 lg:px-16">
-      <div className="w-full max-w-md">
+        <div className="flex w-full flex-col p-8 md:p-10">
+          <Link href="/" className="mb-6 flex items-center gap-2 text-lg font-bold text-indigo-700 lg:hidden">
+            📚 BookMandu
+          </Link>
 
-        <Link href="/" className="mb-8 flex items-center gap-2 text-lg font-bold text-indigo-700 lg:hidden">
-          📚 BookMandu
-        </Link>
+          <AuthTabs active="signup" />
 
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-slate-900">
-            Create Account
-          </h1>
+          <div className="mt-6">
+            <h1 className="text-2xl font-bold text-slate-900">Create your account 🚀</h1>
+            <p className="mt-1 text-sm text-slate-500">Join BookMandu and start your reading journey.</p>
+          </div>
 
-          <p className="mt-2 text-slate-500">
-            Join BookMandu and start your reading journey.
-          </p>
-        </div>
+          {oauthError && (
+            <div className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {oauthError}
+            </div>
+          )}
 
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-xl">
-
-          <form onSubmit={handleForm} className="space-y-4">
+          <form onSubmit={handleForm} className="mt-5 space-y-3">
 
             <input
               type="text"
@@ -229,112 +243,46 @@ export default function Signup() {
 
             <button
               disabled={loading}
-              className="w-full rounded-xl bg-indigo-600 py-3 font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-50"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-linear-to-r from-indigo-600 to-purple-600 py-3 font-semibold text-white transition hover:from-indigo-700 hover:to-purple-700 disabled:opacity-50"
             >
-              {loading ? "Creating Account..." : "Create Account"}
+              {loading ? "Creating Account..." : (
+                <>
+                  Create Account
+                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                </>
+              )}
             </button>
 
           </form>
 
-          <div className="my-6 flex items-center gap-3">
+          <div className="my-5 flex items-center gap-3">
             <div className="h-px flex-1 bg-slate-200" />
-            <span className="text-xs text-slate-400">OR</span>
+            <span className="text-xs uppercase text-slate-400">or continue with</span>
             <div className="h-px flex-1 bg-slate-200" />
           </div>
 
-          <a
-            href="/api/auth/google"
-            className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-300 py-3 font-medium text-slate-700 transition hover:bg-slate-100 hover:border-slate-400"
-          >
-            <svg className="h-5 w-5" viewBox="0 0 48 48" aria-hidden="true">
-              <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l5.7-5.7C34.6 6 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/>
-              <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.8 1.1 8 3l5.7-5.7C34.6 6 29.6 4 24 4c-7.5 0-14 4.2-17.7 10.7z"/>
-              <path fill="#4CAF50" d="M24 44c5.5 0 10.4-1.9 14.2-5.1l-6.6-5.4c-2 1.5-4.6 2.5-7.6 2.5-5.2 0-9.6-3.3-11.3-7.9l-6.6 5.1C9.9 39.7 16.4 44 24 44z"/>
-              <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.1 5.5l6.6 5.4C41.4 35.8 44 30.4 44 24c0-1.3-.1-2.7-.4-3.5z"/>
-            </svg>
-            Continue with Google
-          </a>
+          <SocialLoginRow from="signup" />
 
           <p className="mt-3 text-center text-xs text-slate-400">
-            Signing up with Google creates a buyer account. Want to sell instead? Use the form above.
+            Signing up with Google, Facebook, or GitHub creates a buyer account. Want to sell instead? Use the form above.
           </p>
 
-          <p className="mt-6 text-center text-sm text-slate-500">
-            Already have an account?{" "}
-            <Link
-              href="/login"
-              className="font-semibold text-indigo-600"
-            >
-              Login
-            </Link>
-          </p>
+          <div className="mt-4 flex items-start gap-3 rounded-2xl bg-indigo-50 p-4">
+            <span className="text-2xl">🎁</span>
+            <div>
+              <p className="text-sm text-slate-700">
+                Use code <span className="font-mono font-semibold text-indigo-600">FIRST10</span> at checkout for{" "}
+                <span className="font-semibold text-indigo-600">10% off</span> your first order.
+              </p>
+            </div>
+          </div>
 
+          <p className="mt-6 flex items-center justify-center gap-1.5 text-center text-xs text-slate-400">
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4Z" /></svg>
+            Your data is safe with us
+          </p>
         </div>
       </div>
     </div>
-
-    {/* RIGHT BOOKMANDU */}
-    <div className="relative hidden overflow-hidden bg-linear-to-br from-indigo-700 via-indigo-800 to-slate-900 lg:flex lg:flex-1">
-
-      <div className="absolute top-20 left-20 h-72 w-72 rounded-full bg-indigo-400/20 blur-3xl" />
-      <div className="absolute bottom-20 right-20 h-72 w-72 rounded-full bg-purple-400/20 blur-3xl" />
-
-      <div className="relative z-10 flex flex-col justify-center px-20 text-white">
-
-        <h1 className="text-5xl font-black">
-          📚 BookMandu
-        </h1>
-
-        <p className="mt-3 max-w-xl text-lg text-slate-200">
-          Buy, sell and discover books from trusted sellers across Nepal.
-        </p>
-
-        <div className="mt-8 space-y-3">
-
-          <div className="flex items-start gap-3 rounded-2xl bg-white/10 p-4 backdrop-blur">
-            <span className="text-2xl">🛡️</span>
-            <div>
-              <h3 className="text-lg font-semibold">Verified sellers only</h3>
-              <p className="mt-1 text-sm text-slate-300">
-                Every store is reviewed by our team before it can list a book.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3 rounded-2xl bg-white/10 p-4 backdrop-blur">
-            <span className="text-2xl">💵</span>
-            <div>
-              <h3 className="text-lg font-semibold">Pay on delivery</h3>
-              <p className="mt-1 text-sm text-slate-300">
-                Cash on Delivery, Nepal-wide — pay once your books arrive.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3 rounded-2xl bg-white/10 p-4 backdrop-blur">
-            <span className="text-2xl">📚</span>
-            <div>
-              <h3 className="text-lg font-semibold">New & used, all genres</h3>
-              <p className="mt-1 text-sm text-slate-300">
-                Programming, fiction, academic and business books from real people.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3 rounded-2xl bg-white/10 p-4 backdrop-blur">
-            <span className="text-2xl">🎓</span>
-            <div>
-              <h3 className="text-lg font-semibold">Study Hub</h3>
-              <p className="mt-1 text-sm text-slate-300">
-                Notes and question papers for school and university, alongside the marketplace.
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-  </div>
-)
+  )
 }

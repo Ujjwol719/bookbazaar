@@ -10,7 +10,8 @@
     "postinstall": "prisma generate",
     "seed": "tsx prisma/schemas/seed.ts",
     "seed:curriculum": "tsx prisma/schemas/seed-curriculum.ts",
-    "seed:chapters": "tsx prisma/schemas/seed-chapters.ts"
+    "seed:chapters": "tsx prisma/schemas/seed-chapters.ts",
+    "seed:coupons": "tsx prisma/schemas/seed-coupons.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.81",

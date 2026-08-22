@@ -79,7 +79,9 @@ export const ModelName = {
   StudyMaterialReport: 'StudyMaterialReport',
   CreditTransaction: 'CreditTransaction',
   CreditSettings: 'CreditSettings',
-  StudyMaterialPurchase: 'StudyMaterialPurchase'
+  StudyMaterialPurchase: 'StudyMaterialPurchase',
+  Coupon: 'Coupon',
+  CouponRedemption: 'CouponRedemption'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -104,6 +106,8 @@ export const UserScalarFieldEnum = {
   full_name: 'full_name',
   password_hash: 'password_hash',
   googleId: 'googleId',
+  githubId: 'githubId',
+  facebookId: 'facebookId',
   avatarUrl: 'avatarUrl',
   role: 'role',
   created_at: 'created_at',
@@ -174,6 +178,8 @@ export const OrderScalarFieldEnum = {
   status: 'status',
   totalAmount: 'totalAmount',
   creditsApplied: 'creditsApplied',
+  couponCode: 'couponCode',
+  couponDiscount: 'couponDiscount',
   deliveryCode: 'deliveryCode',
   fullName: 'fullName',
   phone: 'phone',
@@ -496,6 +502,38 @@ export const StudyMaterialPurchaseScalarFieldEnum = {
 } as const
 
 export type StudyMaterialPurchaseScalarFieldEnum = (typeof StudyMaterialPurchaseScalarFieldEnum)[keyof typeof StudyMaterialPurchaseScalarFieldEnum]
+
+
+export const CouponScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  type: 'type',
+  value: 'value',
+  description: 'description',
+  isActive: 'isActive',
+  firstOrderOnly: 'firstOrderOnly',
+  minOrderAmount: 'minOrderAmount',
+  maxDiscount: 'maxDiscount',
+  maxRedemptions: 'maxRedemptions',
+  redeemedCount: 'redeemedCount',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof CouponScalarFieldEnum]
+
+
+export const CouponRedemptionScalarFieldEnum = {
+  id: 'id',
+  couponId: 'couponId',
+  userId: 'userId',
+  orderId: 'orderId',
+  amount: 'amount',
+  createdAt: 'createdAt'
+} as const
+
+export type CouponRedemptionScalarFieldEnum = (typeof CouponRedemptionScalarFieldEnum)[keyof typeof CouponRedemptionScalarFieldEnum]
 
 
 export const SortOrder = {

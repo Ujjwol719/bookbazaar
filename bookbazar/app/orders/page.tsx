@@ -12,6 +12,8 @@ interface Order {
   status: string
   totalAmount: string
   creditsApplied: string
+  couponCode: string | null
+  couponDiscount: string
   deliveryCode: string | null
   shippingAddr: string
   city: string
@@ -225,6 +227,12 @@ export default function OrdersPage() {
                   </p>
 
                   <div className="mt-6 rounded-2xl bg-linear-to-r from-indigo-50 to-purple-50 p-5">
+                    {Number(order.couponDiscount) > 0 && (
+                      <div className="mb-3 flex items-center justify-between text-sm">
+                        <span className="text-slate-600">Coupon ({order.couponCode})</span>
+                        <span className="font-semibold text-slate-700">− ₹ {Number(order.couponDiscount)}</span>
+                      </div>
+                    )}
                     {Number(order.creditsApplied) > 0 && (
                       <div className="mb-3 flex items-center justify-between text-sm">
                         <span className="text-emerald-700">BookMandu Credits applied</span>
@@ -233,11 +241,11 @@ export default function OrdersPage() {
                     )}
                     <div className="flex items-center justify-between">
                       <span className="text-xl font-semibold text-slate-700">
-                        {Number(order.creditsApplied) > 0 ? "Due on Delivery" : "Grand Total"}
+                        {Number(order.creditsApplied) > 0 || Number(order.couponDiscount) > 0 ? "Due on Delivery" : "Grand Total"}
                       </span>
 
                       <span className="text-3xl font-bold text-indigo-600">
-                        ₹ {Number(order.totalAmount) - Number(order.creditsApplied)}
+                        ₹ {Number(order.totalAmount) - Number(order.creditsApplied) - Number(order.couponDiscount)}
                       </span>
                     </div>
                   </div>

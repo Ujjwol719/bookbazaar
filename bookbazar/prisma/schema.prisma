@@ -83,12 +83,19 @@ enum CreditTransactionType {
   ADMIN_ADJUSTMENT
 }
 
+enum CouponType {
+  PERCENTAGE
+  FIXED
+}
+
 model User {
   id            String   @id @default(uuid())
   email         String   @unique
   full_name     String
   password_hash String?
   googleId      String?  @unique
+  githubId      String?  @unique
+  facebookId    String?  @unique
   avatarUrl     String?
   role          Role     @default(BUYER)
   created_at    DateTime @default(now())
@@ -118,6 +125,7 @@ model User {
   resolvedStudyMaterialReports StudyMaterialReport[]   @relation("StudyMaterialReportsResolvedBy")
   creditTransactions          CreditTransaction[]      @relation("CreditTransactionsOf")
   createdCreditAdjustments    CreditTransaction[]      @relation("CreditTransactionsCreatedBy")
+  couponRedemptions           CouponRedemption[]       @relation("CouponRedemptionsOf")
 
   @@map("users")
 }
@@ -191,6 +199,8 @@ model Order {
   status       OrderStatus @default(PENDING)
   totalAmount  Decimal     @db.Decimal(10, 2)
   creditsApplied Decimal   @default(0) @db.Decimal(10, 2) // rupee value absorbed by credits; totalAmount keeps its full-value meaning
+  couponCode     String?   // denormalized for display — the redemption row is the source of truth
+  couponDiscount Decimal   @default(0) @db.Decimal(10, 2) // rupee value knocked off by the coupon
   deliveryCode String?
   fullName     String
   phone        String
@@ -202,8 +212,9 @@ model Order {
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 
-  buyer User        @relation(fields: [buyerId], references: [id], onDelete: Restrict)
-  items OrderItem[]
+  buyer            User               @relation(fields: [buyerId], references: [id], onDelete: Restrict)
+  items            OrderItem[]
+  couponRedemption CouponRedemption?
 
   @@index([buyerId])
   @@map("orders")
@@ -658,4 +669,52 @@ model StudyMaterialPurchase {
 
   @@unique([userId, studyMaterialId])
   @@map("study_material_purchases")
+}
+
+// =====================================================================
+// Coupons — admin-managed discount codes, applied at checkout alongside
+// (and before) BookMandu Credits. redeemedCount is a denormalized cache
+// kept in sync with CouponRedemption in the same transaction as every
+// redemption, same idiom as User.creditBalance / CreditTransaction.
+// =====================================================================
+
+model Coupon {
+  id             String     @id @default(uuid())
+  code           String     @unique // stored uppercase; matched case-insensitively
+  type           CouponType @default(PERCENTAGE)
+  value          Decimal    @db.Decimal(10, 2) // percent (0-100) or a flat rupee amount, per `type`
+  description    String?
+  isActive       Boolean    @default(true)
+  firstOrderOnly Boolean    @default(false)
+  minOrderAmount Decimal?   @db.Decimal(10, 2)
+  maxDiscount    Decimal?   @db.Decimal(10, 2) // caps a PERCENTAGE coupon's rupee value
+  maxRedemptions Int? // null = unlimited
+  redeemedCount  Int        @default(0)
+  expiresAt      DateTime?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  redemptions CouponRedemption[]
+
+  @@map("coupons")
+}
+
+// One row per successful redemption — the audit trail, and what makes
+// "has this user already used this coupon" and "how many times has this
+// coupon been used" answerable without trusting Coupon.redeemedCount alone.
+model CouponRedemption {
+  id        String   @id @default(uuid())
+  couponId  String
+  userId    String
+  orderId   String   @unique
+  amount    Decimal  @db.Decimal(10, 2) // rupee value actually discounted
+  createdAt DateTime @default(now())
+
+  coupon Coupon @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  user   User   @relation("CouponRedemptionsOf", fields: [userId], references: [id], onDelete: Cascade)
+  order  Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([couponId])
+  @@index([userId])
+  @@map("coupon_redemptions")
 }

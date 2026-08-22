@@ -2,6 +2,7 @@ import prisma from "@/lib/prisma";
 import { randomInt } from "crypto";
 import { requireActiveUser } from "@/app/lib/active-user";
 import { applyCreditTransaction, getCreditSettings, InsufficientCreditsError } from "@/lib/credits";
+import { evaluateCoupon, redeemCoupon, CouponError } from "@/lib/coupons";
 import { z } from "zod";
 
 export const orderSchema = z.object({
@@ -16,6 +17,7 @@ export const orderSchema = z.object({
   // Server re-derives what it's actually worth and clamps it to what the
   // buyer can really afford and what the order can really absorb.
   creditsToApply: z.number().int().min(0).optional(),
+  couponCode: z.string().min(1).optional(),
 });
 
 class OrderCreationError extends Error {
@@ -40,7 +42,7 @@ export async function POST(req: Request) {
     return Response.json({ message: schema.error.flatten() }, { status: 400 })
   }
 
-  const { fullName, phone, shippingAddr, city, state, postalCode, notes, creditsToApply } = schema.data
+  const { fullName, phone, shippingAddr, city, state, postalCode, notes, creditsToApply, couponCode } = schema.data
 
   const deliveryCode = String(randomInt(100000, 1000000))
 
@@ -60,12 +62,24 @@ export async function POST(req: Request) {
 
       const total = cartItems.reduce((sum, item) => sum + item.quantity * Number(item.book.price), 0)
 
-      // Credits to apply — clamped server-side to the rupee value of the
-      // order AND the buyer's real balance, so a request for more than the
-      // buyer actually has just clamps down instead of failing the whole
-      // order. applyCreditTransaction's atomic update is still the real
-      // guard against a same-millisecond race (balance changing between
-      // this read and the debit below), not the primary path.
+      // Coupon applies first — it reduces the amount credits then have
+      // room to cover, same order a cashier would apply a discount before
+      // asking "how much store credit do you want to use."
+      let couponDiscount = 0
+      let couponRecord: Awaited<ReturnType<typeof evaluateCoupon>>["coupon"] | null = null
+      if (couponCode) {
+        const evaluated = await evaluateCoupon(tx, { code: couponCode, userId: user.id, orderTotal: total })
+        couponDiscount = evaluated.discount
+        couponRecord = evaluated.coupon
+      }
+      const totalAfterCoupon = total - couponDiscount
+
+      // Credits to apply — clamped server-side to the rupee value left on
+      // the order AND the buyer's real balance, so a request for more than
+      // the buyer actually has just clamps down instead of failing the
+      // whole order. applyCreditTransaction's atomic update is still the
+      // real guard against a same-millisecond race (balance changing
+      // between this read and the debit below), not the primary path.
       let creditsUsed = 0
       let creditsRupeeValue = 0
       if (creditsToApply && creditsToApply > 0) {
@@ -74,7 +88,7 @@ export async function POST(req: Request) {
           tx.user.findUniqueOrThrow({ where: { id: user.id }, select: { creditBalance: true } }),
         ])
         const creditValue = Number(settings.creditValueInRupees)
-        const maxByTotal = creditValue > 0 ? Math.floor(total / creditValue) : 0
+        const maxByTotal = creditValue > 0 ? Math.floor(totalAfterCoupon / creditValue) : 0
         creditsUsed = Math.min(creditsToApply, maxByTotal, buyer.creditBalance)
         creditsRupeeValue = Math.round(creditsUsed * creditValue * 100) / 100
       }
@@ -85,6 +99,8 @@ export async function POST(req: Request) {
           fullName,
           totalAmount: total,
           creditsApplied: creditsRupeeValue,
+          couponCode: couponRecord?.code ?? null,
+          couponDiscount,
           deliveryCode,
           phone,
           shippingAddr,
@@ -94,6 +110,16 @@ export async function POST(req: Request) {
           notes,
         },
       })
+
+      if (couponRecord) {
+        await redeemCoupon(tx, {
+          couponId: couponRecord.id,
+          userId: user.id,
+          orderId: order.id,
+          amount: couponDiscount,
+          maxRedemptions: couponRecord.maxRedemptions,
+        })
+      }
 
       await tx.orderItem.createMany({
         data: cartItems.map((item) => ({
@@ -133,7 +159,7 @@ export async function POST(req: Request) {
         })
       }
 
-      return { order, creditsUsed, creditsRupeeValue }
+      return { order, creditsUsed, creditsRupeeValue, couponDiscount }
     })
 
     return Response.json(
@@ -143,7 +169,8 @@ export async function POST(req: Request) {
         deliveryCode,
         creditsApplied: result.creditsRupeeValue,
         creditsUsed: result.creditsUsed,
-        amountDue: Number(result.order.totalAmount) - result.creditsRupeeValue,
+        couponDiscount: result.couponDiscount,
+        amountDue: Number(result.order.totalAmount) - result.creditsRupeeValue - result.couponDiscount,
       },
       { status: 201 }
     )
@@ -153,6 +180,9 @@ export async function POST(req: Request) {
     }
     if (err instanceof InsufficientCreditsError) {
       return Response.json({ message: "Your credit balance changed — please try again" }, { status: 409 })
+    }
+    if (err instanceof CouponError) {
+      return Response.json({ message: err.message }, { status: 400 })
     }
     console.error("ORDER CREATE ERROR:", err)
     return Response.json({ message: "Unable to place order, please try again" }, { status: 500 })

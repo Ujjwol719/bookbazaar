@@ -706,6 +706,17 @@ export default function AdminPage() {
                 </svg>
                 BookMandu Credits
               </Link>
+              <Link
+                href="/admin/coupons"
+                className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
+              >
+                <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-slate-400">
+                  <path d="M20 12a1 1 0 0 1-1 1 2 2 0 0 0 0 4 1 1 0 0 1 1 1v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a1 1 0 0 1 1-1 2 2 0 0 0 0-4 1 1 0 0 1-1-1V9a2 2 0 0 1 2-2h1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M13 5a2 2 0 0 1 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+                </svg>
+                Coupons
+              </Link>
             </div>
           </nav>
 

@@ -28,6 +28,10 @@ export default function checkout() {
   const [creditBalance, setCreditBalance] = useState(0)
   const [creditValue, setCreditValue] = useState(1)
   const [useCredits, setUseCredits] = useState(false)
+  const [couponInput, setCouponInput] = useState("")
+  const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discount: number } | null>(null)
+  const [couponMessage, setCouponMessage] = useState("")
+  const [couponChecking, setCouponChecking] = useState(false)
 
  const handleSubmit = async (e: any) => {
   e.preventDefault();
@@ -73,6 +77,7 @@ export default function checkout() {
         state,
         postalCode,
         creditsToApply: useCredits ? maxRedeemableCredits : 0,
+        couponCode: appliedCoupon?.code,
       }
     );
 
@@ -121,9 +126,33 @@ export default function checkout() {
   }, [])
 
   const total = books.reduce((sum, items) => sum + items.quantity * items.book.price, 0)
-  const maxRedeemableCredits = Math.min(creditBalance, Math.floor(total / creditValue))
+  const couponDiscount = appliedCoupon?.discount || 0
+  const totalAfterCoupon = total - couponDiscount
+  const maxRedeemableCredits = Math.min(creditBalance, Math.floor(totalAfterCoupon / creditValue))
   const creditsRupeeValue = Math.round(maxRedeemableCredits * creditValue * 100) / 100
-  const amountDue = useCredits ? total - creditsRupeeValue : total
+  const amountDue = totalAfterCoupon - (useCredits ? creditsRupeeValue : 0)
+
+  async function applyCoupon() {
+    if (!couponInput.trim() || total === 0) return
+    setCouponChecking(true)
+    setCouponMessage("")
+    try {
+      const res = await axios.post("/api/coupons/validate", { code: couponInput.trim(), orderTotal: total })
+      setAppliedCoupon({ code: couponInput.trim().toUpperCase(), discount: res.data.discount })
+      setCouponMessage(`Applied! You saved Rs. ${res.data.discount}.`)
+    } catch (err) {
+      setAppliedCoupon(null)
+      setCouponMessage(axios.isAxiosError(err) ? err.response?.data?.message || "Invalid coupon code" : "Invalid coupon code")
+    } finally {
+      setCouponChecking(false)
+    }
+  }
+
+  function removeCoupon() {
+    setAppliedCoupon(null)
+    setCouponInput("")
+    setCouponMessage("")
+  }
 
   useEffect(() => {
     if (books.length === 0) {
@@ -310,6 +339,40 @@ export default function checkout() {
               ))}
             </div>
 
+            {/* Coupon code */}
+            <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5">
+              <p className="text-sm font-semibold text-slate-700">Have a coupon?</p>
+              {appliedCoupon ? (
+                <div className="mt-2 flex items-center justify-between rounded-xl bg-green-50 px-3 py-2">
+                  <span className="text-sm font-semibold text-green-700">🏷️ {appliedCoupon.code} applied</span>
+                  <button type="button" onClick={removeCoupon} className="text-xs font-semibold text-slate-500 hover:text-red-600">
+                    Remove
+                  </button>
+                </div>
+              ) : (
+                <div className="mt-2 flex gap-2">
+                  <input
+                    type="text"
+                    value={couponInput}
+                    onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+                    placeholder="Enter code"
+                    className="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm uppercase outline-none focus:border-indigo-500 focus:bg-white"
+                  />
+                  <button
+                    type="button"
+                    onClick={applyCoupon}
+                    disabled={couponChecking || !couponInput.trim()}
+                    className="shrink-0 rounded-xl bg-slate-800 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {couponChecking ? "Checking..." : "Apply"}
+                  </button>
+                </div>
+              )}
+              {couponMessage && (
+                <p className={`mt-2 text-xs ${appliedCoupon ? "text-green-600" : "text-red-600"}`}>{couponMessage}</p>
+              )}
+            </div>
+
             {/* BookMandu Credits */}
             {creditBalance > 0 && (
               <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
@@ -337,10 +400,16 @@ export default function checkout() {
 
             {/* Grand Total */}
             <div className="mt-6 rounded-2xl border border-indigo-100 bg-indigo-50 p-5">
-              {useCredits && creditsRupeeValue > 0 && (
+              {(couponDiscount > 0 || (useCredits && creditsRupeeValue > 0)) && (
                 <div className="mb-2 flex items-center justify-between text-sm">
                   <span className="text-slate-500">Order total</span>
                   <span className="text-slate-500 line-through">Rs. {total}</span>
+                </div>
+              )}
+              {couponDiscount > 0 && (
+                <div className="mb-2 flex items-center justify-between text-sm">
+                  <span className="text-slate-600">Coupon ({appliedCoupon?.code})</span>
+                  <span className="font-semibold text-slate-700">− Rs. {couponDiscount}</span>
                 </div>
               )}
               {useCredits && creditsRupeeValue > 0 && (
@@ -350,7 +419,7 @@ export default function checkout() {
                 </div>
               )}
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-slate-700">{useCredits && creditsRupeeValue > 0 ? "Due on delivery" : "Grand Total"}</span>
+                <span className="font-semibold text-slate-700">{couponDiscount > 0 || (useCredits && creditsRupeeValue > 0) ? "Due on delivery" : "Grand Total"}</span>
                 <span className="text-2xl font-bold text-indigo-600 md:text-3xl">
                   Rs. {amountDue}
                 </span>

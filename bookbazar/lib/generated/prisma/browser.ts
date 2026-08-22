@@ -162,3 +162,13 @@ export type CreditSettings = Prisma.CreditSettingsModel
  * 
  */
 export type StudyMaterialPurchase = Prisma.StudyMaterialPurchaseModel
+/**
+ * Model Coupon
+ * 
+ */
+export type Coupon = Prisma.CouponModel
+/**
+ * Model CouponRedemption
+ * 
+ */
+export type CouponRedemption = Prisma.CouponRedemptionModel
