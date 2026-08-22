@@ -22,6 +22,7 @@ interface SellerOrder {
   id: string;
   status: OrderStatus;
   totalAmount: string | number;
+  creditsApplied: string | number;
   fullName: string;
   phone: string;
   shippingAddr: string;
@@ -359,6 +360,11 @@ export default function SellerOrdersPage() {
                         <p className="mt-1 text-2xl font-bold text-indigo-600">
                           Rs. {storeTotal.toLocaleString()}
                         </p>
+                        {Number(order.creditsApplied) > 0 && (
+                          <p className="mt-2 text-xs text-emerald-700">
+                            Note: the buyer applied Rs. {Number(order.creditsApplied)} in BookMandu Credits to this order — you&apos;re still paid your full store total by BookMandu, only the buyer&apos;s cash-on-delivery amount is reduced.
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>

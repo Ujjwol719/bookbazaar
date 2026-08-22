@@ -317,6 +317,7 @@ export type BookWhereInput = {
   orderItems?: Prisma.OrderItemListRelationFilter
   cartItems?: Prisma.CartItemListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
+  wishlistItems?: Prisma.WishlistItemListRelationFilter
 }
 
 export type BookOrderByWithRelationInput = {
@@ -341,6 +342,7 @@ export type BookOrderByWithRelationInput = {
   orderItems?: Prisma.OrderItemOrderByRelationAggregateInput
   cartItems?: Prisma.CartItemOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
+  wishlistItems?: Prisma.WishlistItemOrderByRelationAggregateInput
 }
 
 export type BookWhereUniqueInput = Prisma.AtLeast<{
@@ -368,6 +370,7 @@ export type BookWhereUniqueInput = Prisma.AtLeast<{
   orderItems?: Prisma.OrderItemListRelationFilter
   cartItems?: Prisma.CartItemListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
+  wishlistItems?: Prisma.WishlistItemListRelationFilter
 }, "id" | "slug" | "isbn">
 
 export type BookOrderByWithAggregationInput = {
@@ -436,6 +439,7 @@ export type BookCreateInput = {
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutBookInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutBookInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutBookInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateInput = {
@@ -458,6 +462,7 @@ export type BookUncheckedCreateInput = {
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutBookInput
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutBookInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutBookInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookUpdateInput = {
@@ -480,6 +485,7 @@ export type BookUpdateInput = {
   orderItems?: Prisma.OrderItemUpdateManyWithoutBookNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutBookNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutBookNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateInput = {
@@ -502,6 +508,7 @@ export type BookUncheckedUpdateInput = {
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutBookNestedInput
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutBookNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutBookNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateManyInput = {
@@ -743,14 +750,6 @@ export type NullableDecimalFieldUpdateOperationsInput = {
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type EnumBookConditionFieldUpdateOperationsInput = {
   set?: $Enums.BookCondition
 }
@@ -781,6 +780,20 @@ export type BookUpdateOneRequiredWithoutCartItemsNestedInput = {
   upsert?: Prisma.BookUpsertWithoutCartItemsInput
   connect?: Prisma.BookWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.BookUpdateToOneWithWhereWithoutCartItemsInput, Prisma.BookUpdateWithoutCartItemsInput>, Prisma.BookUncheckedUpdateWithoutCartItemsInput>
+}
+
+export type BookCreateNestedOneWithoutWishlistItemsInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutWishlistItemsInput, Prisma.BookUncheckedCreateWithoutWishlistItemsInput>
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutWishlistItemsInput
+  connect?: Prisma.BookWhereUniqueInput
+}
+
+export type BookUpdateOneRequiredWithoutWishlistItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutWishlistItemsInput, Prisma.BookUncheckedCreateWithoutWishlistItemsInput>
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutWishlistItemsInput
+  upsert?: Prisma.BookUpsertWithoutWishlistItemsInput
+  connect?: Prisma.BookWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BookUpdateToOneWithWhereWithoutWishlistItemsInput, Prisma.BookUpdateWithoutWishlistItemsInput>, Prisma.BookUncheckedUpdateWithoutWishlistItemsInput>
 }
 
 export type BookCreateNestedOneWithoutReviewsInput = {
@@ -816,6 +829,7 @@ export type BookCreateWithoutStoreInput = {
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutBookInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutBookInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutBookInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateWithoutStoreInput = {
@@ -837,6 +851,7 @@ export type BookUncheckedCreateWithoutStoreInput = {
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutBookInput
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutBookInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutBookInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutStoreInput = {
@@ -906,6 +921,7 @@ export type BookCreateWithoutCategoryInput = {
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutBookInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutBookInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutBookInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateWithoutCategoryInput = {
@@ -927,6 +943,7 @@ export type BookUncheckedCreateWithoutCategoryInput = {
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutBookInput
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutBookInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutBookInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutCategoryInput = {
@@ -974,6 +991,7 @@ export type BookCreateWithoutOrderItemsInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutBooksInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutBookInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutBookInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateWithoutOrderItemsInput = {
@@ -995,6 +1013,7 @@ export type BookUncheckedCreateWithoutOrderItemsInput = {
   updatedAt?: Date | string
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutBookInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutBookInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutOrderItemsInput = {
@@ -1032,6 +1051,7 @@ export type BookUpdateWithoutOrderItemsInput = {
   category?: Prisma.CategoryUpdateOneWithoutBooksNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutBookNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutBookNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateWithoutOrderItemsInput = {
@@ -1053,6 +1073,7 @@ export type BookUncheckedUpdateWithoutOrderItemsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutBookNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutBookNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateWithoutCartItemsInput = {
@@ -1074,6 +1095,7 @@ export type BookCreateWithoutCartItemsInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutBooksInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutBookInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutBookInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateWithoutCartItemsInput = {
@@ -1095,6 +1117,7 @@ export type BookUncheckedCreateWithoutCartItemsInput = {
   updatedAt?: Date | string
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutBookInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutBookInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutCartItemsInput = {
@@ -1132,6 +1155,7 @@ export type BookUpdateWithoutCartItemsInput = {
   category?: Prisma.CategoryUpdateOneWithoutBooksNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutBookNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutBookNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateWithoutCartItemsInput = {
@@ -1152,6 +1176,111 @@ export type BookUncheckedUpdateWithoutCartItemsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutBookNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutBookNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutBookNestedInput
+}
+
+export type BookCreateWithoutWishlistItemsInput = {
+  id?: string
+  slug: string
+  title: string
+  description?: string | null
+  author?: string | null
+  isbn?: string | null
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  originalPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stockQty?: number
+  imageUrl?: string | null
+  condition?: $Enums.BookCondition
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  store: Prisma.StoreCreateNestedOneWithoutBooksInput
+  category?: Prisma.CategoryCreateNestedOneWithoutBooksInput
+  orderItems?: Prisma.OrderItemCreateNestedManyWithoutBookInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutBookInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutBookInput
+}
+
+export type BookUncheckedCreateWithoutWishlistItemsInput = {
+  id?: string
+  storeId: string
+  categoryId?: string | null
+  slug: string
+  title: string
+  description?: string | null
+  author?: string | null
+  isbn?: string | null
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  originalPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stockQty?: number
+  imageUrl?: string | null
+  condition?: $Enums.BookCondition
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutBookInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutBookInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutBookInput
+}
+
+export type BookCreateOrConnectWithoutWishlistItemsInput = {
+  where: Prisma.BookWhereUniqueInput
+  create: Prisma.XOR<Prisma.BookCreateWithoutWishlistItemsInput, Prisma.BookUncheckedCreateWithoutWishlistItemsInput>
+}
+
+export type BookUpsertWithoutWishlistItemsInput = {
+  update: Prisma.XOR<Prisma.BookUpdateWithoutWishlistItemsInput, Prisma.BookUncheckedUpdateWithoutWishlistItemsInput>
+  create: Prisma.XOR<Prisma.BookCreateWithoutWishlistItemsInput, Prisma.BookUncheckedCreateWithoutWishlistItemsInput>
+  where?: Prisma.BookWhereInput
+}
+
+export type BookUpdateToOneWithWhereWithoutWishlistItemsInput = {
+  where?: Prisma.BookWhereInput
+  data: Prisma.XOR<Prisma.BookUpdateWithoutWishlistItemsInput, Prisma.BookUncheckedUpdateWithoutWishlistItemsInput>
+}
+
+export type BookUpdateWithoutWishlistItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isbn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  originalPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stockQty?: Prisma.IntFieldUpdateOperationsInput | number
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  store?: Prisma.StoreUpdateOneRequiredWithoutBooksNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutBooksNestedInput
+  orderItems?: Prisma.OrderItemUpdateManyWithoutBookNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutBookNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutBookNestedInput
+}
+
+export type BookUncheckedUpdateWithoutWishlistItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isbn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  originalPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stockQty?: Prisma.IntFieldUpdateOperationsInput | number
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condition?: Prisma.EnumBookConditionFieldUpdateOperationsInput | $Enums.BookCondition
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutBookNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutBookNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutBookNestedInput
 }
 
@@ -1174,6 +1303,7 @@ export type BookCreateWithoutReviewsInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutBooksInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutBookInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutBookInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateWithoutReviewsInput = {
@@ -1195,6 +1325,7 @@ export type BookUncheckedCreateWithoutReviewsInput = {
   updatedAt?: Date | string
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutBookInput
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutBookInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutReviewsInput = {
@@ -1232,6 +1363,7 @@ export type BookUpdateWithoutReviewsInput = {
   category?: Prisma.CategoryUpdateOneWithoutBooksNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutBookNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutBookNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateWithoutReviewsInput = {
@@ -1253,6 +1385,7 @@ export type BookUncheckedUpdateWithoutReviewsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutBookNestedInput
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutBookNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateManyStoreInput = {
@@ -1292,6 +1425,7 @@ export type BookUpdateWithoutStoreInput = {
   orderItems?: Prisma.OrderItemUpdateManyWithoutBookNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutBookNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutBookNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateWithoutStoreInput = {
@@ -1313,6 +1447,7 @@ export type BookUncheckedUpdateWithoutStoreInput = {
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutBookNestedInput
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutBookNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutBookNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateManyWithoutStoreInput = {
@@ -1370,6 +1505,7 @@ export type BookUpdateWithoutCategoryInput = {
   orderItems?: Prisma.OrderItemUpdateManyWithoutBookNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutBookNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutBookNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateWithoutCategoryInput = {
@@ -1391,6 +1527,7 @@ export type BookUncheckedUpdateWithoutCategoryInput = {
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutBookNestedInput
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutBookNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutBookNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateManyWithoutCategoryInput = {
@@ -1420,12 +1557,14 @@ export type BookCountOutputType = {
   orderItems: number
   cartItems: number
   reviews: number
+  wishlistItems: number
 }
 
 export type BookCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   orderItems?: boolean | BookCountOutputTypeCountOrderItemsArgs
   cartItems?: boolean | BookCountOutputTypeCountCartItemsArgs
   reviews?: boolean | BookCountOutputTypeCountReviewsArgs
+  wishlistItems?: boolean | BookCountOutputTypeCountWishlistItemsArgs
 }
 
 /**
@@ -1459,6 +1598,13 @@ export type BookCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.ReviewWhereInput
 }
 
+/**
+ * BookCountOutputType without action
+ */
+export type BookCountOutputTypeCountWishlistItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WishlistItemWhereInput
+}
+
 
 export type BookSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1482,6 +1628,7 @@ export type BookSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   orderItems?: boolean | Prisma.Book$orderItemsArgs<ExtArgs>
   cartItems?: boolean | Prisma.Book$cartItemsArgs<ExtArgs>
   reviews?: boolean | Prisma.Book$reviewsArgs<ExtArgs>
+  wishlistItems?: boolean | Prisma.Book$wishlistItemsArgs<ExtArgs>
   _count?: boolean | Prisma.BookCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["book"]>
 
@@ -1553,6 +1700,7 @@ export type BookInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   orderItems?: boolean | Prisma.Book$orderItemsArgs<ExtArgs>
   cartItems?: boolean | Prisma.Book$cartItemsArgs<ExtArgs>
   reviews?: boolean | Prisma.Book$reviewsArgs<ExtArgs>
+  wishlistItems?: boolean | Prisma.Book$wishlistItemsArgs<ExtArgs>
   _count?: boolean | Prisma.BookCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BookIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1572,6 +1720,7 @@ export type $BookPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     orderItems: Prisma.$OrderItemPayload<ExtArgs>[]
     cartItems: Prisma.$CartItemPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
+    wishlistItems: Prisma.$WishlistItemPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1989,6 +2138,7 @@ export interface Prisma__BookClient<T, Null = never, ExtArgs extends runtime.Typ
   orderItems<T extends Prisma.Book$orderItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cartItems<T extends Prisma.Book$cartItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$cartItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.Book$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  wishlistItems<T extends Prisma.Book$wishlistItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$wishlistItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2523,6 +2673,30 @@ export type Book$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
+}
+
+/**
+ * Book.wishlistItems
+ */
+export type Book$wishlistItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WishlistItem
+   */
+  select?: Prisma.WishlistItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WishlistItem
+   */
+  omit?: Prisma.WishlistItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WishlistItemInclude<ExtArgs> | null
+  where?: Prisma.WishlistItemWhereInput
+  orderBy?: Prisma.WishlistItemOrderByWithRelationInput | Prisma.WishlistItemOrderByWithRelationInput[]
+  cursor?: Prisma.WishlistItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WishlistItemScalarFieldEnum | Prisma.WishlistItemScalarFieldEnum[]
 }
 
 /**

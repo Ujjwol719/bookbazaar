@@ -677,7 +677,7 @@ export default function AdminPage() {
               })}
             </ul>
 
-            <div className="mt-4 border-t border-slate-200 pt-4">
+            <div className="mt-4 space-y-1 border-t border-slate-200 pt-4">
               <Link
                 href="/admin/academic"
                 className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
@@ -686,6 +686,25 @@ export default function AdminPage() {
                   <path d="M12 3 2 8l10 5 8-4v6h2V8L12 3Zm-6 9.5V17c0 1.66 3.13 3 6 3s6-1.34 6-3v-4.5l-6 3-6-3Z" fill="currentColor" />
                 </svg>
                 Academic Management
+              </Link>
+              <Link
+                href="/admin/study-review"
+                className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
+              >
+                <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-slate-400">
+                  <path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Study Material Review
+              </Link>
+              <Link
+                href="/admin/credits"
+                className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
+              >
+                <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-slate-400">
+                  <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" />
+                  <path d="M12 7v10M9 9.5c0-1.1 1.34-2 3-2s3 .9 3 2-1.34 2-3 2-3 .9-3 2 1.34 2 3 2 3-.9 3-2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+                BookMandu Credits
               </Link>
             </div>
           </nav>

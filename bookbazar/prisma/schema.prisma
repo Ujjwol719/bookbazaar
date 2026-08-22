@@ -29,18 +29,74 @@ enum BookCondition {
   OLD
 }
 
+enum StudyMaterialType {
+  NOTES
+  QUESTION_PAPER
+}
+
+enum StudyFileType {
+  PDF
+  IMAGE
+}
+
+enum AccessType {
+  FREE
+  PAID
+}
+
+enum PurchaseStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum ContributorRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum StudyMaterialStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CHANGES_REQUESTED
+  UNPUBLISHED
+}
+
+enum ChapterSuggestionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum ReportStatus {
+  PENDING
+  RESOLVED
+  DISMISSED
+}
+
+enum CreditTransactionType {
+  CONTRIBUTION_REWARD
+  BOOK_REDEMPTION
+  REFUND
+  ADMIN_ADJUSTMENT
+}
+
 model User {
-  id                  String               @id @default(uuid())
-  email               String               @unique
-  full_name           String
-  password_hash       String
-  avatarUrl           String?
-  role                Role                 @default(BUYER)
-  created_at          DateTime             @default(now())
-  updated_at          DateTime             @updatedAt
-  isVerified          Boolean              @default(false)
-  isBlocked           Boolean              @default(false)
-  phone               String?
+  id            String   @id @default(uuid())
+  email         String   @unique
+  full_name     String
+  password_hash String?
+  googleId      String?  @unique
+  avatarUrl     String?
+  role          Role     @default(BUYER)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  isVerified    Boolean  @default(false)
+  isBlocked     Boolean  @default(false)
+  phone         String?
+  creditBalance Int      @default(0) // denormalized cache — CreditTransaction is the source of truth
 
   store               Store?
   orders              Order[]
@@ -48,6 +104,20 @@ model User {
   verificationTokens  VerificationToken[]
   passwordResetTokens PasswordResetToken[]
   reviews             Review[]
+  uploadedMaterials   StudyMaterial[]         @relation("StudyMaterialUploads")
+  materialPurchases   StudyMaterialPurchase[]
+  wishlistItems       WishlistItem[]
+
+  contributorRequests         ContributorRequest[]    @relation("ContributorRequestsByUser")
+  reviewedContributorRequests ContributorRequest[]     @relation("ContributorRequestsReviewedBy")
+  contributorPermissions      ContributorPermission[]  @relation("ContributorPermissionsOf")
+  grantedContributorPerms     ContributorPermission[]  @relation("ContributorPermissionsGrantedBy")
+  chapterSuggestions          ChapterSuggestion[]      @relation("ChapterSuggestionsBy")
+  reviewedChapterSuggestions  ChapterSuggestion[]      @relation("ChapterSuggestionsReviewedBy")
+  studyMaterialReports        StudyMaterialReport[]    @relation("StudyMaterialReportsBy")
+  resolvedStudyMaterialReports StudyMaterialReport[]   @relation("StudyMaterialReportsResolvedBy")
+  creditTransactions          CreditTransaction[]      @relation("CreditTransactionsOf")
+  createdCreditAdjustments    CreditTransaction[]      @relation("CreditTransactionsCreatedBy")
 
   @@map("users")
 }
@@ -86,28 +156,29 @@ model Category {
 }
 
 model Book {
-  id             String        @id @default(uuid())
-  storeId        String
-  categoryId     String?
-  slug           String        @unique
-  title          String
-  description    String?
-  author         String?
-  isbn           String?       @unique
-  price          Decimal       @db.Decimal(10, 2)
-  originalPrice  Decimal?      @db.Decimal(10, 2)
-  stockQty       Int           @default(0)
-  imageUrl       String?
-  condition      BookCondition @default(NEW)
-  isActive       Boolean       @default(true)
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  id            String        @id @default(uuid())
+  storeId       String
+  categoryId    String?
+  slug          String        @unique
+  title         String
+  description   String?
+  author        String?
+  isbn          String?       @unique
+  price         Decimal       @db.Decimal(10, 2)
+  originalPrice Decimal?      @db.Decimal(10, 2)
+  stockQty      Int           @default(0)
+  imageUrl      String?
+  condition     BookCondition @default(NEW)
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
-  store      Store      @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  category   Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  orderItems OrderItem[]
-  cartItems  CartItem[]
-  reviews    Review[]
+  store         Store          @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  category      Category?      @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  orderItems    OrderItem[]
+  cartItems     CartItem[]
+  reviews       Review[]
+  wishlistItems WishlistItem[]
 
   @@index([storeId])
   @@index([categoryId])
@@ -119,6 +190,7 @@ model Order {
   buyerId      String
   status       OrderStatus @default(PENDING)
   totalAmount  Decimal     @db.Decimal(10, 2)
+  creditsApplied Decimal   @default(0) @db.Decimal(10, 2) // rupee value absorbed by credits; totalAmount keeps its full-value meaning
   deliveryCode String?
   fullName     String
   phone        String
@@ -169,6 +241,19 @@ model CartItem {
   @@map("cart_items")
 }
 
+model WishlistItem {
+  id      String   @id @default(uuid())
+  userId  String
+  bookId  String
+  addedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bookId])
+  @@map("wishlist_items")
+}
+
 model VerificationToken {
   id        String   @id @default(uuid())
   token     String   @unique
@@ -191,6 +276,21 @@ model PasswordResetToken {
   @@map("password_reset_tokens")
 }
 
+model Banner {
+  id        String   @id @default(uuid())
+  imageUrl  String
+  title     String?
+  subtitle  String?
+  linkUrl   String?
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive, sortOrder])
+  @@map("banners")
+}
+
 model Review {
   id        String   @id @default(uuid())
   bookId    String
@@ -204,4 +304,358 @@ model Review {
 
   @@unique([bookId, userId])
   @@map("reviews")
+}
+
+// =====================================================================
+// Study Hub — school & university academic hierarchy + study materials
+//
+// Two independent hierarchies (school and university) each collapse to
+// one "leaf" join table — ClassSubject and ProgramSubject. StudyMaterial
+// then carries exactly one of two nullable FKs (one per hierarchy)
+// instead of six (university/program/semester/class/stream/subject)
+// directly on the row. Subject is shared across both hierarchies so
+// "Computer Science" isn't duplicated as a school and a university row.
+// =====================================================================
+
+model SchoolClass {
+  id         String   @id @default(uuid())
+  level      Int      @unique // 1-12
+  name       String // "Class 10"
+  hasStreams Boolean  @default(false) // true only for 11 & 12
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  classSubjects       ClassSubject[]
+  contributorRequests ContributorRequest[]
+
+  @@map("school_classes")
+}
+
+model Stream {
+  id        String   @id @default(uuid())
+  name      String   @unique // "Science", "Management"
+  slug      String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  classSubjects ClassSubject[]
+
+  @@map("streams")
+}
+
+model Subject {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  classSubjects      ClassSubject[]
+  programSubjects    ProgramSubject[]
+  chapters           Chapter[]
+  chapterSuggestions ChapterSuggestion[]
+
+  @@map("subjects")
+}
+
+// A subject as it's actually offered in one class (and, for 11-12, one
+// stream). This is the leaf a school StudyMaterial attaches to.
+model ClassSubject {
+  id            String  @id @default(uuid())
+  schoolClassId String
+  subjectId     String
+  streamId      String? // null for classes 1-10
+
+  schoolClass SchoolClass @relation(fields: [schoolClassId], references: [id], onDelete: Cascade)
+  subject     Subject     @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+  stream      Stream?     @relation(fields: [streamId], references: [id], onDelete: Restrict)
+
+  studyMaterials         StudyMaterial[]
+  contributorPermissions ContributorPermission[]
+
+  // Postgres treats every NULL as distinct, so this constraint only
+  // de-dupes stream-bound rows (11-12); the API layer checks for
+  // duplicates itself before creating a streamId: null row (class 1-10).
+  @@unique([schoolClassId, subjectId, streamId])
+  @@index([schoolClassId])
+  @@map("class_subjects")
+}
+
+model University {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  slug      String   @unique
+  logoUrl   String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  programs Program[]
+
+  @@map("universities")
+}
+
+model Program {
+  id             String   @id @default(uuid())
+  universityId   String
+  name           String // "BCA", "Computer Engineering"
+  slug           String
+  totalSemesters Int      @default(8)
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  university          University           @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  semesters           Semester[]
+  contributorRequests ContributorRequest[]
+
+  @@unique([universityId, slug])
+  @@index([universityId])
+  @@map("programs")
+}
+
+// A user's coarse "I want to help with this Program/Class" ask, plus a
+// message describing what they know. Admin approval doesn't grant upload
+// rights by itself — it's the trigger for admin to then grant one or more
+// precise ContributorPermission rows at the exact subject level.
+// Exactly one of schoolClassId/programId is set (same either/or leaf
+// pattern used elsewhere in Study Hub) — enforced in the API layer.
+model ContributorRequest {
+  id            String                   @id @default(uuid())
+  userId        String
+  schoolClassId String?
+  programId     String?
+  message       String?
+  status        ContributorRequestStatus @default(PENDING)
+  reviewedById  String?
+  createdAt     DateTime                 @default(now())
+  reviewedAt    DateTime?
+
+  user        User         @relation("ContributorRequestsByUser", fields: [userId], references: [id], onDelete: Cascade)
+  schoolClass SchoolClass? @relation(fields: [schoolClassId], references: [id], onDelete: Cascade)
+  program     Program?     @relation(fields: [programId], references: [id], onDelete: Cascade)
+  reviewedBy  User?        @relation("ContributorRequestsReviewedBy", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  // No @@unique here deliberately — Postgres doesn't de-dupe rows with a
+  // NULL in a compound key (the same gotcha as ClassSubject), and this row
+  // has two nullable target columns at once. The API layer checks for an
+  // existing PENDING request for the same user+target before creating one.
+  @@index([userId])
+  @@index([schoolClassId])
+  @@index([programId])
+  @@index([status])
+  @@map("contributor_requests")
+}
+
+// The actual grant — always scoped to one subject leaf (a ClassSubject or
+// a ProgramSubject), never a whole program/class. This is the record every
+// upload endpoint checks server-side before accepting a submission.
+model ContributorPermission {
+  id               String   @id @default(uuid())
+  userId           String
+  classSubjectId   String?
+  programSubjectId String?
+  grantedById      String?
+  isActive         Boolean  @default(true)
+  grantedAt        DateTime @default(now())
+
+  user           User            @relation("ContributorPermissionsOf", fields: [userId], references: [id], onDelete: Cascade)
+  classSubject   ClassSubject?   @relation(fields: [classSubjectId], references: [id], onDelete: Cascade)
+  programSubject ProgramSubject? @relation(fields: [programSubjectId], references: [id], onDelete: Cascade)
+  grantedBy      User?           @relation("ContributorPermissionsGrantedBy", fields: [grantedById], references: [id], onDelete: SetNull)
+
+  // Same nullable-leaf caveat as above — de-duped manually in the API layer.
+  @@index([userId])
+  @@index([classSubjectId])
+  @@index([programSubjectId])
+  @@map("contributor_permissions")
+}
+
+model Semester {
+  id        String  @id @default(uuid())
+  programId String
+  number    Int // 1, 2, 3... (also used for "Year 1" style programs)
+  label     String // "Semester 5" or "Year 3"
+  isActive  Boolean @default(true)
+
+  program         Program          @relation(fields: [programId], references: [id], onDelete: Cascade)
+  programSubjects ProgramSubject[]
+
+  @@unique([programId, number])
+  @@map("semesters")
+}
+
+// A subject as it's actually offered in one program's semester/year. This
+// is the leaf a university StudyMaterial attaches to.
+model ProgramSubject {
+  id         String @id @default(uuid())
+  semesterId String
+  subjectId  String
+
+  semester Semester @relation(fields: [semesterId], references: [id], onDelete: Cascade)
+  subject  Subject  @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+
+  studyMaterials         StudyMaterial[]
+  contributorPermissions ContributorPermission[]
+
+  @@unique([semesterId, subjectId])
+  @@index([semesterId])
+  @@map("program_subjects")
+}
+
+// Belongs to Subject globally, not to a specific ClassSubject/ProgramSubject
+// — "DBMS Chapter 3: SQL" is the same chapter regardless of which
+// university teaches DBMS. Admin-managed; contributors can suggest new ones.
+model Chapter {
+  id        String   @id @default(uuid())
+  subjectId String
+  title     String
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  subject        Subject             @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  studyMaterials StudyMaterial[]
+  suggestions    ChapterSuggestion[]
+
+  @@index([subjectId])
+  @@map("chapters")
+}
+
+// A contributor's "this chapter doesn't exist yet" request while uploading.
+model ChapterSuggestion {
+  id            String                  @id @default(uuid())
+  subjectId     String
+  suggestedById String
+  title         String
+  note          String?
+  status        ChapterSuggestionStatus @default(PENDING)
+  chapterId     String? // set once approved and the real Chapter is created
+  reviewedById  String?
+  createdAt     DateTime                @default(now())
+  reviewedAt    DateTime?
+
+  subject     Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  suggestedBy User     @relation("ChapterSuggestionsBy", fields: [suggestedById], references: [id], onDelete: Cascade)
+  chapter     Chapter? @relation(fields: [chapterId], references: [id], onDelete: SetNull)
+  reviewedBy  User?    @relation("ChapterSuggestionsReviewedBy", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  @@index([subjectId])
+  @@index([status])
+  @@map("chapter_suggestions")
+}
+
+model StudyMaterial {
+  id           String              @id @default(uuid())
+  title        String
+  slug         String              @unique
+  description  String?
+  type         StudyMaterialType   @default(NOTES)
+  fileUrl      String
+  fileType     StudyFileType       @default(PDF)
+  thumbnailUrl String?
+  accessType   AccessType          @default(FREE)
+  price        Decimal?            @db.Decimal(10, 2)
+  status       StudyMaterialStatus @default(PENDING)
+  reviewNote   String? // admin's note on reject / request-changes
+  fileHash     String? // SHA-256 of the uploaded file — duplicate-submission detection
+  ownershipConfirmedAt DateTime? // timestamp of the contributor's ownership acknowledgment
+  viewCount    Int                 @default(0)
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+
+  // Exactly one of these two is set — enforced in the API layer (zod),
+  // same approach Prisma needs for any either/or relation like this.
+  classSubjectId   String?
+  programSubjectId String?
+  chapterId        String?
+  uploadedById     String
+
+  classSubject   ClassSubject?           @relation(fields: [classSubjectId], references: [id], onDelete: SetNull)
+  programSubject ProgramSubject?         @relation(fields: [programSubjectId], references: [id], onDelete: SetNull)
+  chapter        Chapter?                @relation(fields: [chapterId], references: [id], onDelete: SetNull)
+  uploadedBy     User                    @relation("StudyMaterialUploads", fields: [uploadedById], references: [id], onDelete: Restrict)
+  purchases      StudyMaterialPurchase[]
+  reports        StudyMaterialReport[]
+
+  @@index([classSubjectId])
+  @@index([programSubjectId])
+  @@index([chapterId])
+  @@index([status, accessType])
+  @@index([fileHash])
+  @@index([createdAt])
+  @@map("study_materials")
+}
+
+// Post-publish "report this" — separate from the pre-publish PENDING queue.
+model StudyMaterialReport {
+  id              String       @id @default(uuid())
+  studyMaterialId String
+  reportedById    String
+  reason          String
+  status          ReportStatus @default(PENDING)
+  createdAt       DateTime     @default(now())
+  resolvedAt      DateTime?
+  resolvedById    String?
+
+  studyMaterial StudyMaterial @relation(fields: [studyMaterialId], references: [id], onDelete: Cascade)
+  reportedBy    User          @relation("StudyMaterialReportsBy", fields: [reportedById], references: [id], onDelete: Cascade)
+  resolvedBy    User?         @relation("StudyMaterialReportsResolvedBy", fields: [resolvedById], references: [id], onDelete: SetNull)
+
+  @@index([studyMaterialId])
+  @@index([status])
+  @@map("study_material_reports")
+}
+
+// The credits ledger — authoritative. User.creditBalance is only ever a
+// cache kept in sync inside the same transaction as every row written here.
+// amount is signed: positive for a reward/refund, negative for a spend.
+model CreditTransaction {
+  id            String                @id @default(uuid())
+  userId        String
+  amount        Int
+  type          CreditTransactionType
+  reason        String
+  referenceType String? // "StudyMaterial" | "Order" | ...
+  referenceId   String?
+  createdById   String? // set only for ADMIN_ADJUSTMENT — who made the manual call
+  createdAt     DateTime              @default(now())
+
+  user      User  @relation("CreditTransactionsOf", fields: [userId], references: [id], onDelete: Cascade)
+  createdBy User? @relation("CreditTransactionsCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([referenceType, referenceId])
+  @@map("credit_transactions")
+}
+
+// Single-row config table — the ₹-per-credit value and the standard
+// contribution reward are admin-editable, never hardcoded.
+model CreditSettings {
+  id                  String   @id @default(uuid())
+  creditValueInRupees Decimal  @default(1.00) @db.Decimal(10, 2)
+  contributionReward  Int      @default(5)
+  updatedAt           DateTime @updatedAt
+
+  @@map("credit_settings")
+}
+
+// Deliberately separate from Order/OrderItem — see the write-up on this
+// decision. Ownership of a digital resource, not a physical shipment.
+model StudyMaterialPurchase {
+  id              String         @id @default(uuid())
+  userId          String
+  studyMaterialId String
+  pricePaid       Decimal        @db.Decimal(10, 2)
+  status          PurchaseStatus @default(PENDING)
+  createdAt       DateTime       @default(now())
+  completedAt     DateTime?
+
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  studyMaterial StudyMaterial @relation(fields: [studyMaterialId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, studyMaterialId])
+  @@map("study_material_purchases")
 }

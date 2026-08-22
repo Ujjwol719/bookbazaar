@@ -79,7 +79,7 @@ interface ClassSubject {
   stream: { id: string; name: string } | null;
 }
 
-type Tab = "universities" | "school" | "subjects" | "helpers";
+type Tab = "universities" | "school" | "subjects" | "contributors";
 
 /* --------------------------------------------------------------------- */
 /* Shared bits                                                            */
@@ -142,7 +142,7 @@ function InlineAddForm({
 export default function AcademicManagementPage() {
   const [tab, setTab] = useState<Tab>("universities");
   const [subjects, setSubjects] = useState<Subject[]>([]);
-  const [pendingHelperCount, setPendingHelperCount] = useState(0);
+  const [pendingContributorCount, setPendingContributorCount] = useState(0);
   const [error, setError] = useState("");
 
   async function loadSubjects() {
@@ -154,10 +154,10 @@ export default function AcademicManagementPage() {
     }
   }
 
-  async function refreshPendingHelperCount() {
+  async function refreshPendingContributorCount() {
     try {
-      const res = await axios.get<{ requests: { status: string }[] }>("/api/admin/helper-requests");
-      setPendingHelperCount(res.data.requests.filter((r) => r.status === "PENDING").length);
+      const res = await axios.get<{ requests: { status: string }[] }>("/api/admin/contributor-requests");
+      setPendingContributorCount(res.data.requests.filter((r) => r.status === "PENDING").length);
     } catch {
       // badge just won't show
     }
@@ -165,14 +165,14 @@ export default function AcademicManagementPage() {
 
   useEffect(() => {
     loadSubjects();
-    refreshPendingHelperCount();
+    refreshPendingContributorCount();
   }, []);
 
   const tabs: { key: Tab; label: string; badge?: number }[] = [
     { key: "universities", label: "Universities" },
     { key: "school", label: "School & Streams" },
     { key: "subjects", label: "Subjects" },
-    { key: "helpers", label: "Helper Requests", badge: pendingHelperCount },
+    { key: "contributors", label: "Contributor Requests", badge: pendingContributorCount },
   ];
 
   return (
@@ -214,7 +214,7 @@ export default function AcademicManagementPage() {
         {tab === "universities" && <UniversitiesSection subjects={subjects} onError={setError} />}
         {tab === "school" && <SchoolSection subjects={subjects} onError={setError} />}
         {tab === "subjects" && <SubjectsSection subjects={subjects} onReload={loadSubjects} onError={setError} />}
-        {tab === "helpers" && <HelperRequestsSection onDecided={refreshPendingHelperCount} onError={setError} />}
+        {tab === "contributors" && <ContributorRequestsSection onDecided={refreshPendingContributorCount} onError={setError} />}
       </div>
     </main>
   );
@@ -842,6 +842,8 @@ function SubjectsSection({
   onReload: () => void;
   onError: (msg: string) => void;
 }) {
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+
   async function addSubject(name: string) {
     try {
       await axios.post("/api/admin/subjects", { name });
@@ -883,19 +885,35 @@ function SubjectsSection({
         ) : (
           <div className="divide-y divide-slate-100">
             {subjects.map((s) => (
-              <div key={s.id} className="flex items-center justify-between gap-3 py-3">
-                <div>
-                  <p className="font-semibold text-slate-900">{s.name}</p>
-                  <p className="text-xs text-slate-400">
-                    {s._count.classSubjects} school assignment(s) · {s._count.programSubjects} university assignment(s)
-                  </p>
+              <div key={s.id} className="py-3">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="font-semibold text-slate-900">{s.name}</p>
+                    <p className="text-xs text-slate-400">
+                      {s._count.classSubjects} school assignment(s) · {s._count.programSubjects} university assignment(s)
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 gap-2">
+                    <button
+                      onClick={() => setExpandedId(expandedId === s.id ? null : s.id)}
+                      className="rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-xs font-semibold text-indigo-700 hover:bg-indigo-100"
+                    >
+                      {expandedId === s.id ? "Hide chapters" : "Manage chapters"}
+                    </button>
+                    <button
+                      onClick={() => deleteSubject(s)}
+                      className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
-                <button
-                  onClick={() => deleteSubject(s)}
-                  className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50"
-                >
-                  Delete
-                </button>
+
+                {expandedId === s.id && (
+                  <div className="mt-3 rounded-xl border border-slate-100 bg-slate-50 p-4">
+                    <ChaptersPanel subjectId={s.id} onError={onError} />
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -906,36 +924,212 @@ function SubjectsSection({
 }
 
 /* --------------------------------------------------------------------- */
-/* Helper Requests                                                        */
+/* Chapters (nested under a Subject)                                     */
 /* --------------------------------------------------------------------- */
 
-interface HelperRequestAdminRow {
+interface ChapterRow {
   id: string;
-  status: "PENDING" | "APPROVED" | "REJECTED";
-  message: string | null;
-  createdAt: string;
-  user: { full_name: string; email: string };
-  program: { name: string; university: { name: string } };
+  title: string;
+  sortOrder: number;
+  isActive: boolean;
+  _count: { studyMaterials: number };
 }
 
-function HelperRequestsSection({
-  onDecided,
-  onError,
-}: {
-  onDecided: () => void;
-  onError: (msg: string) => void;
-}) {
-  const [requests, setRequests] = useState<HelperRequestAdminRow[]>([]);
+interface ChapterSuggestionRow {
+  id: string;
+  title: string;
+  note: string | null;
+  createdAt: string;
+  suggestedBy: { full_name: string; email: string };
+}
+
+function ChaptersPanel({ subjectId, onError }: { subjectId: string; onError: (msg: string) => void }) {
+  const [chapters, setChapters] = useState<ChapterRow[]>([]);
+  const [suggestions, setSuggestions] = useState<ChapterSuggestionRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
 
   async function load() {
     setLoading(true);
     try {
-      const res = await axios.get<{ requests: HelperRequestAdminRow[] }>("/api/admin/helper-requests");
+      const [chapRes, sugRes] = await Promise.all([
+        axios.get<{ chapters: ChapterRow[] }>(`/api/admin/chapters?subjectId=${subjectId}`),
+        axios.get<{ suggestions: ChapterSuggestionRow[] }>(`/api/admin/chapter-suggestions?subjectId=${subjectId}`),
+      ]);
+      setChapters(chapRes.data.chapters);
+      setSuggestions(sugRes.data.suggestions);
+    } catch {
+      onError("Unable to load chapters");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subjectId]);
+
+  async function decideSuggestion(id: string, decision: "APPROVE" | "REJECT") {
+    setBusyId(id);
+    try {
+      await axios.patch(`/api/admin/chapter-suggestions/${id}`, { decision });
+      onError("");
+      await load();
+    } catch (err) {
+      onError(axios.isAxiosError(err) ? err.response?.data?.message || "Unable to update suggestion" : "Unable to update suggestion");
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  async function addChapter(title: string) {
+    try {
+      await axios.post("/api/admin/chapters", { subjectId, title, sortOrder: chapters.length });
+      onError("");
+      load();
+    } catch (err) {
+      onError(axios.isAxiosError(err) ? err.response?.data?.message || "Unable to add chapter" : "Unable to add chapter");
+    }
+  }
+
+  async function toggleActive(chapter: ChapterRow) {
+    setBusyId(chapter.id);
+    try {
+      await axios.patch(`/api/admin/chapters/${chapter.id}`, { isActive: !chapter.isActive });
+      onError("");
+      await load();
+    } catch (err) {
+      onError(axios.isAxiosError(err) ? err.response?.data?.message || "Unable to update chapter" : "Unable to update chapter");
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  async function remove(chapter: ChapterRow) {
+    if (!window.confirm(`Delete "${chapter.title}"? Materials in this chapter will just become chapterless.`)) return;
+    setBusyId(chapter.id);
+    try {
+      await axios.delete(`/api/admin/chapters/${chapter.id}`);
+      onError("");
+      await load();
+    } catch (err) {
+      onError(axios.isAxiosError(err) ? err.response?.data?.message || "Unable to delete chapter" : "Unable to delete chapter");
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  return (
+    <div className="space-y-3">
+      <InlineAddForm placeholder="e.g. Chapter 3: SQL" buttonLabel="Add Chapter" onSubmit={addChapter} />
+
+      {loading ? (
+        <div className="h-10 animate-pulse rounded-lg bg-white" />
+      ) : chapters.length === 0 ? (
+        <p className="text-sm text-slate-500">No chapters yet — uploads to this subject will be chapterless until you add some.</p>
+      ) : (
+        <div className="space-y-1.5">
+          {chapters.map((c) => (
+            <div key={c.id} className="flex items-center justify-between gap-3 rounded-lg bg-white px-3 py-2">
+              <span className={`text-sm ${c.isActive ? "text-slate-700" : "text-slate-400 line-through"}`}>
+                {c.title} <span className="text-xs text-slate-400">({c._count.studyMaterials})</span>
+              </span>
+              <div className="flex shrink-0 gap-2">
+                <button
+                  onClick={() => toggleActive(c)}
+                  disabled={busyId === c.id}
+                  className="rounded-lg border border-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-60"
+                >
+                  {c.isActive ? "Disable" : "Enable"}
+                </button>
+                <button
+                  onClick={() => remove(c)}
+                  disabled={busyId === c.id}
+                  className="rounded-lg border border-red-200 px-2.5 py-1 text-xs font-semibold text-red-600 hover:bg-red-50 disabled:opacity-60"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {suggestions.length > 0 && (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-amber-700">
+            Suggested by contributors ({suggestions.length})
+          </p>
+          <div className="space-y-2">
+            {suggestions.map((s) => (
+              <div key={s.id} className="flex items-center justify-between gap-3 rounded-lg bg-white px-3 py-2">
+                <div>
+                  <p className="text-sm font-medium text-slate-800">{s.title}</p>
+                  <p className="text-xs text-slate-400">by {s.suggestedBy.full_name}{s.note ? ` — "${s.note}"` : ""}</p>
+                </div>
+                <div className="flex shrink-0 gap-2">
+                  <button
+                    onClick={() => decideSuggestion(s.id, "APPROVE")}
+                    disabled={busyId === s.id}
+                    className="rounded-lg bg-green-600 px-2.5 py-1 text-xs font-semibold text-white hover:bg-green-700 disabled:opacity-60"
+                  >
+                    Approve
+                  </button>
+                  <button
+                    onClick={() => decideSuggestion(s.id, "REJECT")}
+                    disabled={busyId === s.id}
+                    className="rounded-lg border border-red-200 px-2.5 py-1 text-xs font-semibold text-red-600 hover:bg-red-50 disabled:opacity-60"
+                  >
+                    Reject
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* --------------------------------------------------------------------- */
+/* Contributor Requests + subject-level access grants                    */
+/* --------------------------------------------------------------------- */
+
+interface ContributorRequestAdminRow {
+  id: string;
+  status: "PENDING" | "APPROVED" | "REJECTED";
+  message: string | null;
+  createdAt: string;
+  user: { id: string; full_name: string; email: string };
+  schoolClass: { id: string; name: string } | null;
+  program: { id: string; name: string; university: { name: string } } | null;
+}
+
+function requestTargetLabel(r: ContributorRequestAdminRow): string {
+  return r.schoolClass ? r.schoolClass.name : `${r.program?.name} — ${r.program?.university.name}`;
+}
+
+function ContributorRequestsSection({
+  onDecided,
+  onError,
+}: {
+  onDecided: () => void;
+  onError: (msg: string) => void;
+}) {
+  const [requests, setRequests] = useState<ContributorRequestAdminRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [busyId, setBusyId] = useState<string | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+
+  async function load() {
+    setLoading(true);
+    try {
+      const res = await axios.get<{ requests: ContributorRequestAdminRow[] }>("/api/admin/contributor-requests");
       setRequests(res.data.requests);
     } catch {
-      onError("Unable to load helper requests");
+      onError("Unable to load contributor requests");
     } finally {
       setLoading(false);
     }
@@ -949,10 +1143,11 @@ function HelperRequestsSection({
   async function decide(id: string, decision: "APPROVE" | "REJECT") {
     setBusyId(id);
     try {
-      await axios.patch(`/api/admin/helper-requests/${id}`, { decision });
+      await axios.patch(`/api/admin/contributor-requests/${id}`, { decision });
       onError("");
-      load();
+      await load();
       onDecided();
+      if (decision === "APPROVE") setExpandedId(id);
     } catch (err) {
       onError(axios.isAxiosError(err) ? err.response?.data?.message || "Unable to update request" : "Unable to update request");
     } finally {
@@ -961,7 +1156,8 @@ function HelperRequestsSection({
   }
 
   const pending = requests.filter((r) => r.status === "PENDING");
-  const decided = requests.filter((r) => r.status !== "PENDING");
+  const approved = requests.filter((r) => r.status === "APPROVED");
+  const rejected = requests.filter((r) => r.status === "REJECTED");
 
   return (
     <div className="space-y-6">
@@ -982,7 +1178,7 @@ function HelperRequestsSection({
                   <div>
                     <p className="font-semibold text-slate-900">{r.user.full_name} <span className="font-normal text-slate-500">({r.user.email})</span></p>
                     <p className="mt-0.5 text-sm text-slate-600">
-                      wants to help with <span className="font-semibold">{r.program.name}</span> — {r.program.university.name}
+                      wants to contribute to <span className="font-semibold">{requestTargetLabel(r)}</span>
                     </p>
                     {r.message && <p className="mt-2 text-sm italic text-slate-500">&quot;{r.message}&quot;</p>}
                   </div>
@@ -1009,24 +1205,198 @@ function HelperRequestsSection({
         )}
       </section>
 
-      {decided.length > 0 && (
+      {approved.length > 0 && (
         <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-bold text-slate-900">Reviewed</h2>
-          <div className="divide-y divide-slate-100">
-            {decided.map((r) => (
-              <div key={r.id} className="flex items-center justify-between gap-3 py-3">
-                <div>
-                  <p className="text-sm font-semibold text-slate-900">{r.user.full_name}</p>
-                  <p className="text-xs text-slate-500">{r.program.name} — {r.program.university.name}</p>
-                </div>
-                <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${r.status === "APPROVED" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
-                  {r.status}
-                </span>
+          <h2 className="mb-1 text-lg font-bold text-slate-900">
+            Approved <span className="font-normal text-slate-400">({approved.length})</span>
+          </h2>
+          <p className="mb-4 text-sm text-slate-500">
+            Approving a request doesn&apos;t grant upload rights by itself — pick the exact subjects below.
+          </p>
+          <div className="space-y-3">
+            {approved.map((r) => (
+              <div key={r.id} className="rounded-xl border border-slate-200 p-4">
+                <button
+                  onClick={() => setExpandedId(expandedId === r.id ? null : r.id)}
+                  className="flex w-full flex-wrap items-center justify-between gap-3 text-left"
+                >
+                  <div>
+                    <p className="font-semibold text-slate-900">{r.user.full_name} <span className="font-normal text-slate-500">({r.user.email})</span></p>
+                    <p className="text-sm text-slate-500">{requestTargetLabel(r)}</p>
+                  </div>
+                  <span className="rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-xs font-semibold text-indigo-700">
+                    {expandedId === r.id ? "Hide" : "Manage subject access"}
+                  </span>
+                </button>
+
+                {expandedId === r.id && (
+                  <div className="mt-4 border-t border-slate-100 pt-4">
+                    <GrantAccessPanel userId={r.user.id} schoolClassId={r.schoolClass?.id} programId={r.program?.id} onError={onError} />
+                  </div>
+                )}
               </div>
             ))}
           </div>
         </section>
       )}
+
+      {rejected.length > 0 && (
+        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 className="mb-4 text-lg font-bold text-slate-900">Rejected</h2>
+          <div className="divide-y divide-slate-100">
+            {rejected.map((r) => (
+              <div key={r.id} className="flex items-center justify-between gap-3 py-3">
+                <div>
+                  <p className="text-sm font-semibold text-slate-900">{r.user.full_name}</p>
+                  <p className="text-xs text-slate-500">{requestTargetLabel(r)}</p>
+                </div>
+                <span className="rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-semibold text-red-700">REJECTED</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  );
+}
+
+/* --------------------------------------------------------------------- */
+/* Grant / revoke subject-level ContributorPermission                    */
+/* --------------------------------------------------------------------- */
+
+interface CandidateSubject {
+  id: string; // ClassSubject or ProgramSubject id
+  label: string;
+}
+
+interface PermissionAdminRow {
+  id: string;
+  isActive: boolean;
+  classSubject: { id: string } | null;
+  programSubject: { id: string } | null;
+}
+
+function GrantAccessPanel({
+  userId,
+  schoolClassId,
+  programId,
+  onError,
+}: {
+  userId: string;
+  schoolClassId?: string;
+  programId?: string;
+  onError: (msg: string) => void;
+}) {
+  const [candidates, setCandidates] = useState<CandidateSubject[]>([]);
+  const [permissions, setPermissions] = useState<PermissionAdminRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [busyKey, setBusyKey] = useState<string | null>(null);
+
+  async function load() {
+    setLoading(true);
+    try {
+      if (schoolClassId) {
+        const [csRes, permRes] = await Promise.all([
+          axios.get<{ classSubjects: { id: string; subject: { name: string }; stream: { name: string } | null }[] }>(
+            `/api/admin/class-subjects?schoolClassId=${schoolClassId}`
+          ),
+          axios.get<{ permissions: PermissionAdminRow[] }>(`/api/admin/contributor-permissions?userId=${userId}`),
+        ]);
+        setCandidates(csRes.data.classSubjects.map((cs) => ({ id: cs.id, label: cs.stream ? `${cs.subject.name} (${cs.stream.name})` : cs.subject.name })));
+        setPermissions(permRes.data.permissions);
+      } else if (programId) {
+        const [psRes, permRes] = await Promise.all([
+          axios.get<{ programSubjects: { id: string; subject: { name: string }; semester: { label: string } }[] }>(
+            `/api/admin/program-subjects?programId=${programId}`
+          ),
+          axios.get<{ permissions: PermissionAdminRow[] }>(`/api/admin/contributor-permissions?userId=${userId}`),
+        ]);
+        setCandidates(psRes.data.programSubjects.map((ps) => ({ id: ps.id, label: `${ps.subject.name} (${ps.semester.label})` })));
+        setPermissions(permRes.data.permissions);
+      }
+    } catch {
+      onError("Unable to load subjects for this target");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId, schoolClassId, programId]);
+
+  function findPermission(candidateId: string) {
+    return permissions.find((p) => (schoolClassId ? p.classSubject?.id === candidateId : p.programSubject?.id === candidateId));
+  }
+
+  async function grant(candidateId: string) {
+    setBusyKey(candidateId);
+    try {
+      await axios.post("/api/admin/contributor-permissions", schoolClassId ? { userId, classSubjectId: candidateId } : { userId, programSubjectId: candidateId });
+      onError("");
+      await load();
+    } catch (err) {
+      onError(axios.isAxiosError(err) ? err.response?.data?.message || "Unable to grant access" : "Unable to grant access");
+    } finally {
+      setBusyKey(null);
+    }
+  }
+
+  async function toggle(permissionId: string, isActive: boolean) {
+    setBusyKey(permissionId);
+    try {
+      await axios.patch(`/api/admin/contributor-permissions/${permissionId}`, { isActive });
+      onError("");
+      await load();
+    } catch (err) {
+      onError(axios.isAxiosError(err) ? err.response?.data?.message || "Unable to update access" : "Unable to update access");
+    } finally {
+      setBusyKey(null);
+    }
+  }
+
+  if (loading) return <div className="h-16 animate-pulse rounded-xl bg-slate-100" />;
+  if (candidates.length === 0) {
+    return <p className="text-sm text-slate-500">No subjects assigned here yet — add subjects for this class/program first.</p>;
+  }
+
+  return (
+    <div className="space-y-2">
+      {candidates.map((c) => {
+        const perm = findPermission(c.id);
+        const busy = busyKey === c.id || (perm && busyKey === perm.id);
+        return (
+          <div key={c.id} className="flex items-center justify-between gap-3 rounded-lg border border-slate-100 bg-slate-50 px-3 py-2">
+            <span className="text-sm text-slate-700">{c.label}</span>
+            {!perm ? (
+              <button
+                onClick={() => grant(c.id)}
+                disabled={!!busy}
+                className="rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Grant
+              </button>
+            ) : perm.isActive ? (
+              <button
+                onClick={() => toggle(perm.id, false)}
+                disabled={!!busy}
+                className="rounded-lg border border-red-200 bg-white px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Revoke
+              </button>
+            ) : (
+              <button
+                onClick={() => toggle(perm.id, true)}
+                disabled={!!busy}
+                className="rounded-lg border border-green-200 bg-white px-3 py-1.5 text-xs font-semibold text-green-700 hover:bg-green-50 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Restore
+              </button>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

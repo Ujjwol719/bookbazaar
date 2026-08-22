@@ -25,6 +25,9 @@ export default function checkout() {
   const [books, setBooks] = useState<book[]>([])
   const router = useRouter()
   const [paymentMethod, setPaymentMethod] = useState("COD")
+  const [creditBalance, setCreditBalance] = useState(0)
+  const [creditValue, setCreditValue] = useState(1)
+  const [useCredits, setUseCredits] = useState(false)
 
  const handleSubmit = async (e: any) => {
   e.preventDefault();
@@ -69,6 +72,7 @@ export default function checkout() {
         city,
         state,
         postalCode,
+        creditsToApply: useCredits ? maxRedeemableCredits : 0,
       }
     );
 
@@ -84,7 +88,8 @@ export default function checkout() {
         })),
       })
 
-    alert(`Order placed successfully. Your delivery code is ${response.data.deliveryCode}. Share it with the seller only after receiving the product.`);
+    const creditsMsg = response.data.creditsUsed > 0 ? ` ${response.data.creditsUsed} credits were applied — Rs. ${response.data.amountDue} due on delivery.` : "";
+    alert(`Order placed successfully. Your delivery code is ${response.data.deliveryCode}. Share it with the seller only after receiving the product.${creditsMsg}`);
     router.push("/orders");
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -106,9 +111,19 @@ export default function checkout() {
       }
     }
     fetch()
+
+    axios.get("/api/credits/wallet").then((res) => {
+      setCreditBalance(res.data.balance)
+      setCreditValue(Number(res.data.creditValueInRupees) || 1)
+    }).catch(() => {
+      // Not logged in yet or wallet unavailable — credits section just won't show.
+    })
   }, [])
 
   const total = books.reduce((sum, items) => sum + items.quantity * items.book.price, 0)
+  const maxRedeemableCredits = Math.min(creditBalance, Math.floor(total / creditValue))
+  const creditsRupeeValue = Math.round(maxRedeemableCredits * creditValue * 100) / 100
+  const amountDue = useCredits ? total - creditsRupeeValue : total
 
   useEffect(() => {
     if (books.length === 0) {
@@ -295,12 +310,49 @@ export default function checkout() {
               ))}
             </div>
 
+            {/* BookMandu Credits */}
+            {creditBalance > 0 && (
+              <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
+                <label className="flex cursor-pointer items-start gap-3">
+                  <input
+                    type="checkbox"
+                    checked={useCredits}
+                    onChange={(e) => setUseCredits(e.target.checked)}
+                    disabled={maxRedeemableCredits === 0}
+                    className="mt-0.5 h-4 w-4 accent-emerald-600"
+                  />
+                  <div>
+                    <p className="text-sm font-semibold text-emerald-900">
+                      Use your BookMandu Credits — you have {creditBalance}
+                    </p>
+                    <p className="mt-0.5 text-xs text-emerald-700">
+                      {maxRedeemableCredits > 0
+                        ? `Applying ${maxRedeemableCredits} credits saves Rs. ${creditsRupeeValue} on this order.`
+                        : "Earned by contributing approved notes to Study Hub."}
+                    </p>
+                  </div>
+                </label>
+              </div>
+            )}
+
             {/* Grand Total */}
             <div className="mt-6 rounded-2xl border border-indigo-100 bg-indigo-50 p-5">
+              {useCredits && creditsRupeeValue > 0 && (
+                <div className="mb-2 flex items-center justify-between text-sm">
+                  <span className="text-slate-500">Order total</span>
+                  <span className="text-slate-500 line-through">Rs. {total}</span>
+                </div>
+              )}
+              {useCredits && creditsRupeeValue > 0 && (
+                <div className="mb-2 flex items-center justify-between text-sm">
+                  <span className="text-emerald-700">Credits applied</span>
+                  <span className="font-semibold text-emerald-700">− Rs. {creditsRupeeValue}</span>
+                </div>
+              )}
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-slate-700">Grand Total</span>
+                <span className="font-semibold text-slate-700">{useCredits && creditsRupeeValue > 0 ? "Due on delivery" : "Grand Total"}</span>
                 <span className="text-2xl font-bold text-indigo-600 md:text-3xl">
-                  Rs. {total}
+                  Rs. {amountDue}
                 </span>
               </div>
             </div>

@@ -10,7 +10,7 @@ async function getProgram(universitySlug: string, programSlug: string) {
   const university = await prisma.university.findFirst({ where: { slug: universitySlug, isActive: true } });
   if (!university) return null;
 
-  return prisma.program.findFirst({
+  const program = await prisma.program.findFirst({
     where: { universityId: university.id, slug: programSlug, isActive: true },
     include: {
       university: true,
@@ -21,6 +21,23 @@ async function getProgram(universitySlug: string, programSlug: string) {
       },
     },
   });
+  if (!program) return null;
+
+  const allProgramSubjectIds = program.semesters.flatMap((s) => s.programSubjects.map((ps) => ps.id));
+  const counts = await prisma.studyMaterial.groupBy({
+    by: ["programSubjectId"],
+    where: { programSubjectId: { in: allProgramSubjectIds }, status: "APPROVED" },
+    _count: true,
+  });
+  const countByProgramSubjectId = new Map(counts.map((c) => [c.programSubjectId, c._count]));
+
+  return {
+    ...program,
+    semesters: program.semesters.map((s) => ({
+      ...s,
+      programSubjects: s.programSubjects.map((ps) => ({ ...ps, materialCount: countByProgramSubjectId.get(ps.id) || 0 })),
+    })),
+  };
 }
 
 export async function generateMetadata({
@@ -66,7 +83,7 @@ export default async function ProgramPage({
             {program.semesters.length === 0 ? (
               <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
                 <p className="text-slate-500">No semesters added yet.</p>
-                <Link href="/become-helper" className="mt-3 inline-block text-sm font-semibold text-indigo-600 hover:text-indigo-700">
+                <Link href="/become-contributor" className="mt-3 inline-block text-sm font-semibold text-indigo-600 hover:text-indigo-700">
                   Volunteer to help build this program out →
                 </Link>
               </div>
@@ -79,9 +96,16 @@ export default async function ProgramPage({
                   ) : (
                     <div className="mt-3 flex flex-wrap gap-2">
                       {sem.programSubjects.map((ps) => (
-                        <span key={ps.id} className="rounded-full bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-700">
+                        <Link
+                          key={ps.id}
+                          href={`/study/subject/program/${ps.id}`}
+                          className="flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-indigo-100 hover:text-indigo-700"
+                        >
                           {ps.subject.name}
-                        </span>
+                          {ps.materialCount > 0 && (
+                            <span className="rounded-full bg-emerald-500 px-1.5 py-0.5 text-xs font-bold text-white">{ps.materialCount}</span>
+                          )}
+                        </Link>
                       ))}
                     </div>
                   )}

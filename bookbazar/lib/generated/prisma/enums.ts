@@ -38,3 +38,84 @@ export const BookCondition = {
 } as const
 
 export type BookCondition = (typeof BookCondition)[keyof typeof BookCondition]
+
+
+export const StudyMaterialType = {
+  NOTES: 'NOTES',
+  QUESTION_PAPER: 'QUESTION_PAPER'
+} as const
+
+export type StudyMaterialType = (typeof StudyMaterialType)[keyof typeof StudyMaterialType]
+
+
+export const StudyFileType = {
+  PDF: 'PDF',
+  IMAGE: 'IMAGE'
+} as const
+
+export type StudyFileType = (typeof StudyFileType)[keyof typeof StudyFileType]
+
+
+export const AccessType = {
+  FREE: 'FREE',
+  PAID: 'PAID'
+} as const
+
+export type AccessType = (typeof AccessType)[keyof typeof AccessType]
+
+
+export const PurchaseStatus = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+} as const
+
+export type PurchaseStatus = (typeof PurchaseStatus)[keyof typeof PurchaseStatus]
+
+
+export const ContributorRequestStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ContributorRequestStatus = (typeof ContributorRequestStatus)[keyof typeof ContributorRequestStatus]
+
+
+export const StudyMaterialStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  CHANGES_REQUESTED: 'CHANGES_REQUESTED',
+  UNPUBLISHED: 'UNPUBLISHED'
+} as const
+
+export type StudyMaterialStatus = (typeof StudyMaterialStatus)[keyof typeof StudyMaterialStatus]
+
+
+export const ChapterSuggestionStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ChapterSuggestionStatus = (typeof ChapterSuggestionStatus)[keyof typeof ChapterSuggestionStatus]
+
+
+export const ReportStatus = {
+  PENDING: 'PENDING',
+  RESOLVED: 'RESOLVED',
+  DISMISSED: 'DISMISSED'
+} as const
+
+export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]
+
+
+export const CreditTransactionType = {
+  CONTRIBUTION_REWARD: 'CONTRIBUTION_REWARD',
+  BOOK_REDEMPTION: 'BOOK_REDEMPTION',
+  REFUND: 'REFUND',
+  ADMIN_ADJUSTMENT: 'ADMIN_ADJUSTMENT'
+} as const
+
+export type CreditTransactionType = (typeof CreditTransactionType)[keyof typeof CreditTransactionType]

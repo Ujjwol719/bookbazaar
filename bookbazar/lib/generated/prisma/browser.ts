@@ -53,6 +53,11 @@ export type OrderItem = Prisma.OrderItemModel
  */
 export type CartItem = Prisma.CartItemModel
 /**
+ * Model WishlistItem
+ * 
+ */
+export type WishlistItem = Prisma.WishlistItemModel
+/**
  * Model VerificationToken
  * 
  */
@@ -63,7 +68,97 @@ export type VerificationToken = Prisma.VerificationTokenModel
  */
 export type PasswordResetToken = Prisma.PasswordResetTokenModel
 /**
+ * Model Banner
+ * 
+ */
+export type Banner = Prisma.BannerModel
+/**
  * Model Review
  * 
  */
 export type Review = Prisma.ReviewModel
+/**
+ * Model SchoolClass
+ * 
+ */
+export type SchoolClass = Prisma.SchoolClassModel
+/**
+ * Model Stream
+ * 
+ */
+export type Stream = Prisma.StreamModel
+/**
+ * Model Subject
+ * 
+ */
+export type Subject = Prisma.SubjectModel
+/**
+ * Model ClassSubject
+ * 
+ */
+export type ClassSubject = Prisma.ClassSubjectModel
+/**
+ * Model University
+ * 
+ */
+export type University = Prisma.UniversityModel
+/**
+ * Model Program
+ * 
+ */
+export type Program = Prisma.ProgramModel
+/**
+ * Model ContributorRequest
+ * 
+ */
+export type ContributorRequest = Prisma.ContributorRequestModel
+/**
+ * Model ContributorPermission
+ * 
+ */
+export type ContributorPermission = Prisma.ContributorPermissionModel
+/**
+ * Model Semester
+ * 
+ */
+export type Semester = Prisma.SemesterModel
+/**
+ * Model ProgramSubject
+ * 
+ */
+export type ProgramSubject = Prisma.ProgramSubjectModel
+/**
+ * Model Chapter
+ * 
+ */
+export type Chapter = Prisma.ChapterModel
+/**
+ * Model ChapterSuggestion
+ * 
+ */
+export type ChapterSuggestion = Prisma.ChapterSuggestionModel
+/**
+ * Model StudyMaterial
+ * 
+ */
+export type StudyMaterial = Prisma.StudyMaterialModel
+/**
+ * Model StudyMaterialReport
+ * 
+ */
+export type StudyMaterialReport = Prisma.StudyMaterialReportModel
+/**
+ * Model CreditTransaction
+ * 
+ */
+export type CreditTransaction = Prisma.CreditTransactionModel
+/**
+ * Model CreditSettings
+ * 
+ */
+export type CreditSettings = Prisma.CreditSettingsModel
+/**
+ * Model StudyMaterialPurchase
+ * 
+ */
+export type StudyMaterialPurchase = Prisma.StudyMaterialPurchaseModel

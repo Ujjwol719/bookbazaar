@@ -7,7 +7,10 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "seed": "tsx prisma/schemas/seed.ts",
+    "seed:curriculum": "tsx prisma/schemas/seed-curriculum.ts",
+    "seed:chapters": "tsx prisma/schemas/seed-chapters.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.81",

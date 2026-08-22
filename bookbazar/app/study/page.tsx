@@ -19,7 +19,7 @@ async function getCounts() {
   const [schoolClasses, universities, materials] = await Promise.all([
     prisma.schoolClass.count({ where: { isActive: true } }),
     prisma.university.count({ where: { isActive: true } }),
-    prisma.studyMaterial.count({ where: { isPublished: true } }),
+    prisma.studyMaterial.count({ where: { status: "APPROVED" } }),
   ]);
   return { schoolClasses, universities, materials };
 }

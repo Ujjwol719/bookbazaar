@@ -20,8 +20,18 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
+}
+
+export type UserAvgAggregateOutputType = {
+  creditBalance: number | null
+}
+
+export type UserSumAggregateOutputType = {
+  creditBalance: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -29,6 +39,7 @@ export type UserMinAggregateOutputType = {
   email: string | null
   full_name: string | null
   password_hash: string | null
+  googleId: string | null
   avatarUrl: string | null
   role: $Enums.Role | null
   created_at: Date | null
@@ -36,6 +47,7 @@ export type UserMinAggregateOutputType = {
   isVerified: boolean | null
   isBlocked: boolean | null
   phone: string | null
+  creditBalance: number | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -43,6 +55,7 @@ export type UserMaxAggregateOutputType = {
   email: string | null
   full_name: string | null
   password_hash: string | null
+  googleId: string | null
   avatarUrl: string | null
   role: $Enums.Role | null
   created_at: Date | null
@@ -50,6 +63,7 @@ export type UserMaxAggregateOutputType = {
   isVerified: boolean | null
   isBlocked: boolean | null
   phone: string | null
+  creditBalance: number | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -57,6 +71,7 @@ export type UserCountAggregateOutputType = {
   email: number
   full_name: number
   password_hash: number
+  googleId: number
   avatarUrl: number
   role: number
   created_at: number
@@ -64,15 +79,25 @@ export type UserCountAggregateOutputType = {
   isVerified: number
   isBlocked: number
   phone: number
+  creditBalance: number
   _all: number
 }
 
+
+export type UserAvgAggregateInputType = {
+  creditBalance?: true
+}
+
+export type UserSumAggregateInputType = {
+  creditBalance?: true
+}
 
 export type UserMinAggregateInputType = {
   id?: true
   email?: true
   full_name?: true
   password_hash?: true
+  googleId?: true
   avatarUrl?: true
   role?: true
   created_at?: true
@@ -80,6 +105,7 @@ export type UserMinAggregateInputType = {
   isVerified?: true
   isBlocked?: true
   phone?: true
+  creditBalance?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -87,6 +113,7 @@ export type UserMaxAggregateInputType = {
   email?: true
   full_name?: true
   password_hash?: true
+  googleId?: true
   avatarUrl?: true
   role?: true
   created_at?: true
@@ -94,6 +121,7 @@ export type UserMaxAggregateInputType = {
   isVerified?: true
   isBlocked?: true
   phone?: true
+  creditBalance?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -101,6 +129,7 @@ export type UserCountAggregateInputType = {
   email?: true
   full_name?: true
   password_hash?: true
+  googleId?: true
   avatarUrl?: true
   role?: true
   created_at?: true
@@ -108,6 +137,7 @@ export type UserCountAggregateInputType = {
   isVerified?: true
   isBlocked?: true
   phone?: true
+  creditBalance?: true
   _all?: true
 }
 
@@ -149,6 +179,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -179,6 +221,8 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
+  _avg?: UserAvgAggregateInputType
+  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
@@ -187,7 +231,8 @@ export type UserGroupByOutputType = {
   id: string
   email: string
   full_name: string
-  password_hash: string
+  password_hash: string | null
+  googleId: string | null
   avatarUrl: string | null
   role: $Enums.Role
   created_at: Date
@@ -195,7 +240,10 @@ export type UserGroupByOutputType = {
   isVerified: boolean
   isBlocked: boolean
   phone: string | null
+  creditBalance: number
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -222,7 +270,8 @@ export type UserWhereInput = {
   id?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
   full_name?: Prisma.StringFilter<"User"> | string
-  password_hash?: Prisma.StringFilter<"User"> | string
+  password_hash?: Prisma.StringNullableFilter<"User"> | string | null
+  googleId?: Prisma.StringNullableFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   created_at?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -230,19 +279,34 @@ export type UserWhereInput = {
   isVerified?: Prisma.BoolFilter<"User"> | boolean
   isBlocked?: Prisma.BoolFilter<"User"> | boolean
   phone?: Prisma.StringNullableFilter<"User"> | string | null
+  creditBalance?: Prisma.IntFilter<"User"> | number
   store?: Prisma.XOR<Prisma.StoreNullableScalarRelationFilter, Prisma.StoreWhereInput> | null
   orders?: Prisma.OrderListRelationFilter
   cartItems?: Prisma.CartItemListRelationFilter
   verificationTokens?: Prisma.VerificationTokenListRelationFilter
   passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
+  uploadedMaterials?: Prisma.StudyMaterialListRelationFilter
+  materialPurchases?: Prisma.StudyMaterialPurchaseListRelationFilter
+  wishlistItems?: Prisma.WishlistItemListRelationFilter
+  contributorRequests?: Prisma.ContributorRequestListRelationFilter
+  reviewedContributorRequests?: Prisma.ContributorRequestListRelationFilter
+  contributorPermissions?: Prisma.ContributorPermissionListRelationFilter
+  grantedContributorPerms?: Prisma.ContributorPermissionListRelationFilter
+  chapterSuggestions?: Prisma.ChapterSuggestionListRelationFilter
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionListRelationFilter
+  studyMaterialReports?: Prisma.StudyMaterialReportListRelationFilter
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportListRelationFilter
+  creditTransactions?: Prisma.CreditTransactionListRelationFilter
+  createdCreditAdjustments?: Prisma.CreditTransactionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   full_name?: Prisma.SortOrder
-  password_hash?: Prisma.SortOrder
+  password_hash?: Prisma.SortOrderInput | Prisma.SortOrder
+  googleId?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -250,22 +314,37 @@ export type UserOrderByWithRelationInput = {
   isVerified?: Prisma.SortOrder
   isBlocked?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  creditBalance?: Prisma.SortOrder
   store?: Prisma.StoreOrderByWithRelationInput
   orders?: Prisma.OrderOrderByRelationAggregateInput
   cartItems?: Prisma.CartItemOrderByRelationAggregateInput
   verificationTokens?: Prisma.VerificationTokenOrderByRelationAggregateInput
   passwordResetTokens?: Prisma.PasswordResetTokenOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
+  uploadedMaterials?: Prisma.StudyMaterialOrderByRelationAggregateInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseOrderByRelationAggregateInput
+  wishlistItems?: Prisma.WishlistItemOrderByRelationAggregateInput
+  contributorRequests?: Prisma.ContributorRequestOrderByRelationAggregateInput
+  reviewedContributorRequests?: Prisma.ContributorRequestOrderByRelationAggregateInput
+  contributorPermissions?: Prisma.ContributorPermissionOrderByRelationAggregateInput
+  grantedContributorPerms?: Prisma.ContributorPermissionOrderByRelationAggregateInput
+  chapterSuggestions?: Prisma.ChapterSuggestionOrderByRelationAggregateInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionOrderByRelationAggregateInput
+  studyMaterialReports?: Prisma.StudyMaterialReportOrderByRelationAggregateInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportOrderByRelationAggregateInput
+  creditTransactions?: Prisma.CreditTransactionOrderByRelationAggregateInput
+  createdCreditAdjustments?: Prisma.CreditTransactionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
+  googleId?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   full_name?: Prisma.StringFilter<"User"> | string
-  password_hash?: Prisma.StringFilter<"User"> | string
+  password_hash?: Prisma.StringNullableFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   created_at?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -273,19 +352,34 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   isVerified?: Prisma.BoolFilter<"User"> | boolean
   isBlocked?: Prisma.BoolFilter<"User"> | boolean
   phone?: Prisma.StringNullableFilter<"User"> | string | null
+  creditBalance?: Prisma.IntFilter<"User"> | number
   store?: Prisma.XOR<Prisma.StoreNullableScalarRelationFilter, Prisma.StoreWhereInput> | null
   orders?: Prisma.OrderListRelationFilter
   cartItems?: Prisma.CartItemListRelationFilter
   verificationTokens?: Prisma.VerificationTokenListRelationFilter
   passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
-}, "id" | "email">
+  uploadedMaterials?: Prisma.StudyMaterialListRelationFilter
+  materialPurchases?: Prisma.StudyMaterialPurchaseListRelationFilter
+  wishlistItems?: Prisma.WishlistItemListRelationFilter
+  contributorRequests?: Prisma.ContributorRequestListRelationFilter
+  reviewedContributorRequests?: Prisma.ContributorRequestListRelationFilter
+  contributorPermissions?: Prisma.ContributorPermissionListRelationFilter
+  grantedContributorPerms?: Prisma.ContributorPermissionListRelationFilter
+  chapterSuggestions?: Prisma.ChapterSuggestionListRelationFilter
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionListRelationFilter
+  studyMaterialReports?: Prisma.StudyMaterialReportListRelationFilter
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportListRelationFilter
+  creditTransactions?: Prisma.CreditTransactionListRelationFilter
+  createdCreditAdjustments?: Prisma.CreditTransactionListRelationFilter
+}, "id" | "email" | "googleId">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   full_name?: Prisma.SortOrder
-  password_hash?: Prisma.SortOrder
+  password_hash?: Prisma.SortOrderInput | Prisma.SortOrder
+  googleId?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -293,9 +387,12 @@ export type UserOrderByWithAggregationInput = {
   isVerified?: Prisma.SortOrder
   isBlocked?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  creditBalance?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
+  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
+  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -305,7 +402,8 @@ export type UserScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"User"> | string
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   full_name?: Prisma.StringWithAggregatesFilter<"User"> | string
-  password_hash?: Prisma.StringWithAggregatesFilter<"User"> | string
+  password_hash?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  googleId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   created_at?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -313,13 +411,15 @@ export type UserScalarWhereWithAggregatesInput = {
   isVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   isBlocked?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  creditBalance?: Prisma.IntWithAggregatesFilter<"User"> | number
 }
 
 export type UserCreateInput = {
   id?: string
   email: string
   full_name: string
-  password_hash: string
+  password_hash?: string | null
+  googleId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -327,19 +427,34 @@ export type UserCreateInput = {
   isVerified?: boolean
   isBlocked?: boolean
   phone?: string | null
+  creditBalance?: number
   store?: Prisma.StoreCreateNestedOneWithoutSellerInput
   orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
   verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateInput = {
   id?: string
   email: string
   full_name: string
-  password_hash: string
+  password_hash?: string | null
+  googleId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -347,19 +462,34 @@ export type UserUncheckedCreateInput = {
   isVerified?: boolean
   isBlocked?: boolean
   phone?: string | null
+  creditBalance?: number
   store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
   verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -367,19 +497,34 @@ export type UserUpdateInput = {
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
   store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
   orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
   verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -387,19 +532,34 @@ export type UserUncheckedUpdateInput = {
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
   store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
   verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateManyInput = {
   id?: string
   email: string
   full_name: string
-  password_hash: string
+  password_hash?: string | null
+  googleId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -407,13 +567,15 @@ export type UserCreateManyInput = {
   isVerified?: boolean
   isBlocked?: boolean
   phone?: string | null
+  creditBalance?: number
 }
 
 export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -421,13 +583,15 @@ export type UserUpdateManyMutationInput = {
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -435,6 +599,7 @@ export type UserUncheckedUpdateManyInput = {
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -442,6 +607,7 @@ export type UserCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   full_name?: Prisma.SortOrder
   password_hash?: Prisma.SortOrder
+  googleId?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -449,6 +615,11 @@ export type UserCountOrderByAggregateInput = {
   isVerified?: Prisma.SortOrder
   isBlocked?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  creditBalance?: Prisma.SortOrder
+}
+
+export type UserAvgOrderByAggregateInput = {
+  creditBalance?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -456,6 +627,7 @@ export type UserMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   full_name?: Prisma.SortOrder
   password_hash?: Prisma.SortOrder
+  googleId?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -463,6 +635,7 @@ export type UserMaxOrderByAggregateInput = {
   isVerified?: Prisma.SortOrder
   isBlocked?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  creditBalance?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -470,6 +643,7 @@ export type UserMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   full_name?: Prisma.SortOrder
   password_hash?: Prisma.SortOrder
+  googleId?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -477,11 +651,21 @@ export type UserMinOrderByAggregateInput = {
   isVerified?: Prisma.SortOrder
   isBlocked?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  creditBalance?: Prisma.SortOrder
+}
+
+export type UserSumOrderByAggregateInput = {
+  creditBalance?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -502,6 +686,14 @@ export type DateTimeFieldUpdateOperationsInput = {
 
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type UserCreateNestedOneWithoutStoreInput = {
@@ -546,6 +738,20 @@ export type UserUpdateOneRequiredWithoutCartItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCartItemsInput, Prisma.UserUpdateWithoutCartItemsInput>, Prisma.UserUncheckedUpdateWithoutCartItemsInput>
 }
 
+export type UserCreateNestedOneWithoutWishlistItemsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWishlistItemsInput, Prisma.UserUncheckedCreateWithoutWishlistItemsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWishlistItemsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutWishlistItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWishlistItemsInput, Prisma.UserUncheckedCreateWithoutWishlistItemsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWishlistItemsInput
+  upsert?: Prisma.UserUpsertWithoutWishlistItemsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWishlistItemsInput, Prisma.UserUpdateWithoutWishlistItemsInput>, Prisma.UserUncheckedUpdateWithoutWishlistItemsInput>
+}
+
 export type UserCreateNestedOneWithoutVerificationTokensInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutVerificationTokensInput, Prisma.UserUncheckedCreateWithoutVerificationTokensInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutVerificationTokensInput
@@ -588,11 +794,190 @@ export type UserUpdateOneRequiredWithoutReviewsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsInput, Prisma.UserUpdateWithoutReviewsInput>, Prisma.UserUncheckedUpdateWithoutReviewsInput>
 }
 
+export type UserCreateNestedOneWithoutContributorRequestsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutContributorRequestsInput, Prisma.UserUncheckedCreateWithoutContributorRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutContributorRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutReviewedContributorRequestsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewedContributorRequestsInput, Prisma.UserUncheckedCreateWithoutReviewedContributorRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewedContributorRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutContributorRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutContributorRequestsInput, Prisma.UserUncheckedCreateWithoutContributorRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutContributorRequestsInput
+  upsert?: Prisma.UserUpsertWithoutContributorRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutContributorRequestsInput, Prisma.UserUpdateWithoutContributorRequestsInput>, Prisma.UserUncheckedUpdateWithoutContributorRequestsInput>
+}
+
+export type UserUpdateOneWithoutReviewedContributorRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewedContributorRequestsInput, Prisma.UserUncheckedCreateWithoutReviewedContributorRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewedContributorRequestsInput
+  upsert?: Prisma.UserUpsertWithoutReviewedContributorRequestsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewedContributorRequestsInput, Prisma.UserUpdateWithoutReviewedContributorRequestsInput>, Prisma.UserUncheckedUpdateWithoutReviewedContributorRequestsInput>
+}
+
+export type UserCreateNestedOneWithoutContributorPermissionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutContributorPermissionsInput, Prisma.UserUncheckedCreateWithoutContributorPermissionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutContributorPermissionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutGrantedContributorPermsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGrantedContributorPermsInput, Prisma.UserUncheckedCreateWithoutGrantedContributorPermsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGrantedContributorPermsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutContributorPermissionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutContributorPermissionsInput, Prisma.UserUncheckedCreateWithoutContributorPermissionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutContributorPermissionsInput
+  upsert?: Prisma.UserUpsertWithoutContributorPermissionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutContributorPermissionsInput, Prisma.UserUpdateWithoutContributorPermissionsInput>, Prisma.UserUncheckedUpdateWithoutContributorPermissionsInput>
+}
+
+export type UserUpdateOneWithoutGrantedContributorPermsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGrantedContributorPermsInput, Prisma.UserUncheckedCreateWithoutGrantedContributorPermsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGrantedContributorPermsInput
+  upsert?: Prisma.UserUpsertWithoutGrantedContributorPermsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGrantedContributorPermsInput, Prisma.UserUpdateWithoutGrantedContributorPermsInput>, Prisma.UserUncheckedUpdateWithoutGrantedContributorPermsInput>
+}
+
+export type UserCreateNestedOneWithoutChapterSuggestionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChapterSuggestionsInput, Prisma.UserUncheckedCreateWithoutChapterSuggestionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChapterSuggestionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutReviewedChapterSuggestionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewedChapterSuggestionsInput, Prisma.UserUncheckedCreateWithoutReviewedChapterSuggestionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewedChapterSuggestionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutChapterSuggestionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChapterSuggestionsInput, Prisma.UserUncheckedCreateWithoutChapterSuggestionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChapterSuggestionsInput
+  upsert?: Prisma.UserUpsertWithoutChapterSuggestionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChapterSuggestionsInput, Prisma.UserUpdateWithoutChapterSuggestionsInput>, Prisma.UserUncheckedUpdateWithoutChapterSuggestionsInput>
+}
+
+export type UserUpdateOneWithoutReviewedChapterSuggestionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewedChapterSuggestionsInput, Prisma.UserUncheckedCreateWithoutReviewedChapterSuggestionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewedChapterSuggestionsInput
+  upsert?: Prisma.UserUpsertWithoutReviewedChapterSuggestionsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewedChapterSuggestionsInput, Prisma.UserUpdateWithoutReviewedChapterSuggestionsInput>, Prisma.UserUncheckedUpdateWithoutReviewedChapterSuggestionsInput>
+}
+
+export type UserCreateNestedOneWithoutUploadedMaterialsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUploadedMaterialsInput, Prisma.UserUncheckedCreateWithoutUploadedMaterialsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUploadedMaterialsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutUploadedMaterialsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUploadedMaterialsInput, Prisma.UserUncheckedCreateWithoutUploadedMaterialsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUploadedMaterialsInput
+  upsert?: Prisma.UserUpsertWithoutUploadedMaterialsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUploadedMaterialsInput, Prisma.UserUpdateWithoutUploadedMaterialsInput>, Prisma.UserUncheckedUpdateWithoutUploadedMaterialsInput>
+}
+
+export type UserCreateNestedOneWithoutStudyMaterialReportsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutStudyMaterialReportsInput, Prisma.UserUncheckedCreateWithoutStudyMaterialReportsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStudyMaterialReportsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutResolvedStudyMaterialReportsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutResolvedStudyMaterialReportsInput, Prisma.UserUncheckedCreateWithoutResolvedStudyMaterialReportsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutResolvedStudyMaterialReportsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutStudyMaterialReportsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutStudyMaterialReportsInput, Prisma.UserUncheckedCreateWithoutStudyMaterialReportsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStudyMaterialReportsInput
+  upsert?: Prisma.UserUpsertWithoutStudyMaterialReportsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStudyMaterialReportsInput, Prisma.UserUpdateWithoutStudyMaterialReportsInput>, Prisma.UserUncheckedUpdateWithoutStudyMaterialReportsInput>
+}
+
+export type UserUpdateOneWithoutResolvedStudyMaterialReportsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutResolvedStudyMaterialReportsInput, Prisma.UserUncheckedCreateWithoutResolvedStudyMaterialReportsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutResolvedStudyMaterialReportsInput
+  upsert?: Prisma.UserUpsertWithoutResolvedStudyMaterialReportsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutResolvedStudyMaterialReportsInput, Prisma.UserUpdateWithoutResolvedStudyMaterialReportsInput>, Prisma.UserUncheckedUpdateWithoutResolvedStudyMaterialReportsInput>
+}
+
+export type UserCreateNestedOneWithoutCreditTransactionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreditTransactionsInput, Prisma.UserUncheckedCreateWithoutCreditTransactionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreditTransactionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutCreatedCreditAdjustmentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedCreditAdjustmentsInput, Prisma.UserUncheckedCreateWithoutCreatedCreditAdjustmentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedCreditAdjustmentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCreditTransactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreditTransactionsInput, Prisma.UserUncheckedCreateWithoutCreditTransactionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreditTransactionsInput
+  upsert?: Prisma.UserUpsertWithoutCreditTransactionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreditTransactionsInput, Prisma.UserUpdateWithoutCreditTransactionsInput>, Prisma.UserUncheckedUpdateWithoutCreditTransactionsInput>
+}
+
+export type UserUpdateOneWithoutCreatedCreditAdjustmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedCreditAdjustmentsInput, Prisma.UserUncheckedCreateWithoutCreatedCreditAdjustmentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedCreditAdjustmentsInput
+  upsert?: Prisma.UserUpsertWithoutCreatedCreditAdjustmentsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedCreditAdjustmentsInput, Prisma.UserUpdateWithoutCreatedCreditAdjustmentsInput>, Prisma.UserUncheckedUpdateWithoutCreatedCreditAdjustmentsInput>
+}
+
+export type UserCreateNestedOneWithoutMaterialPurchasesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMaterialPurchasesInput, Prisma.UserUncheckedCreateWithoutMaterialPurchasesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMaterialPurchasesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutMaterialPurchasesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMaterialPurchasesInput, Prisma.UserUncheckedCreateWithoutMaterialPurchasesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMaterialPurchasesInput
+  upsert?: Prisma.UserUpsertWithoutMaterialPurchasesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMaterialPurchasesInput, Prisma.UserUpdateWithoutMaterialPurchasesInput>, Prisma.UserUncheckedUpdateWithoutMaterialPurchasesInput>
+}
+
 export type UserCreateWithoutStoreInput = {
   id?: string
   email: string
   full_name: string
-  password_hash: string
+  password_hash?: string | null
+  googleId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -600,18 +985,33 @@ export type UserCreateWithoutStoreInput = {
   isVerified?: boolean
   isBlocked?: boolean
   phone?: string | null
+  creditBalance?: number
   orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
   verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutStoreInput = {
   id?: string
   email: string
   full_name: string
-  password_hash: string
+  password_hash?: string | null
+  googleId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -619,11 +1019,25 @@ export type UserUncheckedCreateWithoutStoreInput = {
   isVerified?: boolean
   isBlocked?: boolean
   phone?: string | null
+  creditBalance?: number
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
   verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutStoreInput = {
@@ -646,7 +1060,8 @@ export type UserUpdateWithoutStoreInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -654,18 +1069,33 @@ export type UserUpdateWithoutStoreInput = {
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
   orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
   verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStoreInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -673,18 +1103,33 @@ export type UserUncheckedUpdateWithoutStoreInput = {
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
   orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
   verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutOrdersInput = {
   id?: string
   email: string
   full_name: string
-  password_hash: string
+  password_hash?: string | null
+  googleId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -692,18 +1137,33 @@ export type UserCreateWithoutOrdersInput = {
   isVerified?: boolean
   isBlocked?: boolean
   phone?: string | null
+  creditBalance?: number
   store?: Prisma.StoreCreateNestedOneWithoutSellerInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
   verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutOrdersInput = {
   id?: string
   email: string
   full_name: string
-  password_hash: string
+  password_hash?: string | null
+  googleId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -711,11 +1171,25 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   isVerified?: boolean
   isBlocked?: boolean
   phone?: string | null
+  creditBalance?: number
   store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
   verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutOrdersInput = {
@@ -738,7 +1212,8 @@ export type UserUpdateWithoutOrdersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -746,18 +1221,33 @@ export type UserUpdateWithoutOrdersInput = {
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
   store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
   verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOrdersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -765,18 +1255,33 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
   store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
   verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutCartItemsInput = {
   id?: string
   email: string
   full_name: string
-  password_hash: string
+  password_hash?: string | null
+  googleId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -784,18 +1289,33 @@ export type UserCreateWithoutCartItemsInput = {
   isVerified?: boolean
   isBlocked?: boolean
   phone?: string | null
+  creditBalance?: number
   store?: Prisma.StoreCreateNestedOneWithoutSellerInput
   orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
   verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutCartItemsInput = {
   id?: string
   email: string
   full_name: string
-  password_hash: string
+  password_hash?: string | null
+  googleId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -803,11 +1323,25 @@ export type UserUncheckedCreateWithoutCartItemsInput = {
   isVerified?: boolean
   isBlocked?: boolean
   phone?: string | null
+  creditBalance?: number
   store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
   verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutCartItemsInput = {
@@ -830,7 +1364,8 @@ export type UserUpdateWithoutCartItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -838,18 +1373,33 @@ export type UserUpdateWithoutCartItemsInput = {
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
   store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
   orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
   verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCartItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -857,18 +1407,185 @@ export type UserUncheckedUpdateWithoutCartItemsInput = {
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
   store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
   verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserCreateWithoutWishlistItemsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutWishlistItemsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutWishlistItemsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutWishlistItemsInput, Prisma.UserUncheckedCreateWithoutWishlistItemsInput>
+}
+
+export type UserUpsertWithoutWishlistItemsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutWishlistItemsInput, Prisma.UserUncheckedUpdateWithoutWishlistItemsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWishlistItemsInput, Prisma.UserUncheckedCreateWithoutWishlistItemsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutWishlistItemsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutWishlistItemsInput, Prisma.UserUncheckedUpdateWithoutWishlistItemsInput>
+}
+
+export type UserUpdateWithoutWishlistItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutWishlistItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutVerificationTokensInput = {
   id?: string
   email: string
   full_name: string
-  password_hash: string
+  password_hash?: string | null
+  googleId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -876,18 +1593,33 @@ export type UserCreateWithoutVerificationTokensInput = {
   isVerified?: boolean
   isBlocked?: boolean
   phone?: string | null
+  creditBalance?: number
   store?: Prisma.StoreCreateNestedOneWithoutSellerInput
   orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutVerificationTokensInput = {
   id?: string
   email: string
   full_name: string
-  password_hash: string
+  password_hash?: string | null
+  googleId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -895,11 +1627,25 @@ export type UserUncheckedCreateWithoutVerificationTokensInput = {
   isVerified?: boolean
   isBlocked?: boolean
   phone?: string | null
+  creditBalance?: number
   store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutVerificationTokensInput = {
@@ -922,7 +1668,8 @@ export type UserUpdateWithoutVerificationTokensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -930,18 +1677,33 @@ export type UserUpdateWithoutVerificationTokensInput = {
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
   store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
   orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutVerificationTokensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -949,18 +1711,33 @@ export type UserUncheckedUpdateWithoutVerificationTokensInput = {
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
   store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutPasswordResetTokensInput = {
   id?: string
   email: string
   full_name: string
-  password_hash: string
+  password_hash?: string | null
+  googleId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -968,18 +1745,33 @@ export type UserCreateWithoutPasswordResetTokensInput = {
   isVerified?: boolean
   isBlocked?: boolean
   phone?: string | null
+  creditBalance?: number
   store?: Prisma.StoreCreateNestedOneWithoutSellerInput
   orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
   verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   id?: string
   email: string
   full_name: string
-  password_hash: string
+  password_hash?: string | null
+  googleId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -987,11 +1779,25 @@ export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   isVerified?: boolean
   isBlocked?: boolean
   phone?: string | null
+  creditBalance?: number
   store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
   verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutPasswordResetTokensInput = {
@@ -1014,7 +1820,8 @@ export type UserUpdateWithoutPasswordResetTokensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1022,18 +1829,33 @@ export type UserUpdateWithoutPasswordResetTokensInput = {
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
   store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
   orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
   verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1041,18 +1863,33 @@ export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
   store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
   verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutReviewsInput = {
   id?: string
   email: string
   full_name: string
-  password_hash: string
+  password_hash?: string | null
+  googleId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -1060,18 +1897,33 @@ export type UserCreateWithoutReviewsInput = {
   isVerified?: boolean
   isBlocked?: boolean
   phone?: string | null
+  creditBalance?: number
   store?: Prisma.StoreCreateNestedOneWithoutSellerInput
   orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
   verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutReviewsInput = {
   id?: string
   email: string
   full_name: string
-  password_hash: string
+  password_hash?: string | null
+  googleId?: string | null
   avatarUrl?: string | null
   role?: $Enums.Role
   created_at?: Date | string
@@ -1079,11 +1931,25 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   isVerified?: boolean
   isBlocked?: boolean
   phone?: string | null
+  creditBalance?: number
   store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
   verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -1106,7 +1972,8 @@ export type UserUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1114,18 +1981,33 @@ export type UserUpdateWithoutReviewsInput = {
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
   store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
   orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
   verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1133,11 +2015,1849 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
   store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
   verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserCreateWithoutContributorRequestsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutContributorRequestsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutContributorRequestsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutContributorRequestsInput, Prisma.UserUncheckedCreateWithoutContributorRequestsInput>
+}
+
+export type UserCreateWithoutReviewedContributorRequestsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutReviewedContributorRequestsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutReviewedContributorRequestsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewedContributorRequestsInput, Prisma.UserUncheckedCreateWithoutReviewedContributorRequestsInput>
+}
+
+export type UserUpsertWithoutContributorRequestsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutContributorRequestsInput, Prisma.UserUncheckedUpdateWithoutContributorRequestsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutContributorRequestsInput, Prisma.UserUncheckedCreateWithoutContributorRequestsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutContributorRequestsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutContributorRequestsInput, Prisma.UserUncheckedUpdateWithoutContributorRequestsInput>
+}
+
+export type UserUpdateWithoutContributorRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutContributorRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUpsertWithoutReviewedContributorRequestsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewedContributorRequestsInput, Prisma.UserUncheckedUpdateWithoutReviewedContributorRequestsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewedContributorRequestsInput, Prisma.UserUncheckedCreateWithoutReviewedContributorRequestsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReviewedContributorRequestsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewedContributorRequestsInput, Prisma.UserUncheckedUpdateWithoutReviewedContributorRequestsInput>
+}
+
+export type UserUpdateWithoutReviewedContributorRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReviewedContributorRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserCreateWithoutContributorPermissionsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutContributorPermissionsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutContributorPermissionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutContributorPermissionsInput, Prisma.UserUncheckedCreateWithoutContributorPermissionsInput>
+}
+
+export type UserCreateWithoutGrantedContributorPermsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutGrantedContributorPermsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutGrantedContributorPermsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutGrantedContributorPermsInput, Prisma.UserUncheckedCreateWithoutGrantedContributorPermsInput>
+}
+
+export type UserUpsertWithoutContributorPermissionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutContributorPermissionsInput, Prisma.UserUncheckedUpdateWithoutContributorPermissionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutContributorPermissionsInput, Prisma.UserUncheckedCreateWithoutContributorPermissionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutContributorPermissionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutContributorPermissionsInput, Prisma.UserUncheckedUpdateWithoutContributorPermissionsInput>
+}
+
+export type UserUpdateWithoutContributorPermissionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutContributorPermissionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUpsertWithoutGrantedContributorPermsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutGrantedContributorPermsInput, Prisma.UserUncheckedUpdateWithoutGrantedContributorPermsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutGrantedContributorPermsInput, Prisma.UserUncheckedCreateWithoutGrantedContributorPermsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutGrantedContributorPermsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutGrantedContributorPermsInput, Prisma.UserUncheckedUpdateWithoutGrantedContributorPermsInput>
+}
+
+export type UserUpdateWithoutGrantedContributorPermsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutGrantedContributorPermsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserCreateWithoutChapterSuggestionsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutChapterSuggestionsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutChapterSuggestionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutChapterSuggestionsInput, Prisma.UserUncheckedCreateWithoutChapterSuggestionsInput>
+}
+
+export type UserCreateWithoutReviewedChapterSuggestionsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutReviewedChapterSuggestionsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutReviewedChapterSuggestionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewedChapterSuggestionsInput, Prisma.UserUncheckedCreateWithoutReviewedChapterSuggestionsInput>
+}
+
+export type UserUpsertWithoutChapterSuggestionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutChapterSuggestionsInput, Prisma.UserUncheckedUpdateWithoutChapterSuggestionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChapterSuggestionsInput, Prisma.UserUncheckedCreateWithoutChapterSuggestionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutChapterSuggestionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutChapterSuggestionsInput, Prisma.UserUncheckedUpdateWithoutChapterSuggestionsInput>
+}
+
+export type UserUpdateWithoutChapterSuggestionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutChapterSuggestionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUpsertWithoutReviewedChapterSuggestionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewedChapterSuggestionsInput, Prisma.UserUncheckedUpdateWithoutReviewedChapterSuggestionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewedChapterSuggestionsInput, Prisma.UserUncheckedCreateWithoutReviewedChapterSuggestionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReviewedChapterSuggestionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewedChapterSuggestionsInput, Prisma.UserUncheckedUpdateWithoutReviewedChapterSuggestionsInput>
+}
+
+export type UserUpdateWithoutReviewedChapterSuggestionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReviewedChapterSuggestionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserCreateWithoutUploadedMaterialsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutUploadedMaterialsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutUploadedMaterialsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutUploadedMaterialsInput, Prisma.UserUncheckedCreateWithoutUploadedMaterialsInput>
+}
+
+export type UserUpsertWithoutUploadedMaterialsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutUploadedMaterialsInput, Prisma.UserUncheckedUpdateWithoutUploadedMaterialsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUploadedMaterialsInput, Prisma.UserUncheckedCreateWithoutUploadedMaterialsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutUploadedMaterialsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutUploadedMaterialsInput, Prisma.UserUncheckedUpdateWithoutUploadedMaterialsInput>
+}
+
+export type UserUpdateWithoutUploadedMaterialsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutUploadedMaterialsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserCreateWithoutStudyMaterialReportsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutStudyMaterialReportsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutStudyMaterialReportsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutStudyMaterialReportsInput, Prisma.UserUncheckedCreateWithoutStudyMaterialReportsInput>
+}
+
+export type UserCreateWithoutResolvedStudyMaterialReportsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutResolvedStudyMaterialReportsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutResolvedStudyMaterialReportsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutResolvedStudyMaterialReportsInput, Prisma.UserUncheckedCreateWithoutResolvedStudyMaterialReportsInput>
+}
+
+export type UserUpsertWithoutStudyMaterialReportsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutStudyMaterialReportsInput, Prisma.UserUncheckedUpdateWithoutStudyMaterialReportsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutStudyMaterialReportsInput, Prisma.UserUncheckedCreateWithoutStudyMaterialReportsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutStudyMaterialReportsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutStudyMaterialReportsInput, Prisma.UserUncheckedUpdateWithoutStudyMaterialReportsInput>
+}
+
+export type UserUpdateWithoutStudyMaterialReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutStudyMaterialReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUpsertWithoutResolvedStudyMaterialReportsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutResolvedStudyMaterialReportsInput, Prisma.UserUncheckedUpdateWithoutResolvedStudyMaterialReportsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutResolvedStudyMaterialReportsInput, Prisma.UserUncheckedCreateWithoutResolvedStudyMaterialReportsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutResolvedStudyMaterialReportsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutResolvedStudyMaterialReportsInput, Prisma.UserUncheckedUpdateWithoutResolvedStudyMaterialReportsInput>
+}
+
+export type UserUpdateWithoutResolvedStudyMaterialReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutResolvedStudyMaterialReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserCreateWithoutCreditTransactionsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutCreditTransactionsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutCreditTransactionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreditTransactionsInput, Prisma.UserUncheckedCreateWithoutCreditTransactionsInput>
+}
+
+export type UserCreateWithoutCreatedCreditAdjustmentsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCreatedCreditAdjustmentsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCreatedCreditAdjustmentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedCreditAdjustmentsInput, Prisma.UserUncheckedCreateWithoutCreatedCreditAdjustmentsInput>
+}
+
+export type UserUpsertWithoutCreditTransactionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCreditTransactionsInput, Prisma.UserUncheckedUpdateWithoutCreditTransactionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreditTransactionsInput, Prisma.UserUncheckedCreateWithoutCreditTransactionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCreditTransactionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCreditTransactionsInput, Prisma.UserUncheckedUpdateWithoutCreditTransactionsInput>
+}
+
+export type UserUpdateWithoutCreditTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCreditTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUpsertWithoutCreatedCreditAdjustmentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCreatedCreditAdjustmentsInput, Prisma.UserUncheckedUpdateWithoutCreatedCreditAdjustmentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedCreditAdjustmentsInput, Prisma.UserUncheckedCreateWithoutCreatedCreditAdjustmentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCreatedCreditAdjustmentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCreatedCreditAdjustmentsInput, Prisma.UserUncheckedUpdateWithoutCreatedCreditAdjustmentsInput>
+}
+
+export type UserUpdateWithoutCreatedCreditAdjustmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCreatedCreditAdjustmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutMaterialPurchasesInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutMaterialPurchasesInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutMaterialPurchasesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutMaterialPurchasesInput, Prisma.UserUncheckedCreateWithoutMaterialPurchasesInput>
+}
+
+export type UserUpsertWithoutMaterialPurchasesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutMaterialPurchasesInput, Prisma.UserUncheckedUpdateWithoutMaterialPurchasesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutMaterialPurchasesInput, Prisma.UserUncheckedCreateWithoutMaterialPurchasesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutMaterialPurchasesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutMaterialPurchasesInput, Prisma.UserUncheckedUpdateWithoutMaterialPurchasesInput>
+}
+
+export type UserUpdateWithoutMaterialPurchasesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutMaterialPurchasesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 
@@ -1151,6 +3871,19 @@ export type UserCountOutputType = {
   verificationTokens: number
   passwordResetTokens: number
   reviews: number
+  uploadedMaterials: number
+  materialPurchases: number
+  wishlistItems: number
+  contributorRequests: number
+  reviewedContributorRequests: number
+  contributorPermissions: number
+  grantedContributorPerms: number
+  chapterSuggestions: number
+  reviewedChapterSuggestions: number
+  studyMaterialReports: number
+  resolvedStudyMaterialReports: number
+  creditTransactions: number
+  createdCreditAdjustments: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1159,6 +3892,19 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   verificationTokens?: boolean | UserCountOutputTypeCountVerificationTokensArgs
   passwordResetTokens?: boolean | UserCountOutputTypeCountPasswordResetTokensArgs
   reviews?: boolean | UserCountOutputTypeCountReviewsArgs
+  uploadedMaterials?: boolean | UserCountOutputTypeCountUploadedMaterialsArgs
+  materialPurchases?: boolean | UserCountOutputTypeCountMaterialPurchasesArgs
+  wishlistItems?: boolean | UserCountOutputTypeCountWishlistItemsArgs
+  contributorRequests?: boolean | UserCountOutputTypeCountContributorRequestsArgs
+  reviewedContributorRequests?: boolean | UserCountOutputTypeCountReviewedContributorRequestsArgs
+  contributorPermissions?: boolean | UserCountOutputTypeCountContributorPermissionsArgs
+  grantedContributorPerms?: boolean | UserCountOutputTypeCountGrantedContributorPermsArgs
+  chapterSuggestions?: boolean | UserCountOutputTypeCountChapterSuggestionsArgs
+  reviewedChapterSuggestions?: boolean | UserCountOutputTypeCountReviewedChapterSuggestionsArgs
+  studyMaterialReports?: boolean | UserCountOutputTypeCountStudyMaterialReportsArgs
+  resolvedStudyMaterialReports?: boolean | UserCountOutputTypeCountResolvedStudyMaterialReportsArgs
+  creditTransactions?: boolean | UserCountOutputTypeCountCreditTransactionsArgs
+  createdCreditAdjustments?: boolean | UserCountOutputTypeCountCreatedCreditAdjustmentsArgs
 }
 
 /**
@@ -1206,12 +3952,104 @@ export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.ReviewWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountUploadedMaterialsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudyMaterialWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountMaterialPurchasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudyMaterialPurchaseWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountWishlistItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WishlistItemWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountContributorRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ContributorRequestWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReviewedContributorRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ContributorRequestWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountContributorPermissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ContributorPermissionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountGrantedContributorPermsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ContributorPermissionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountChapterSuggestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChapterSuggestionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReviewedChapterSuggestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChapterSuggestionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountStudyMaterialReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudyMaterialReportWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountResolvedStudyMaterialReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudyMaterialReportWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCreditTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CreditTransactionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCreatedCreditAdjustmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CreditTransactionWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   email?: boolean
   full_name?: boolean
   password_hash?: boolean
+  googleId?: boolean
   avatarUrl?: boolean
   role?: boolean
   created_at?: boolean
@@ -1219,12 +4057,26 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   isVerified?: boolean
   isBlocked?: boolean
   phone?: boolean
+  creditBalance?: boolean
   store?: boolean | Prisma.User$storeArgs<ExtArgs>
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
   cartItems?: boolean | Prisma.User$cartItemsArgs<ExtArgs>
   verificationTokens?: boolean | Prisma.User$verificationTokensArgs<ExtArgs>
   passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
+  uploadedMaterials?: boolean | Prisma.User$uploadedMaterialsArgs<ExtArgs>
+  materialPurchases?: boolean | Prisma.User$materialPurchasesArgs<ExtArgs>
+  wishlistItems?: boolean | Prisma.User$wishlistItemsArgs<ExtArgs>
+  contributorRequests?: boolean | Prisma.User$contributorRequestsArgs<ExtArgs>
+  reviewedContributorRequests?: boolean | Prisma.User$reviewedContributorRequestsArgs<ExtArgs>
+  contributorPermissions?: boolean | Prisma.User$contributorPermissionsArgs<ExtArgs>
+  grantedContributorPerms?: boolean | Prisma.User$grantedContributorPermsArgs<ExtArgs>
+  chapterSuggestions?: boolean | Prisma.User$chapterSuggestionsArgs<ExtArgs>
+  reviewedChapterSuggestions?: boolean | Prisma.User$reviewedChapterSuggestionsArgs<ExtArgs>
+  studyMaterialReports?: boolean | Prisma.User$studyMaterialReportsArgs<ExtArgs>
+  resolvedStudyMaterialReports?: boolean | Prisma.User$resolvedStudyMaterialReportsArgs<ExtArgs>
+  creditTransactions?: boolean | Prisma.User$creditTransactionsArgs<ExtArgs>
+  createdCreditAdjustments?: boolean | Prisma.User$createdCreditAdjustmentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1233,6 +4085,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   full_name?: boolean
   password_hash?: boolean
+  googleId?: boolean
   avatarUrl?: boolean
   role?: boolean
   created_at?: boolean
@@ -1240,6 +4093,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   isVerified?: boolean
   isBlocked?: boolean
   phone?: boolean
+  creditBalance?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1247,6 +4101,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   full_name?: boolean
   password_hash?: boolean
+  googleId?: boolean
   avatarUrl?: boolean
   role?: boolean
   created_at?: boolean
@@ -1254,6 +4109,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   isVerified?: boolean
   isBlocked?: boolean
   phone?: boolean
+  creditBalance?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -1261,6 +4117,7 @@ export type UserSelectScalar = {
   email?: boolean
   full_name?: boolean
   password_hash?: boolean
+  googleId?: boolean
   avatarUrl?: boolean
   role?: boolean
   created_at?: boolean
@@ -1268,9 +4125,10 @@ export type UserSelectScalar = {
   isVerified?: boolean
   isBlocked?: boolean
   phone?: boolean
+  creditBalance?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "full_name" | "password_hash" | "avatarUrl" | "role" | "created_at" | "updated_at" | "isVerified" | "isBlocked" | "phone", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "full_name" | "password_hash" | "googleId" | "avatarUrl" | "role" | "created_at" | "updated_at" | "isVerified" | "isBlocked" | "phone" | "creditBalance", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   store?: boolean | Prisma.User$storeArgs<ExtArgs>
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
@@ -1278,6 +4136,19 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   verificationTokens?: boolean | Prisma.User$verificationTokensArgs<ExtArgs>
   passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
+  uploadedMaterials?: boolean | Prisma.User$uploadedMaterialsArgs<ExtArgs>
+  materialPurchases?: boolean | Prisma.User$materialPurchasesArgs<ExtArgs>
+  wishlistItems?: boolean | Prisma.User$wishlistItemsArgs<ExtArgs>
+  contributorRequests?: boolean | Prisma.User$contributorRequestsArgs<ExtArgs>
+  reviewedContributorRequests?: boolean | Prisma.User$reviewedContributorRequestsArgs<ExtArgs>
+  contributorPermissions?: boolean | Prisma.User$contributorPermissionsArgs<ExtArgs>
+  grantedContributorPerms?: boolean | Prisma.User$grantedContributorPermsArgs<ExtArgs>
+  chapterSuggestions?: boolean | Prisma.User$chapterSuggestionsArgs<ExtArgs>
+  reviewedChapterSuggestions?: boolean | Prisma.User$reviewedChapterSuggestionsArgs<ExtArgs>
+  studyMaterialReports?: boolean | Prisma.User$studyMaterialReportsArgs<ExtArgs>
+  resolvedStudyMaterialReports?: boolean | Prisma.User$resolvedStudyMaterialReportsArgs<ExtArgs>
+  creditTransactions?: boolean | Prisma.User$creditTransactionsArgs<ExtArgs>
+  createdCreditAdjustments?: boolean | Prisma.User$createdCreditAdjustmentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1292,12 +4163,26 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     verificationTokens: Prisma.$VerificationTokenPayload<ExtArgs>[]
     passwordResetTokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
+    uploadedMaterials: Prisma.$StudyMaterialPayload<ExtArgs>[]
+    materialPurchases: Prisma.$StudyMaterialPurchasePayload<ExtArgs>[]
+    wishlistItems: Prisma.$WishlistItemPayload<ExtArgs>[]
+    contributorRequests: Prisma.$ContributorRequestPayload<ExtArgs>[]
+    reviewedContributorRequests: Prisma.$ContributorRequestPayload<ExtArgs>[]
+    contributorPermissions: Prisma.$ContributorPermissionPayload<ExtArgs>[]
+    grantedContributorPerms: Prisma.$ContributorPermissionPayload<ExtArgs>[]
+    chapterSuggestions: Prisma.$ChapterSuggestionPayload<ExtArgs>[]
+    reviewedChapterSuggestions: Prisma.$ChapterSuggestionPayload<ExtArgs>[]
+    studyMaterialReports: Prisma.$StudyMaterialReportPayload<ExtArgs>[]
+    resolvedStudyMaterialReports: Prisma.$StudyMaterialReportPayload<ExtArgs>[]
+    creditTransactions: Prisma.$CreditTransactionPayload<ExtArgs>[]
+    createdCreditAdjustments: Prisma.$CreditTransactionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     email: string
     full_name: string
-    password_hash: string
+    password_hash: string | null
+    googleId: string | null
     avatarUrl: string | null
     role: $Enums.Role
     created_at: Date
@@ -1305,6 +4190,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     isVerified: boolean
     isBlocked: boolean
     phone: string | null
+    creditBalance: number
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1705,6 +4591,19 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   verificationTokens<T extends Prisma.User$verificationTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$verificationTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   passwordResetTokens<T extends Prisma.User$passwordResetTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passwordResetTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.User$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  uploadedMaterials<T extends Prisma.User$uploadedMaterialsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$uploadedMaterialsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudyMaterialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  materialPurchases<T extends Prisma.User$materialPurchasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$materialPurchasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudyMaterialPurchasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  wishlistItems<T extends Prisma.User$wishlistItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$wishlistItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  contributorRequests<T extends Prisma.User$contributorRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$contributorRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContributorRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviewedContributorRequests<T extends Prisma.User$reviewedContributorRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewedContributorRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContributorRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  contributorPermissions<T extends Prisma.User$contributorPermissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$contributorPermissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContributorPermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  grantedContributorPerms<T extends Prisma.User$grantedContributorPermsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$grantedContributorPermsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContributorPermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chapterSuggestions<T extends Prisma.User$chapterSuggestionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chapterSuggestionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChapterSuggestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviewedChapterSuggestions<T extends Prisma.User$reviewedChapterSuggestionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewedChapterSuggestionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChapterSuggestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  studyMaterialReports<T extends Prisma.User$studyMaterialReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$studyMaterialReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudyMaterialReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  resolvedStudyMaterialReports<T extends Prisma.User$resolvedStudyMaterialReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$resolvedStudyMaterialReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudyMaterialReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  creditTransactions<T extends Prisma.User$creditTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$creditTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  createdCreditAdjustments<T extends Prisma.User$createdCreditAdjustmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdCreditAdjustmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1738,6 +4637,7 @@ export interface UserFieldRefs {
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly full_name: Prisma.FieldRef<"User", 'String'>
   readonly password_hash: Prisma.FieldRef<"User", 'String'>
+  readonly googleId: Prisma.FieldRef<"User", 'String'>
   readonly avatarUrl: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly created_at: Prisma.FieldRef<"User", 'DateTime'>
@@ -1745,6 +4645,7 @@ export interface UserFieldRefs {
   readonly isVerified: Prisma.FieldRef<"User", 'Boolean'>
   readonly isBlocked: Prisma.FieldRef<"User", 'Boolean'>
   readonly phone: Prisma.FieldRef<"User", 'String'>
+  readonly creditBalance: Prisma.FieldRef<"User", 'Int'>
 }
     
 
@@ -2274,6 +5175,318 @@ export type User$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
+}
+
+/**
+ * User.uploadedMaterials
+ */
+export type User$uploadedMaterialsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudyMaterial
+   */
+  select?: Prisma.StudyMaterialSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudyMaterial
+   */
+  omit?: Prisma.StudyMaterialOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudyMaterialInclude<ExtArgs> | null
+  where?: Prisma.StudyMaterialWhereInput
+  orderBy?: Prisma.StudyMaterialOrderByWithRelationInput | Prisma.StudyMaterialOrderByWithRelationInput[]
+  cursor?: Prisma.StudyMaterialWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudyMaterialScalarFieldEnum | Prisma.StudyMaterialScalarFieldEnum[]
+}
+
+/**
+ * User.materialPurchases
+ */
+export type User$materialPurchasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudyMaterialPurchase
+   */
+  select?: Prisma.StudyMaterialPurchaseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudyMaterialPurchase
+   */
+  omit?: Prisma.StudyMaterialPurchaseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudyMaterialPurchaseInclude<ExtArgs> | null
+  where?: Prisma.StudyMaterialPurchaseWhereInput
+  orderBy?: Prisma.StudyMaterialPurchaseOrderByWithRelationInput | Prisma.StudyMaterialPurchaseOrderByWithRelationInput[]
+  cursor?: Prisma.StudyMaterialPurchaseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudyMaterialPurchaseScalarFieldEnum | Prisma.StudyMaterialPurchaseScalarFieldEnum[]
+}
+
+/**
+ * User.wishlistItems
+ */
+export type User$wishlistItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WishlistItem
+   */
+  select?: Prisma.WishlistItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WishlistItem
+   */
+  omit?: Prisma.WishlistItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WishlistItemInclude<ExtArgs> | null
+  where?: Prisma.WishlistItemWhereInput
+  orderBy?: Prisma.WishlistItemOrderByWithRelationInput | Prisma.WishlistItemOrderByWithRelationInput[]
+  cursor?: Prisma.WishlistItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WishlistItemScalarFieldEnum | Prisma.WishlistItemScalarFieldEnum[]
+}
+
+/**
+ * User.contributorRequests
+ */
+export type User$contributorRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ContributorRequest
+   */
+  select?: Prisma.ContributorRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ContributorRequest
+   */
+  omit?: Prisma.ContributorRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContributorRequestInclude<ExtArgs> | null
+  where?: Prisma.ContributorRequestWhereInput
+  orderBy?: Prisma.ContributorRequestOrderByWithRelationInput | Prisma.ContributorRequestOrderByWithRelationInput[]
+  cursor?: Prisma.ContributorRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ContributorRequestScalarFieldEnum | Prisma.ContributorRequestScalarFieldEnum[]
+}
+
+/**
+ * User.reviewedContributorRequests
+ */
+export type User$reviewedContributorRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ContributorRequest
+   */
+  select?: Prisma.ContributorRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ContributorRequest
+   */
+  omit?: Prisma.ContributorRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContributorRequestInclude<ExtArgs> | null
+  where?: Prisma.ContributorRequestWhereInput
+  orderBy?: Prisma.ContributorRequestOrderByWithRelationInput | Prisma.ContributorRequestOrderByWithRelationInput[]
+  cursor?: Prisma.ContributorRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ContributorRequestScalarFieldEnum | Prisma.ContributorRequestScalarFieldEnum[]
+}
+
+/**
+ * User.contributorPermissions
+ */
+export type User$contributorPermissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ContributorPermission
+   */
+  select?: Prisma.ContributorPermissionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ContributorPermission
+   */
+  omit?: Prisma.ContributorPermissionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContributorPermissionInclude<ExtArgs> | null
+  where?: Prisma.ContributorPermissionWhereInput
+  orderBy?: Prisma.ContributorPermissionOrderByWithRelationInput | Prisma.ContributorPermissionOrderByWithRelationInput[]
+  cursor?: Prisma.ContributorPermissionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ContributorPermissionScalarFieldEnum | Prisma.ContributorPermissionScalarFieldEnum[]
+}
+
+/**
+ * User.grantedContributorPerms
+ */
+export type User$grantedContributorPermsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ContributorPermission
+   */
+  select?: Prisma.ContributorPermissionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ContributorPermission
+   */
+  omit?: Prisma.ContributorPermissionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContributorPermissionInclude<ExtArgs> | null
+  where?: Prisma.ContributorPermissionWhereInput
+  orderBy?: Prisma.ContributorPermissionOrderByWithRelationInput | Prisma.ContributorPermissionOrderByWithRelationInput[]
+  cursor?: Prisma.ContributorPermissionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ContributorPermissionScalarFieldEnum | Prisma.ContributorPermissionScalarFieldEnum[]
+}
+
+/**
+ * User.chapterSuggestions
+ */
+export type User$chapterSuggestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChapterSuggestion
+   */
+  select?: Prisma.ChapterSuggestionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChapterSuggestion
+   */
+  omit?: Prisma.ChapterSuggestionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChapterSuggestionInclude<ExtArgs> | null
+  where?: Prisma.ChapterSuggestionWhereInput
+  orderBy?: Prisma.ChapterSuggestionOrderByWithRelationInput | Prisma.ChapterSuggestionOrderByWithRelationInput[]
+  cursor?: Prisma.ChapterSuggestionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChapterSuggestionScalarFieldEnum | Prisma.ChapterSuggestionScalarFieldEnum[]
+}
+
+/**
+ * User.reviewedChapterSuggestions
+ */
+export type User$reviewedChapterSuggestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChapterSuggestion
+   */
+  select?: Prisma.ChapterSuggestionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChapterSuggestion
+   */
+  omit?: Prisma.ChapterSuggestionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChapterSuggestionInclude<ExtArgs> | null
+  where?: Prisma.ChapterSuggestionWhereInput
+  orderBy?: Prisma.ChapterSuggestionOrderByWithRelationInput | Prisma.ChapterSuggestionOrderByWithRelationInput[]
+  cursor?: Prisma.ChapterSuggestionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChapterSuggestionScalarFieldEnum | Prisma.ChapterSuggestionScalarFieldEnum[]
+}
+
+/**
+ * User.studyMaterialReports
+ */
+export type User$studyMaterialReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudyMaterialReport
+   */
+  select?: Prisma.StudyMaterialReportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudyMaterialReport
+   */
+  omit?: Prisma.StudyMaterialReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudyMaterialReportInclude<ExtArgs> | null
+  where?: Prisma.StudyMaterialReportWhereInput
+  orderBy?: Prisma.StudyMaterialReportOrderByWithRelationInput | Prisma.StudyMaterialReportOrderByWithRelationInput[]
+  cursor?: Prisma.StudyMaterialReportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudyMaterialReportScalarFieldEnum | Prisma.StudyMaterialReportScalarFieldEnum[]
+}
+
+/**
+ * User.resolvedStudyMaterialReports
+ */
+export type User$resolvedStudyMaterialReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudyMaterialReport
+   */
+  select?: Prisma.StudyMaterialReportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudyMaterialReport
+   */
+  omit?: Prisma.StudyMaterialReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudyMaterialReportInclude<ExtArgs> | null
+  where?: Prisma.StudyMaterialReportWhereInput
+  orderBy?: Prisma.StudyMaterialReportOrderByWithRelationInput | Prisma.StudyMaterialReportOrderByWithRelationInput[]
+  cursor?: Prisma.StudyMaterialReportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudyMaterialReportScalarFieldEnum | Prisma.StudyMaterialReportScalarFieldEnum[]
+}
+
+/**
+ * User.creditTransactions
+ */
+export type User$creditTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CreditTransaction
+   */
+  select?: Prisma.CreditTransactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CreditTransaction
+   */
+  omit?: Prisma.CreditTransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CreditTransactionInclude<ExtArgs> | null
+  where?: Prisma.CreditTransactionWhereInput
+  orderBy?: Prisma.CreditTransactionOrderByWithRelationInput | Prisma.CreditTransactionOrderByWithRelationInput[]
+  cursor?: Prisma.CreditTransactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CreditTransactionScalarFieldEnum | Prisma.CreditTransactionScalarFieldEnum[]
+}
+
+/**
+ * User.createdCreditAdjustments
+ */
+export type User$createdCreditAdjustmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CreditTransaction
+   */
+  select?: Prisma.CreditTransactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CreditTransaction
+   */
+  omit?: Prisma.CreditTransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CreditTransactionInclude<ExtArgs> | null
+  where?: Prisma.CreditTransactionWhereInput
+  orderBy?: Prisma.CreditTransactionOrderByWithRelationInput | Prisma.CreditTransactionOrderByWithRelationInput[]
+  cursor?: Prisma.CreditTransactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CreditTransactionScalarFieldEnum | Prisma.CreditTransactionScalarFieldEnum[]
 }
 
 /**

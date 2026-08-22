@@ -7,10 +7,23 @@ import Footer from "@/components/home/footer";
 import { getCanonicalUrl, SITE_NAME } from "@/lib/site";
 
 async function getClass(level: number) {
-  return prisma.schoolClass.findFirst({
+  const schoolClass = await prisma.schoolClass.findFirst({
     where: { level, isActive: true },
     include: { classSubjects: { include: { subject: true, stream: true } } },
   });
+  if (!schoolClass) return null;
+
+  const counts = await prisma.studyMaterial.groupBy({
+    by: ["classSubjectId"],
+    where: { classSubjectId: { in: schoolClass.classSubjects.map((cs) => cs.id) }, status: "APPROVED" },
+    _count: true,
+  });
+  const countByClassSubjectId = new Map(counts.map((c) => [c.classSubjectId, c._count]));
+
+  return {
+    ...schoolClass,
+    classSubjects: schoolClass.classSubjects.map((cs) => ({ ...cs, materialCount: countByClassSubjectId.get(cs.id) || 0 })),
+  };
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ level: string }> }): Promise<Metadata> {
@@ -94,10 +107,16 @@ export default async function SchoolClassPage({
             ) : (
               <div className="grid gap-4 sm:grid-cols-2">
                 {subjects.map((cs) => (
-                  <div key={cs.id} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                  <Link
+                    key={cs.id}
+                    href={`/study/subject/class/${cs.id}`}
+                    className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-md"
+                  >
                     <h3 className="font-bold text-slate-900">{cs.subject.name}</h3>
-                    <p className="mt-2 text-sm text-slate-400">No materials published yet.</p>
-                  </div>
+                    <p className="mt-2 text-sm text-slate-400">
+                      {cs.materialCount === 0 ? "No materials published yet." : `${cs.materialCount} material${cs.materialCount === 1 ? "" : "s"}`}
+                    </p>
+                  </Link>
                 ))}
               </div>
             )}

@@ -118,7 +118,12 @@ CLOUDINARY_API_KEY=your-cloudinary-key
 CLOUDINARY_API_SECRET=your-cloudinary-secret
 REDIS_URL=rediss://default:password@your-upstash-host:6379
 GOOGLE_GENERATIVE_AI_API_KEY=your-gemini-api-key
+NEXT_PUBLIC_APP_URL=https://bookmandu.vercel.app
+GOOGLE_CLIENT_ID=your-google-oauth-client-id
+GOOGLE_CLIENT_SECRET=your-google-oauth-client-secret
 ```
+
+`GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` come from a Google Cloud Console OAuth client (Web application type), with authorized redirect URI `${NEXT_PUBLIC_APP_URL}/api/auth/google/callback` — see `/api/auth/google` and `/api/auth/google/callback`.
 
 ### Generate Prisma client and run migrations
 

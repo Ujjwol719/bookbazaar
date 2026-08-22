@@ -11,12 +11,14 @@ export async function GET(req: Request) {
   const { error } = await requireAdmin()
   if (error) return error
 
-  const semesterId = new URL(req.url).searchParams.get("semesterId") || undefined
+  const url = new URL(req.url)
+  const semesterId = url.searchParams.get("semesterId") || undefined
+  const programId = url.searchParams.get("programId") || undefined
 
   const programSubjects = await prisma.programSubject.findMany({
-    where: semesterId ? { semesterId } : undefined,
+    where: semesterId ? { semesterId } : programId ? { semester: { programId } } : undefined,
     include: { subject: true, semester: { include: { program: true } } },
-    orderBy: { subject: { name: "asc" } },
+    orderBy: [{ semester: { number: "asc" } }, { subject: { name: "asc" } }],
   })
 
   return Response.json({ programSubjects })

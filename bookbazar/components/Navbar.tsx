@@ -8,7 +8,8 @@ import { useEffect, useState } from 'react'
 import { trackEvent } from '@/lib/analytics'
 
 export default function Navbar() {
-  const [user, setUser] = useState<{ email: string } | null>(null)
+  const [user, setUser] = useState<{ email: string; role: "ADMIN" | "BUYER" | "SELLER" } | null>(null)
+  const [wishlistCount, setWishlistCount] = useState(0)
   const [search, setSearch] = useState("")
   const router = useRouter()
 
@@ -38,6 +39,15 @@ export default function Navbar() {
       try {
         const res = await axios.get('/api/auth/me')
         setUser(res.data)
+
+        if (res.data) {
+          try {
+            const wishlistRes = await axios.get('/api/wishlist/get')
+            setWishlistCount(wishlistRes.data.length)
+          } catch {
+            // silently fail — the count badge just won't show
+          }
+        }
       } catch {
         setUser(null)
       }
@@ -80,6 +90,9 @@ export default function Navbar() {
           </Link>
           <Link href="/categories" className="rounded-md px-3 py-1.5 text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors">
             Categories
+          </Link>
+          <Link href="/study" className="rounded-md px-3 py-1.5 text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors">
+            Study Hub
           </Link>
           {!user && (
             <Link href="/signup" className="rounded-md px-3 py-1.5 text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors">
@@ -145,12 +158,40 @@ export default function Navbar() {
             <Link href="/orders" className="rounded-md px-3 py-1.5 text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors">
               My orders
             </Link>
+            {user.role === "BUYER" && (
+              <Link href="/become-seller" className="rounded-md px-3 py-1.5 text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors">
+                Become a Seller
+              </Link>
+            )}
+            {user.role !== "ADMIN" && (
+              <>
+                <Link href="/become-contributor" className="rounded-md px-3 py-1.5 text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors">
+                  Become a Contributor
+                </Link>
+                <Link href="/contributor/dashboard" className="rounded-md px-3 py-1.5 text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors">
+                  My Contributions
+                </Link>
+              </>
+            )}
             {/* <Link href="/cart-items" className="rounded-md px-3 py-1.5 text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors">
               History
             </Link> */}
 
             {/* Divider */}
             <div className="mx-2 h-5 w-px bg-slate-200" />
+
+            {/* Wishlist */}
+            <Link
+              href="/wishlist"
+              className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium text-rose-600 hover:bg-rose-50 transition-colors"
+            >
+              ♡ Wishlist
+              {wishlistCount > 0 && (
+                <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-rose-600 px-1 text-xs font-bold text-white">
+                  {wishlistCount}
+                </span>
+              )}
+            </Link>
 
             {/* Cart */}
             <Link

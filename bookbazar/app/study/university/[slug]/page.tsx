@@ -44,7 +44,7 @@ export default async function UniversityPage({ params }: { params: Promise<{ slu
             {university.programs.length === 0 ? (
               <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
                 <p className="text-slate-500">No programs added yet.</p>
-                <Link href="/become-helper" className="mt-3 inline-block text-sm font-semibold text-indigo-600 hover:text-indigo-700">
+                <Link href="/become-contributor" className="mt-3 inline-block text-sm font-semibold text-indigo-600 hover:text-indigo-700">
                   Know this university? Volunteer to help build it out →
                 </Link>
               </div>
