@@ -38,6 +38,7 @@ export default function BecomeContributor() {
   const [schoolClasses, setSchoolClasses] = useState<SchoolClassOption[]>([])
   const [kind, setKind] = useState<TargetKind>("school")
   const [schoolClassId, setSchoolClassId] = useState("")
+  const [universityId, setUniversityId] = useState("")
   const [programId, setProgramId] = useState("")
   const [message, setMessage] = useState("")
   const [submitting, setSubmitting] = useState(false)
@@ -45,6 +46,9 @@ export default function BecomeContributor() {
   const [feedbackIsError, setFeedbackIsError] = useState(false)
   const [myRequests, setMyRequests] = useState<RequestRow[]>([])
   const [permissions, setPermissions] = useState<PermissionRow[]>([])
+  const [reward, setReward] = useState<{ contributionReward: number; creditValueInRupees: string } | null>(null)
+
+  const selectedUniversity = universities.find((u) => u.id === universityId)
 
   async function loadStatus() {
     try {
@@ -62,8 +66,15 @@ export default function BecomeContributor() {
   useEffect(() => {
     axios.get<{ universities: University[] }>("/api/universities").then((res) => setUniversities(res.data.universities))
     axios.get<{ schoolClasses: SchoolClassOption[] }>("/api/school-classes").then((res) => setSchoolClasses(res.data.schoolClasses))
+    axios.get("/api/credits/settings").then((res) => setReward(res.data))
     loadStatus()
   }, [])
+
+  // Changing university clears the (now stale) program choice — a program
+  // id from a different university would silently submit the wrong thing.
+  useEffect(() => {
+    setProgramId("")
+  }, [universityId])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -110,9 +121,18 @@ export default function BecomeContributor() {
           <h1 className="mt-2 text-3xl font-bold text-slate-900">Become a Contributor</h1>
           <p className="mt-3 text-slate-500">
             Pick the class or program you know best. Once an admin approves you and grants access to specific
-            subjects, you can upload notes and question papers there — and earn BookMandu Credits for every
-            approved upload.
+            subjects, you can upload notes and question papers there.
           </p>
+
+          <div className="mt-4 flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3">
+            <span className="text-2xl">🪙</span>
+            <p className="text-sm font-semibold text-emerald-900">
+              {reward
+                ? <>Earn {reward.contributionReward} BookMandu Credits (≈ Rs. {Number(reward.creditValueInRupees) * reward.contributionReward}) for every approved upload</>
+                : "Earn BookMandu Credits for every approved upload"}
+              <span className="block text-xs font-normal text-emerald-700">Credits can be spent on any book at checkout.</span>
+            </p>
+          </div>
 
           <div className="mt-6 flex gap-1 rounded-xl border border-slate-200 bg-slate-50 p-1">
             <button
@@ -147,22 +167,34 @@ export default function BecomeContributor() {
                 </select>
               </div>
             ) : (
-              <div>
-                <label className="mb-1.5 block text-sm font-medium text-slate-700">Program</label>
-                <select
-                  value={programId}
-                  onChange={(e) => setProgramId(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-50"
-                >
-                  <option value="">Select a program...</option>
-                  {universities.map((u) => (
-                    <optgroup key={u.id} label={u.name}>
-                      {u.programs.map((p) => (
-                        <option key={p.id} value={p.id}>{p.name}</option>
-                      ))}
-                    </optgroup>
-                  ))}
-                </select>
+              <div className="space-y-3">
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium text-slate-700">University</label>
+                  <select
+                    value={universityId}
+                    onChange={(e) => setUniversityId(e.target.value)}
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-50"
+                  >
+                    <option value="">Select a university...</option>
+                    {universities.map((u) => (
+                      <option key={u.id} value={u.id}>{u.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium text-slate-700">Program</label>
+                  <select
+                    value={programId}
+                    onChange={(e) => setProgramId(e.target.value)}
+                    disabled={!universityId}
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-50 disabled:opacity-50"
+                  >
+                    <option value="">{universityId ? "Select a program..." : "Pick a university first"}</option>
+                    {selectedUniversity?.programs.map((p) => (
+                      <option key={p.id} value={p.id}>{p.name}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
             )}
 
