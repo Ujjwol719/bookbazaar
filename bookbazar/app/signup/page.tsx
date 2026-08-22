@@ -66,7 +66,7 @@ export default function Signup() {
     try {
       setLoading(true)
 
-      const response = await axios.post('/api/auth/signup', {
+      await axios.post('/api/auth/signup', {
         name,
         email,
         phone,
@@ -85,11 +85,11 @@ export default function Signup() {
       setTimeout(() => {
         router.push('/login')
       }, 1500)
-    } catch (error: any) {
+    } catch (error) {
       setIsError(true)
 
       setMessage(
-        error.response?.data?.message || 'Something went wrong'
+        (axios.isAxiosError(error) && error.response?.data?.message) || 'Something went wrong'
       )
     } finally {
       setLoading(false)
@@ -97,11 +97,15 @@ export default function Signup() {
   }
 
  return (
-  <div className="min-h-screen flex bg-slate-50">
+  <div className="flex min-h-screen bg-slate-50">
 
     {/* LEFT FORM */}
-    <div className="w-full lg:w-full flex items-center justify-center px-8 py-10">
+    <div className="flex w-full items-center justify-center px-6 py-10 lg:w-[560px] lg:shrink-0 lg:px-16">
       <div className="w-full max-w-md">
+
+        <Link href="/" className="mb-8 flex items-center gap-2 text-lg font-bold text-indigo-700 lg:hidden">
+          📚 BookMandu
+        </Link>
 
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-slate-900">
@@ -238,15 +242,22 @@ export default function Signup() {
             <div className="h-px flex-1 bg-slate-200" />
           </div>
 
-          {/* <div className="grid grid-cols-2 gap-3">
-            <button className="rounded-xl border border-slate-300 py-3 font-medium text-slate-700 transition hover:bg-slate-100 hover:border-slate-400">
-              Google
-            </button>
+          <a
+            href="/api/auth/google"
+            className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-300 py-3 font-medium text-slate-700 transition hover:bg-slate-100 hover:border-slate-400"
+          >
+            <svg className="h-5 w-5" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l5.7-5.7C34.6 6 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/>
+              <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.8 1.1 8 3l5.7-5.7C34.6 6 29.6 4 24 4c-7.5 0-14 4.2-17.7 10.7z"/>
+              <path fill="#4CAF50" d="M24 44c5.5 0 10.4-1.9 14.2-5.1l-6.6-5.4c-2 1.5-4.6 2.5-7.6 2.5-5.2 0-9.6-3.3-11.3-7.9l-6.6 5.1C9.9 39.7 16.4 44 24 44z"/>
+              <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.1 5.5l6.6 5.4C41.4 35.8 44 30.4 44 24c0-1.3-.1-2.7-.4-3.5z"/>
+            </svg>
+            Continue with Google
+          </a>
 
-            <button className="rounded-xl border border-slate-300 py-3 font-medium text-slate-700 transition hover:bg-slate-100 hover:border-slate-400">
-              GitHub
-            </button>
-          </div> */}
+          <p className="mt-3 text-center text-xs text-slate-400">
+            Signing up with Google creates a buyer account. Want to sell instead? Use the form above.
+          </p>
 
           <p className="mt-6 text-center text-sm text-slate-500">
             Already have an account?{" "}
@@ -263,8 +274,7 @@ export default function Signup() {
     </div>
 
     {/* RIGHT BOOKMANDU */}
-    
-<div className="hidden lg:flex lg:w-[58%] relative overflow-hidden bg-linear-to-br from-indigo-700 via-indigo-800 to-slate-900">
+    <div className="relative hidden overflow-hidden bg-linear-to-br from-indigo-700 via-indigo-800 to-slate-900 lg:flex lg:flex-1">
 
       <div className="absolute top-20 left-20 h-72 w-72 rounded-full bg-indigo-400/20 blur-3xl" />
       <div className="absolute bottom-20 right-20 h-72 w-72 rounded-full bg-purple-400/20 blur-3xl" />
@@ -280,59 +290,45 @@ export default function Signup() {
         </p>
 
         <div className="mt-8 space-y-3">
-          
-          {/* Sleek & Compact Voucher Banner */}
-          <div className="relative overflow-hidden rounded-xl bg-linear-to-r from-pink-500 to-rose-600 px-4 py-3 shadow-lg border border-pink-400/20">
-            {/* Left & Right Voucher Punch-Holes matching background */}
-            <div className="absolute -left-2 top-1/2 -translate-y-1/2 h-4 w-4 rounded-full bg-[#3c3682]" />
-            <div className="absolute -right-2 top-1/2 -translate-y-1/2 h-4 w-4 rounded-full bg-[#1b1c41]" />
-            
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <span className="text-2xl animate-bounce">🎁</span>
-                <div>
-                  <div className="flex items-center space-x-2">
-                    <h3 className="text-base font-black tracking-tight text-white">
-                      First Order Bonus!
-                    </h3>
-                    <span className="bg-white/20 text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md backdrop-blur-sm">
-                      Valid Today
-                    </span>
-                  </div>
-                  <p className="text-xs text-rose-100 font-medium mt-0.5">
-                    Get <span className="font-bold text-yellow-300">15% OFF</span> + Free Delivery across Nepal.
-                  </p>
-                </div>
-              </div>
 
-              {/* Compact Interactive Action */}
-              <div className="flex flex-col items-end justify-center pl-4 border-l border-dashed border-white/30">
-                <span className="text-[10px] uppercase font-bold tracking-widest text-rose-200">Code</span>
-                <span className="bg-white text-rose-600 font-mono font-black px-2 py-0.5 rounded text-xs mt-0.5 shadow-sm select-all cursor-pointer hover:scale-105 transition-transform">
-                  FIRST15
-                </span>
-              </div>
+          <div className="flex items-start gap-3 rounded-2xl bg-white/10 p-4 backdrop-blur">
+            <span className="text-2xl">🛡️</span>
+            <div>
+              <h3 className="text-lg font-semibold">Verified sellers only</h3>
+              <p className="mt-1 text-sm text-slate-300">
+                Every store is reviewed by our team before it can list a book.
+              </p>
             </div>
           </div>
 
-          <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
-            <h3 className="text-lg font-semibold">
-              📘 Programming Books
-            </h3>
-
-            <p className="mt-1 text-sm text-slate-300">
-              Web Development, DSA and Software Engineering Notes.
-            </p>
+          <div className="flex items-start gap-3 rounded-2xl bg-white/10 p-4 backdrop-blur">
+            <span className="text-2xl">💵</span>
+            <div>
+              <h3 className="text-lg font-semibold">Pay on delivery</h3>
+              <p className="mt-1 text-sm text-slate-300">
+                Cash on Delivery, Nepal-wide — pay once your books arrive.
+              </p>
+            </div>
           </div>
 
-          <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
-            <h3 className="text-lg font-semibold">
-               AI & ML Resources
-            </h3>
+          <div className="flex items-start gap-3 rounded-2xl bg-white/10 p-4 backdrop-blur">
+            <span className="text-2xl">📚</span>
+            <div>
+              <h3 className="text-lg font-semibold">New & used, all genres</h3>
+              <p className="mt-1 text-sm text-slate-300">
+                Programming, fiction, academic and business books from real people.
+              </p>
+            </div>
+          </div>
 
-            <p className="mt-1 text-sm text-slate-300">
-              Learn Artificial Intelligence and Machine Learning.
-            </p>
+          <div className="flex items-start gap-3 rounded-2xl bg-white/10 p-4 backdrop-blur">
+            <span className="text-2xl">🎓</span>
+            <div>
+              <h3 className="text-lg font-semibold">Study Hub</h3>
+              <p className="mt-1 text-sm text-slate-300">
+                Notes and question papers for school and university, alongside the marketplace.
+              </p>
+            </div>
           </div>
 
         </div>

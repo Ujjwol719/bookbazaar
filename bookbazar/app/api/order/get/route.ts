@@ -53,7 +53,17 @@ export async function GET() {
       items: {
         include: {
           book: true,
-          store: true
+          // Only the fields a buyer needs to identify/contact the seller —
+          // the store row also carries private fields like identityUrl (KYC
+          // document) that must never reach a buyer's browser.
+          store: {
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+              phone: true,
+            },
+          },
         }
       }
     },

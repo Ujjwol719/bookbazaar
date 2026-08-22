@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
 import prisma from "@/lib/prisma"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/home/footer"
@@ -10,6 +11,8 @@ import BookQRCode from "@/components/books/BookQRCode"
 import ReviewSection from "@/components/books/ReviewSection"
 import BookViewTracker from "@/components/books/BookViewTracker"
 import { getCanonicalUrl, SITE_NAME } from "@/lib/site";
+import { buildWhatsAppLink } from "@/lib/whatsapp";
+import { decrypt } from "@/app/lib/session";
 
 async function getBook(slug: string) {
   return prisma.book.findFirst({
@@ -20,6 +23,7 @@ async function getBook(slug: string) {
           id: true,
           name: true,
           slug: true,
+          phone: true,
           isVerified: true,
           isApproved: true,
         },
@@ -83,6 +87,16 @@ export default async function Book({ params }: { params: Promise<{ slug: string 
     include: { user: { select: { full_name: true } } },
     orderBy: { createdAt: "desc" }
   })
+
+  const sessionCookie = (await cookies()).get("session")?.value
+  const payload = sessionCookie ? await decrypt(sessionCookie) : null
+  const initialWishlisted = payload
+    ? Boolean(
+        await prisma.wishlistItem.findUnique({
+          where: { userId_bookId: { userId: payload.id as string, bookId: book.id } },
+        })
+      )
+    : false
 
   const average = reviews.length
     ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
@@ -286,22 +300,43 @@ export default async function Book({ params }: { params: Promise<{ slug: string 
                 slug={book.slug}
               />
 
-              <Addtocart bookID={book.id} bookTitle={book.title} bookPrice={Number(book.price)} />
+              <Addtocart bookID={book.id} bookTitle={book.title} bookPrice={Number(book.price)} initialWishlisted={initialWishlisted} />
               <BookQRCode path={`/books/${book.slug}`} />
 
               {/* Seller Info */}
               <div className="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm">
-                <div className="flex items-center gap-4">
+                <a
+                  href={book.store?.slug ? `/store/${book.store.slug}` : undefined}
+                  className="flex items-center gap-4 transition hover:opacity-80"
+                >
                   <div className="h-16 w-16 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-2xl">
                     🏪
                   </div>
                  <div className="flex-grow">
-  <h3 className="font-bold text-slate-900">{book.store?.name}</h3>
+  <h3 className="font-bold text-slate-900 hover:text-indigo-600">{book.store?.name}</h3>
   <p className={`text-sm font-medium ${book.store?.isVerified ? "text-purple-600" : "text-slate-400"}`}>
     {book.store?.isVerified ? "✓ Verified Seller" : "Unverified Seller"}
   </p>
+  <p className="mt-1 text-xs font-semibold text-indigo-500">View storefront →</p>
 </div>
-                </div>
+                </a>
+
+                {(() => {
+                  const whatsappLink = buildWhatsAppLink(
+                    book.store?.phone,
+                    `Hi! I'm interested in "${book.title}" listed on BookMandu.`
+                  );
+                  return whatsappLink ? (
+                    <a
+                      href={whatsappLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-green-200 bg-green-50 py-3 text-sm font-semibold text-green-700 transition hover:bg-green-100"
+                    >
+                      <span aria-hidden="true">💬</span> Message seller on WhatsApp
+                    </a>
+                  ) : null;
+                })()}
               </div>
 
             </div>

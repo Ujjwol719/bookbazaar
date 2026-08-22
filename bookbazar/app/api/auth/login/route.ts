@@ -70,6 +70,13 @@ export async function POST(req: NextRequest) {
     }, { status: 403 })
 }
 
+  if (!user.password_hash) {
+    return Response.json(
+      { message: "This account signs in with Google. Use the \"Continue with Google\" button instead." },
+      { status: 401 }
+    )
+  }
+
   const validation = await bcrypt.compare(result.data.password, user.password_hash)
   if (!validation) {
     const newCount = await redis.incr(`login:${result.data.email}`)

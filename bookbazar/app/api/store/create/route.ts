@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma"
 import { cookies } from "next/headers"
 import { decrypt } from "@/app/lib/session"
 import { resend } from "@/lib/resend/resend"
+import { generateUniqueStoreSlug } from "@/lib/slug"
  const storeSchema = z.object({
   storename: z
     .string()
@@ -104,7 +105,7 @@ const sessionCookie=cookieStore.get("session")?.value
       )
     }
 
-const slug=storename.trim().toLowerCase().replace(" ","-")
+const slug = await generateUniqueStoreSlug(storename)
 
 
     const store =

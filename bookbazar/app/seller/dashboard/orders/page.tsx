@@ -3,6 +3,7 @@
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const ORDER_STATUSES = [
   "PENDING",
@@ -236,6 +237,22 @@ export default function SellerOrdersPage() {
                         Customer: {order.fullName || order.buyer.full_name} ·{" "}
                         {order.phone}
                       </p>
+                      {(() => {
+                        const whatsappLink = buildWhatsAppLink(
+                          order.phone,
+                          `Hi ${order.fullName || order.buyer.full_name}, this is regarding your BookMandu order #${order.id.slice(0, 8)}.`
+                        );
+                        return whatsappLink ? (
+                          <a
+                            href={whatsappLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-green-700 hover:text-green-800"
+                          >
+                            <span aria-hidden="true">💬</span> Message on WhatsApp
+                          </a>
+                        ) : null;
+                      })()}
                     </div>
 
                     <div className="flex flex-col gap-3 sm:min-w-[320px]">

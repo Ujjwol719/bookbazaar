@@ -66,11 +66,15 @@ async function handleForm(e: React.FormEvent<HTMLFormElement>) {
   }
 
  return (
-  <div className="min-h-screen flex bg-slate-50">
+  <div className="flex min-h-screen bg-slate-50">
 
     {/* LEFT LOGIN */}
-    <div className="w-full lg:w-[71%] flex items-center justify-center px-8">
+    <div className="flex w-full items-center justify-center px-6 py-12 lg:w-[560px] lg:shrink-0 lg:px-16">
       <div className="w-full max-w-md">
+
+        <Link href="/" className="mb-10 flex items-center gap-2 text-lg font-bold text-indigo-700 lg:hidden">
+          📚 BookMandu
+        </Link>
 
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-slate-900">
@@ -175,18 +179,21 @@ async function handleForm(e: React.FormEvent<HTMLFormElement>) {
             <div className="h-px flex-1 bg-slate-200" />
           </div>
 
-          {/* <div className="grid grid-cols-2 gap-3">
-            <button className="rounded-xl border border-slate-300 py-3 font-medium text-slate-700 transition hover:bg-slate-100 hover:border-slate-400">
-              Google
-            </button>
-
-            <button className="rounded-xl border border-slate-300 py-3 font-medium text-slate-700 transition hover:bg-slate-100 hover:border-slate-400">
-              GitHub
-            </button>
-          </div> */}
+          <a
+            href="/api/auth/google"
+            className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-300 py-3 font-medium text-slate-700 transition hover:bg-slate-100 hover:border-slate-400"
+          >
+            <svg className="h-5 w-5" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l5.7-5.7C34.6 6 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/>
+              <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.8 1.1 8 3l5.7-5.7C34.6 6 29.6 4 24 4c-7.5 0-14 4.2-17.7 10.7z"/>
+              <path fill="#4CAF50" d="M24 44c5.5 0 10.4-1.9 14.2-5.1l-6.6-5.4c-2 1.5-4.6 2.5-7.6 2.5-5.2 0-9.6-3.3-11.3-7.9l-6.6 5.1C9.9 39.7 16.4 44 24 44z"/>
+              <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.1 5.5l6.6 5.4C41.4 35.8 44 30.4 44 24c0-1.3-.1-2.7-.4-3.5z"/>
+            </svg>
+            Continue with Google
+          </a>
 
           <p className="mt-6 text-center text-sm text-slate-500">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link
               href="/signup"
               className="font-semibold text-indigo-600 hover:text-indigo-700"
@@ -200,7 +207,7 @@ async function handleForm(e: React.FormEvent<HTMLFormElement>) {
     </div>
 
     {/* RIGHT BRANDING */}
-    <div className="hidden lg:flex lg:w-[58%] relative overflow-hidden bg-linear-to-br from-indigo-700 via-indigo-800 to-slate-900">
+    <div className="relative hidden overflow-hidden bg-linear-to-br from-indigo-700 via-indigo-800 to-slate-900 lg:flex lg:flex-1">
 
       <div className="absolute top-10 left-10 h-72 w-72 rounded-full bg-indigo-400/20 blur-3xl" />
       <div className="absolute bottom-10 right-10 h-72 w-72 rounded-full bg-purple-400/20 blur-3xl" />
@@ -217,30 +224,46 @@ async function handleForm(e: React.FormEvent<HTMLFormElement>) {
           </p>
         </div>
 
-        <div className="mt-8 space-y-3">
+        <div className="mt-10 space-y-3">
 
-          <div className="rounded-2xl bg-white/10 p-4 backdrop-blur-md">
-            <div className="text-3xl">📘</div>
-
-            <h3 className="mt-2 text-lg font-bold">
-              Programming
-            </h3>
-
-            <p className="mt-1 text-sm text-slate-300">
-              Web Development, DSA and Software Engineering
-            </p>
+          <div className="flex items-start gap-3 rounded-2xl bg-white/10 p-4 backdrop-blur-md">
+            <span className="text-2xl">🛡️</span>
+            <div>
+              <h3 className="text-lg font-semibold">Verified sellers only</h3>
+              <p className="mt-1 text-sm text-slate-300">
+                Every store is reviewed by our team before it can list a book.
+              </p>
+            </div>
           </div>
 
-          <div className="rounded-2xl bg-white/10 p-4 backdrop-blur-md">
-            <div className="text-3xl">🤖</div>
+          <div className="flex items-start gap-3 rounded-2xl bg-white/10 p-4 backdrop-blur-md">
+            <span className="text-2xl">💵</span>
+            <div>
+              <h3 className="text-lg font-semibold">Pay on delivery</h3>
+              <p className="mt-1 text-sm text-slate-300">
+                Cash on Delivery, Nepal-wide — pay once your books arrive.
+              </p>
+            </div>
+          </div>
 
-            <h3 className="mt-2 text-lg font-bold">
-              AI & ML
-            </h3>
+          <div className="flex items-start gap-3 rounded-2xl bg-white/10 p-4 backdrop-blur-md">
+            <span className="text-2xl">🎓</span>
+            <div>
+              <h3 className="text-lg font-semibold">Study Hub</h3>
+              <p className="mt-1 text-sm text-slate-300">
+                Notes and question papers for school and university, alongside the marketplace.
+              </p>
+            </div>
+          </div>
 
-            <p className="mt-1 text-sm text-slate-300">
-              Artificial Intelligence and Machine Learning
-            </p>
+          <div className="flex items-start gap-3 rounded-2xl bg-white/10 p-4 backdrop-blur-md">
+            <span className="text-2xl">🏪</span>
+            <div>
+              <h3 className="text-lg font-semibold">Sell in minutes</h3>
+              <p className="mt-1 text-sm text-slate-300">
+                Open a store and list your first book once we approve you.
+              </p>
+            </div>
           </div>
 
         </div>

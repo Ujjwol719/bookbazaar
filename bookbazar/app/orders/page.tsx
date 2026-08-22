@@ -5,6 +5,7 @@ import Footer from "@/components/home/footer"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import Image from "next/image"
+import { buildWhatsAppLink } from "@/lib/whatsapp"
 
 interface Order {
   id: string
@@ -31,6 +32,7 @@ interface Order {
 
     store: {
       name: string
+      phone: string | null
     }
   }[]
 }
@@ -74,7 +76,7 @@ export default function OrdersPage() {
             </h2>
 
             <p className="mt-3 text-slate-500">
-              You haven't placed any orders yet.
+              You haven&apos;t placed any orders yet.
             </p>
           </div>
         ) : (
@@ -144,6 +146,23 @@ export default function OrdersPage() {
                           <p className="mt-2 font-medium text-indigo-600">
                             Store: {item.store.name}
                           </p>
+
+                          {(() => {
+                            const whatsappLink = buildWhatsAppLink(
+                              item.store.phone,
+                              `Hi, I'm asking about order #${order.id.slice(0, 8)} (${item.book.title}).`
+                            );
+                            return whatsappLink ? (
+                              <a
+                                href={whatsappLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="mt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-green-700 hover:text-green-800"
+                              >
+                                <span aria-hidden="true">💬</span> Contact seller on WhatsApp
+                              </a>
+                            ) : null;
+                          })()}
 
                           <div className="mt-4 flex flex-wrap gap-4">
 

@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import Link from "next/link";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import Image from "next/image";
 
@@ -95,11 +96,23 @@ interface AdminReview {
   };
 }
 
+interface AdminBanner {
+  id: string;
+  imageUrl: string;
+  title: string | null;
+  subtitle: string | null;
+  linkUrl: string | null;
+  sortOrder: number;
+  isActive: boolean;
+  createdAt: string;
+}
+
 type SectionKey =
   | "overview"
   | "stores"
   | "users"
   | "reviews"
+  | "banners"
   | "messages";
 
 const NAV_ITEMS: { key: SectionKey; label: string; icon: ReactNode }[] = [
@@ -149,6 +162,18 @@ const NAV_ITEMS: { key: SectionKey; label: string; icon: ReactNode }[] = [
     ),
   },
   {
+    key: "banners",
+    label: "Homepage Banners",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
+        <path
+          d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm1 2v10h14V7H5Zm2 8 3.5-4.5 2.5 3 3-4L19 15H7Z"
+          fill="currentColor"
+        />
+      </svg>
+    ),
+  },
+  {
     key: "messages",
     label: "Messages",
     icon: (
@@ -166,6 +191,13 @@ export default function AdminPage() {
   const [pendingSellers, setPendingSellers] = useState<PendingSeller[]>([]);
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [reviews, setReviews] = useState<AdminReview[]>([]);
+  const [banners, setBanners] = useState<AdminBanner[]>([]);
+  const [busyBannerId, setBusyBannerId] = useState<string | null>(null);
+  const [bannerFile, setBannerFile] = useState<File | null>(null);
+  const [bannerTitle, setBannerTitle] = useState("");
+  const [bannerSubtitle, setBannerSubtitle] = useState("");
+  const [bannerLinkUrl, setBannerLinkUrl] = useState("");
+  const [bannerSaving, setBannerSaving] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -187,6 +219,7 @@ export default function AdminPage() {
     loadPendingSellers();
     loadUsers();
     loadReviews();
+    loadBanners();
   }, []);
 
   // Clear transient banners when switching sections so stale success/error
@@ -237,6 +270,124 @@ export default function AdminPage() {
       setReviews(response.data.reviews);
     } catch {
       // silently fail
+    }
+  }
+
+  async function loadBanners() {
+    try {
+      const response = await axios.get<{ banners: AdminBanner[] }>("/api/admin/banners");
+      setBanners(response.data.banners);
+    } catch {
+      // silently fail
+    }
+  }
+
+  async function addBanner() {
+    if (!bannerFile) {
+      setError("Choose an image for the banner first.");
+      return;
+    }
+
+    setBannerSaving(true);
+    setError("");
+    setMessage("");
+
+    try {
+      const formData = new FormData();
+      formData.append("file", bannerFile);
+      const uploadRes = await axios.post("/api/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      const response = await axios.post<{ banner: AdminBanner }>("/api/admin/banners", {
+        imageUrl: uploadRes.data.url,
+        title: bannerTitle || null,
+        subtitle: bannerSubtitle || null,
+        linkUrl: bannerLinkUrl || null,
+      });
+
+      setBanners((current) => [...current, response.data.banner]);
+      setBannerFile(null);
+      setBannerTitle("");
+      setBannerSubtitle("");
+      setBannerLinkUrl("");
+      setMessage("Banner added — it's now live on the homepage.");
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "Unable to add banner");
+      } else {
+        setError("Unable to add banner");
+      }
+    } finally {
+      setBannerSaving(false);
+    }
+  }
+
+  async function toggleBannerActive(banner: AdminBanner) {
+    setBusyBannerId(banner.id);
+    setError("");
+    setMessage("");
+    try {
+      await axios.patch(`/api/admin/banners/${banner.id}`, { isActive: !banner.isActive });
+      setBanners((current) =>
+        current.map((item) => (item.id === banner.id ? { ...item, isActive: !banner.isActive } : item))
+      );
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "Unable to update banner");
+      }
+    } finally {
+      setBusyBannerId(null);
+    }
+  }
+
+  async function moveBanner(banner: AdminBanner, direction: "up" | "down") {
+    const sorted = [...banners].sort((a, b) => a.sortOrder - b.sortOrder);
+    const index = sorted.findIndex((item) => item.id === banner.id);
+    const swapIndex = direction === "up" ? index - 1 : index + 1;
+    if (swapIndex < 0 || swapIndex >= sorted.length) return;
+
+    const neighbor = sorted[swapIndex];
+    setBusyBannerId(banner.id);
+    setError("");
+
+    try {
+      await Promise.all([
+        axios.patch(`/api/admin/banners/${banner.id}`, { sortOrder: neighbor.sortOrder }),
+        axios.patch(`/api/admin/banners/${neighbor.id}`, { sortOrder: banner.sortOrder }),
+      ]);
+      setBanners((current) =>
+        current.map((item) => {
+          if (item.id === banner.id) return { ...item, sortOrder: neighbor.sortOrder };
+          if (item.id === neighbor.id) return { ...item, sortOrder: banner.sortOrder };
+          return item;
+        })
+      );
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "Unable to reorder banners");
+      }
+    } finally {
+      setBusyBannerId(null);
+    }
+  }
+
+  async function deleteBanner(banner: AdminBanner) {
+    const confirmed = window.confirm("Remove this banner from the homepage?");
+    if (!confirmed) return;
+
+    setBusyBannerId(banner.id);
+    setError("");
+    try {
+      await axios.delete(`/api/admin/banners/${banner.id}`);
+      setBanners((current) => current.filter((item) => item.id !== banner.id));
+      setMessage("Banner removed.");
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "Unable to delete banner");
+      }
+    } finally {
+      setBusyBannerId(null);
     }
   }
 
@@ -525,6 +676,18 @@ export default function AdminPage() {
                 );
               })}
             </ul>
+
+            <div className="mt-4 border-t border-slate-200 pt-4">
+              <Link
+                href="/admin/academic"
+                className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
+              >
+                <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-slate-400">
+                  <path d="M12 3 2 8l10 5 8-4v6h2V8L12 3Zm-6 9.5V17c0 1.66 3.13 3 6 3s6-1.34 6-3v-4.5l-6 3-6-3Z" fill="currentColor" />
+                </svg>
+                Academic Management
+              </Link>
+            </div>
           </nav>
 
           <div className="border-t border-slate-200 px-6 py-4">
@@ -641,6 +804,26 @@ export default function AdminPage() {
                 onSearchChange={setReviewSearch}
                 busyReviewId={busyReviewId}
                 onDeleteReview={deleteReview}
+              />
+            )}
+
+            {activeSection === "banners" && (
+              <BannersSection
+                banners={banners}
+                busyBannerId={busyBannerId}
+                onToggleActive={toggleBannerActive}
+                onMove={moveBanner}
+                onDelete={deleteBanner}
+                file={bannerFile}
+                onFileChange={setBannerFile}
+                title={bannerTitle}
+                onTitleChange={setBannerTitle}
+                subtitle={bannerSubtitle}
+                onSubtitleChange={setBannerSubtitle}
+                linkUrl={bannerLinkUrl}
+                onLinkUrlChange={setBannerLinkUrl}
+                saving={bannerSaving}
+                onAdd={addBanner}
               />
             )}
 
@@ -1252,6 +1435,198 @@ function ReviewsSection({
         )}
       </div>
     </section>
+  );
+}
+
+/* --------------------------------------------------------------------- */
+/* Homepage Banners                                                       */
+/* --------------------------------------------------------------------- */
+
+function BannersSection({
+  banners,
+  busyBannerId,
+  onToggleActive,
+  onMove,
+  onDelete,
+  file,
+  onFileChange,
+  title,
+  onTitleChange,
+  subtitle,
+  onSubtitleChange,
+  linkUrl,
+  onLinkUrlChange,
+  saving,
+  onAdd,
+}: {
+  banners: AdminBanner[];
+  busyBannerId: string | null;
+  onToggleActive: (banner: AdminBanner) => void;
+  onMove: (banner: AdminBanner, direction: "up" | "down") => void;
+  onDelete: (banner: AdminBanner) => void;
+  file: File | null;
+  onFileChange: (file: File | null) => void;
+  title: string;
+  onTitleChange: (value: string) => void;
+  subtitle: string;
+  onSubtitleChange: (value: string) => void;
+  linkUrl: string;
+  onLinkUrlChange: (value: string) => void;
+  saving: boolean;
+  onAdd: () => void;
+}) {
+  const sorted = [...banners].sort((a, b) => a.sortOrder - b.sortOrder);
+
+  return (
+    <div className="space-y-8">
+      {/* Add new banner */}
+      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h2 className="text-xl font-bold text-slate-900">Add a homepage banner</h2>
+        <p className="mt-1 text-sm text-slate-500">
+          Appears in the rotating banner at the top of the homepage. Recommended size: 1600×600px, under 5MB.
+        </p>
+
+        <div className="mt-5 grid gap-5 lg:grid-cols-2">
+          <div>
+            <label className="flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 p-8 transition hover:border-indigo-300 hover:bg-indigo-50">
+              <span className="text-3xl">🖼️</span>
+              <div className="text-center">
+                <p className="text-sm font-medium text-slate-700">Click to upload banner image</p>
+                <p className="mt-1 text-xs text-slate-400">PNG, JPG, or WEBP up to 10MB</p>
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => onFileChange(e.target.files?.[0] || null)}
+              />
+            </label>
+            {file && <p className="mt-2 text-xs text-slate-500">✓ Selected: {file.name}</p>}
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-slate-700">Title (optional)</label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => onTitleChange(e.target.value)}
+                placeholder="Spring Sale is Live!"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-50"
+              />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-slate-700">Subtitle (optional)</label>
+              <input
+                type="text"
+                value={subtitle}
+                onChange={(e) => onSubtitleChange(e.target.value)}
+                placeholder="Up to 40% off selected books"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-50"
+              />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-slate-700">Link (optional)</label>
+              <input
+                type="text"
+                value={linkUrl}
+                onChange={(e) => onLinkUrlChange(e.target.value)}
+                placeholder="https://bookmandu.vercel.app/books?category=fiction"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-50"
+              />
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={onAdd}
+          disabled={saving || !file}
+          className="mt-5 rounded-xl bg-indigo-600 px-8 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-indigo-300"
+        >
+          {saving ? "Adding banner..." : "Add Banner"}
+        </button>
+      </section>
+
+      {/* Existing banners */}
+      <section>
+        <h2 className="mb-4 text-xl font-bold text-slate-900">
+          Live banners <span className="font-normal text-slate-400">({sorted.length})</span>
+        </h2>
+
+        {sorted.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-10 text-center">
+            <h3 className="text-lg font-bold text-slate-900">No banners yet</h3>
+            <p className="mt-2 text-slate-500">
+              The homepage will show its default welcome hero until you add one here.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {sorted.map((banner, index) => (
+              <div
+                key={banner.id}
+                className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row sm:items-center"
+              >
+                <div className="relative h-28 w-full shrink-0 overflow-hidden rounded-xl bg-slate-100 sm:w-48">
+                  <Image src={banner.imageUrl} alt={banner.title || "Banner"} fill className="object-cover" />
+                  {!banner.isActive && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-xs font-bold uppercase tracking-wide text-white">
+                      Hidden
+                    </div>
+                  )}
+                </div>
+
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-bold text-slate-900">{banner.title || "Untitled banner"}</p>
+                  {banner.subtitle && <p className="truncate text-sm text-slate-500">{banner.subtitle}</p>}
+                  {banner.linkUrl && (
+                    <p className="mt-1 truncate text-xs text-indigo-500">{banner.linkUrl}</p>
+                  )}
+                </div>
+
+                <div className="flex shrink-0 flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => onMove(banner, "up")}
+                    disabled={index === 0 || busyBannerId === banner.id}
+                    aria-label="Move banner up"
+                    className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    ↑
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onMove(banner, "down")}
+                    disabled={index === sorted.length - 1 || busyBannerId === banner.id}
+                    aria-label="Move banner down"
+                    className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    ↓
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onToggleActive(banner)}
+                    disabled={busyBannerId === banner.id}
+                    className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {banner.isActive ? "Hide" : "Show"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onDelete(banner)}
+                    disabled={busyBannerId === banner.id}
+                    className="rounded-lg border border-red-200 px-4 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+    </div>
   );
 }
 
