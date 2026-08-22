@@ -25,8 +25,29 @@ async function getCounts() {
   return { schoolClasses, universities, materials };
 }
 
+async function getTopContributors() {
+  const grouped = await prisma.studyMaterial.groupBy({
+    by: ["uploadedById"],
+    where: { status: "APPROVED" },
+    _count: { id: true },
+    orderBy: { _count: { id: "desc" } },
+    take: 3,
+  });
+  if (grouped.length === 0) return [];
+
+  const users = await prisma.user.findMany({
+    where: { id: { in: grouped.map((g) => g.uploadedById) } },
+    select: { id: true, full_name: true },
+  });
+  const nameById = new Map(users.map((u) => [u.id, u.full_name]));
+
+  return grouped.map((g) => ({ name: nameById.get(g.uploadedById) || "A contributor", count: g._count.id }));
+}
+
+const MEDALS = ["🥇", "🥈", "🥉"];
+
 export default async function StudyHubLanding() {
-  const [counts, creditSettings] = await Promise.all([getCounts(), getCreditSettings()]);
+  const [counts, creditSettings, topContributors] = await Promise.all([getCounts(), getCreditSettings(), getTopContributors()]);
   const creditValue = Number(creditSettings.creditValueInRupees) * creditSettings.contributionReward;
 
   return (
@@ -97,6 +118,25 @@ export default async function StudyHubLanding() {
             </Link>
           </div>
         </section>
+
+        {topContributors.length > 0 && (
+          <section className="mx-auto max-w-4xl px-6 pb-20">
+            <div className="text-center">
+              <span className="text-3xl">🏆</span>
+              <h2 className="mt-2 text-xl font-bold text-slate-900">Top Contributors</h2>
+              <p className="mt-1 text-sm text-slate-500">Thank you for helping build Study Hub!</p>
+            </div>
+            <div className="mx-auto mt-6 grid max-w-2xl gap-4 sm:grid-cols-3">
+              {topContributors.map((c, i) => (
+                <div key={c.name + i} className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
+                  <span className="text-3xl">{MEDALS[i]}</span>
+                  <p className="mt-2 truncate font-bold text-slate-900">{c.name}</p>
+                  <p className="mt-0.5 text-xs text-slate-500">{c.count} note{c.count === 1 ? "" : "s"} approved</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
       </main>
       <Footer />
     </>
