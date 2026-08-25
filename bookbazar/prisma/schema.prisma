@@ -88,6 +88,11 @@ enum CouponType {
   FIXED
 }
 
+enum PayoutAdjustmentStatus {
+  PENDING
+  PAID
+}
+
 model User {
   id            String   @id @default(uuid())
   email         String   @unique
@@ -126,6 +131,9 @@ model User {
   creditTransactions          CreditTransaction[]      @relation("CreditTransactionsOf")
   createdCreditAdjustments    CreditTransaction[]      @relation("CreditTransactionsCreatedBy")
   couponRedemptions           CouponRedemption[]       @relation("CouponRedemptionsOf")
+  paidPayoutAdjustments       SellerPayoutAdjustment[] @relation("SellerPayoutAdjustmentsPaidBy")
+  recentlyViewed              RecentlyViewedBook[]
+  searchHistory               SearchHistoryEntry[]
 
   @@map("users")
 }
@@ -146,9 +154,10 @@ model Store {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  seller     User        @relation(fields: [sellerId], references: [id], onDelete: Cascade)
-  books      Book[]
-  orderItems OrderItem[]
+  seller             User                     @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  books              Book[]
+  orderItems         OrderItem[]
+  payoutAdjustments  SellerPayoutAdjustment[]
 
   @@map("stores")
 }
@@ -181,12 +190,13 @@ model Book {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
-  store         Store          @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  category      Category?      @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  orderItems    OrderItem[]
-  cartItems     CartItem[]
-  reviews       Review[]
-  wishlistItems WishlistItem[]
+  store            Store                @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  category         Category?            @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  orderItems       OrderItem[]
+  cartItems        CartItem[]
+  reviews          Review[]
+  wishlistItems    WishlistItem[]
+  recentlyViewedBy RecentlyViewedBook[]
 
   @@index([storeId])
   @@index([categoryId])
@@ -212,9 +222,10 @@ model Order {
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 
-  buyer            User               @relation(fields: [buyerId], references: [id], onDelete: Restrict)
-  items            OrderItem[]
-  couponRedemption CouponRedemption?
+  buyer             User                     @relation(fields: [buyerId], references: [id], onDelete: Restrict)
+  items             OrderItem[]
+  couponRedemption  CouponRedemption?
+  payoutAdjustments SellerPayoutAdjustment[]
 
   @@index([buyerId])
   @@map("orders")
@@ -717,4 +728,69 @@ model CouponRedemption {
   @@index([couponId])
   @@index([userId])
   @@map("coupon_redemptions")
+}
+
+// The real gap this closes: BookMandu has no payment gateway, so COD cash
+// is collected directly by the seller — there's no BookMandu-held pool of
+// money to quietly absorb a coupon or credit discount out of. Without this
+// ledger, a discounted order just means the seller collects less cash at
+// the door and eats the difference themselves, silently. This row is the
+// trace of what BookMandu actually owes a seller for that: their
+// proportional share (by that store's items in the order) of the coupon
+// discount + credits applied, created alongside the order, settled
+// manually (bank transfer, etc.) until a real payout system exists —
+// marking PAID here is that settlement's record, not an automated payment.
+model SellerPayoutAdjustment {
+  id        String                 @id @default(uuid())
+  storeId   String
+  orderId   String
+  amount    Decimal                @db.Decimal(10, 2)
+  reason    String
+  status    PayoutAdjustmentStatus @default(PENDING)
+  createdAt DateTime               @default(now())
+  paidAt    DateTime?
+  paidById  String?
+
+  store  Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  order  Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  paidBy User? @relation("SellerPayoutAdjustmentsPaidBy", fields: [paidById], references: [id], onDelete: SetNull)
+
+  @@index([storeId])
+  @@index([status])
+  @@map("seller_payout_adjustments")
+}
+
+// =====================================================================
+// Personalized homepage signals — real, tracked data, not invented.
+// Both are written by the pages/actions that already exist (viewing a
+// book, searching) rather than a new separate tracking system.
+// =====================================================================
+
+// One row per (user, book) — re-viewing just bumps viewedAt, it doesn't
+// pile up duplicate rows. That's what makes "show my last N viewed books"
+// a plain query instead of needing dedup logic at read time.
+model RecentlyViewedBook {
+  id       String   @id @default(uuid())
+  userId   String
+  bookId   String
+  viewedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bookId])
+  @@index([userId, viewedAt])
+  @@map("recently_viewed_books")
+}
+
+model SearchHistoryEntry {
+  id        String   @id @default(uuid())
+  userId    String
+  query     String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("search_history_entries")
 }

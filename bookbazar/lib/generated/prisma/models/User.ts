@@ -316,6 +316,9 @@ export type UserWhereInput = {
   creditTransactions?: Prisma.CreditTransactionListRelationFilter
   createdCreditAdjustments?: Prisma.CreditTransactionListRelationFilter
   couponRedemptions?: Prisma.CouponRedemptionListRelationFilter
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentListRelationFilter
+  recentlyViewed?: Prisma.RecentlyViewedBookListRelationFilter
+  searchHistory?: Prisma.SearchHistoryEntryListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -354,6 +357,9 @@ export type UserOrderByWithRelationInput = {
   creditTransactions?: Prisma.CreditTransactionOrderByRelationAggregateInput
   createdCreditAdjustments?: Prisma.CreditTransactionOrderByRelationAggregateInput
   couponRedemptions?: Prisma.CouponRedemptionOrderByRelationAggregateInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentOrderByRelationAggregateInput
+  recentlyViewed?: Prisma.RecentlyViewedBookOrderByRelationAggregateInput
+  searchHistory?: Prisma.SearchHistoryEntryOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -395,6 +401,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   creditTransactions?: Prisma.CreditTransactionListRelationFilter
   createdCreditAdjustments?: Prisma.CreditTransactionListRelationFilter
   couponRedemptions?: Prisma.CouponRedemptionListRelationFilter
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentListRelationFilter
+  recentlyViewed?: Prisma.RecentlyViewedBookListRelationFilter
+  searchHistory?: Prisma.SearchHistoryEntryListRelationFilter
 }, "id" | "email" | "googleId" | "githubId" | "facebookId">
 
 export type UserOrderByWithAggregationInput = {
@@ -477,6 +486,9 @@ export type UserCreateInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -515,6 +527,9 @@ export type UserUncheckedCreateInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -553,6 +568,9 @@ export type UserUpdateInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -591,6 +609,9 @@ export type UserUncheckedUpdateInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -1037,6 +1058,50 @@ export type UserUpdateOneRequiredWithoutCouponRedemptionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCouponRedemptionsInput, Prisma.UserUpdateWithoutCouponRedemptionsInput>, Prisma.UserUncheckedUpdateWithoutCouponRedemptionsInput>
 }
 
+export type UserCreateNestedOneWithoutPaidPayoutAdjustmentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPaidPayoutAdjustmentsInput, Prisma.UserUncheckedCreateWithoutPaidPayoutAdjustmentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaidPayoutAdjustmentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutPaidPayoutAdjustmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPaidPayoutAdjustmentsInput, Prisma.UserUncheckedCreateWithoutPaidPayoutAdjustmentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaidPayoutAdjustmentsInput
+  upsert?: Prisma.UserUpsertWithoutPaidPayoutAdjustmentsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPaidPayoutAdjustmentsInput, Prisma.UserUpdateWithoutPaidPayoutAdjustmentsInput>, Prisma.UserUncheckedUpdateWithoutPaidPayoutAdjustmentsInput>
+}
+
+export type UserCreateNestedOneWithoutRecentlyViewedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRecentlyViewedInput, Prisma.UserUncheckedCreateWithoutRecentlyViewedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRecentlyViewedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRecentlyViewedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRecentlyViewedInput, Prisma.UserUncheckedCreateWithoutRecentlyViewedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRecentlyViewedInput
+  upsert?: Prisma.UserUpsertWithoutRecentlyViewedInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRecentlyViewedInput, Prisma.UserUpdateWithoutRecentlyViewedInput>, Prisma.UserUncheckedUpdateWithoutRecentlyViewedInput>
+}
+
+export type UserCreateNestedOneWithoutSearchHistoryInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSearchHistoryInput, Prisma.UserUncheckedCreateWithoutSearchHistoryInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSearchHistoryInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSearchHistoryNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSearchHistoryInput, Prisma.UserUncheckedCreateWithoutSearchHistoryInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSearchHistoryInput
+  upsert?: Prisma.UserUpsertWithoutSearchHistoryInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSearchHistoryInput, Prisma.UserUpdateWithoutSearchHistoryInput>, Prisma.UserUncheckedUpdateWithoutSearchHistoryInput>
+}
+
 export type UserCreateWithoutStoreInput = {
   id?: string
   email: string
@@ -1072,6 +1137,9 @@ export type UserCreateWithoutStoreInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStoreInput = {
@@ -1109,6 +1177,9 @@ export type UserUncheckedCreateWithoutStoreInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStoreInput = {
@@ -1162,6 +1233,9 @@ export type UserUpdateWithoutStoreInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStoreInput = {
@@ -1199,6 +1273,9 @@ export type UserUncheckedUpdateWithoutStoreInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutOrdersInput = {
@@ -1236,6 +1313,9 @@ export type UserCreateWithoutOrdersInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOrdersInput = {
@@ -1273,6 +1353,9 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOrdersInput = {
@@ -1326,6 +1409,9 @@ export type UserUpdateWithoutOrdersInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOrdersInput = {
@@ -1363,6 +1449,9 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCartItemsInput = {
@@ -1400,6 +1489,9 @@ export type UserCreateWithoutCartItemsInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCartItemsInput = {
@@ -1437,6 +1529,9 @@ export type UserUncheckedCreateWithoutCartItemsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCartItemsInput = {
@@ -1490,6 +1585,9 @@ export type UserUpdateWithoutCartItemsInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCartItemsInput = {
@@ -1527,6 +1625,9 @@ export type UserUncheckedUpdateWithoutCartItemsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWishlistItemsInput = {
@@ -1564,6 +1665,9 @@ export type UserCreateWithoutWishlistItemsInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWishlistItemsInput = {
@@ -1601,6 +1705,9 @@ export type UserUncheckedCreateWithoutWishlistItemsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWishlistItemsInput = {
@@ -1654,6 +1761,9 @@ export type UserUpdateWithoutWishlistItemsInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWishlistItemsInput = {
@@ -1691,6 +1801,9 @@ export type UserUncheckedUpdateWithoutWishlistItemsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutVerificationTokensInput = {
@@ -1728,6 +1841,9 @@ export type UserCreateWithoutVerificationTokensInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutVerificationTokensInput = {
@@ -1765,6 +1881,9 @@ export type UserUncheckedCreateWithoutVerificationTokensInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutVerificationTokensInput = {
@@ -1818,6 +1937,9 @@ export type UserUpdateWithoutVerificationTokensInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutVerificationTokensInput = {
@@ -1855,6 +1977,9 @@ export type UserUncheckedUpdateWithoutVerificationTokensInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPasswordResetTokensInput = {
@@ -1892,6 +2017,9 @@ export type UserCreateWithoutPasswordResetTokensInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
@@ -1929,6 +2057,9 @@ export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPasswordResetTokensInput = {
@@ -1982,6 +2113,9 @@ export type UserUpdateWithoutPasswordResetTokensInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
@@ -2019,6 +2153,9 @@ export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReviewsInput = {
@@ -2056,6 +2193,9 @@ export type UserCreateWithoutReviewsInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewsInput = {
@@ -2093,6 +2233,9 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -2146,6 +2289,9 @@ export type UserUpdateWithoutReviewsInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -2183,6 +2329,9 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutContributorRequestsInput = {
@@ -2220,6 +2369,9 @@ export type UserCreateWithoutContributorRequestsInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutContributorRequestsInput = {
@@ -2257,6 +2409,9 @@ export type UserUncheckedCreateWithoutContributorRequestsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutContributorRequestsInput = {
@@ -2299,6 +2454,9 @@ export type UserCreateWithoutReviewedContributorRequestsInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewedContributorRequestsInput = {
@@ -2336,6 +2494,9 @@ export type UserUncheckedCreateWithoutReviewedContributorRequestsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewedContributorRequestsInput = {
@@ -2389,6 +2550,9 @@ export type UserUpdateWithoutContributorRequestsInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutContributorRequestsInput = {
@@ -2426,6 +2590,9 @@ export type UserUncheckedUpdateWithoutContributorRequestsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReviewedContributorRequestsInput = {
@@ -2474,6 +2641,9 @@ export type UserUpdateWithoutReviewedContributorRequestsInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewedContributorRequestsInput = {
@@ -2511,6 +2681,9 @@ export type UserUncheckedUpdateWithoutReviewedContributorRequestsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutContributorPermissionsInput = {
@@ -2548,6 +2721,9 @@ export type UserCreateWithoutContributorPermissionsInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutContributorPermissionsInput = {
@@ -2585,6 +2761,9 @@ export type UserUncheckedCreateWithoutContributorPermissionsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutContributorPermissionsInput = {
@@ -2627,6 +2806,9 @@ export type UserCreateWithoutGrantedContributorPermsInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGrantedContributorPermsInput = {
@@ -2664,6 +2846,9 @@ export type UserUncheckedCreateWithoutGrantedContributorPermsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGrantedContributorPermsInput = {
@@ -2717,6 +2902,9 @@ export type UserUpdateWithoutContributorPermissionsInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutContributorPermissionsInput = {
@@ -2754,6 +2942,9 @@ export type UserUncheckedUpdateWithoutContributorPermissionsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutGrantedContributorPermsInput = {
@@ -2802,6 +2993,9 @@ export type UserUpdateWithoutGrantedContributorPermsInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGrantedContributorPermsInput = {
@@ -2839,6 +3033,9 @@ export type UserUncheckedUpdateWithoutGrantedContributorPermsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutChapterSuggestionsInput = {
@@ -2876,6 +3073,9 @@ export type UserCreateWithoutChapterSuggestionsInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChapterSuggestionsInput = {
@@ -2913,6 +3113,9 @@ export type UserUncheckedCreateWithoutChapterSuggestionsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChapterSuggestionsInput = {
@@ -2955,6 +3158,9 @@ export type UserCreateWithoutReviewedChapterSuggestionsInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewedChapterSuggestionsInput = {
@@ -2992,6 +3198,9 @@ export type UserUncheckedCreateWithoutReviewedChapterSuggestionsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewedChapterSuggestionsInput = {
@@ -3045,6 +3254,9 @@ export type UserUpdateWithoutChapterSuggestionsInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChapterSuggestionsInput = {
@@ -3082,6 +3294,9 @@ export type UserUncheckedUpdateWithoutChapterSuggestionsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReviewedChapterSuggestionsInput = {
@@ -3130,6 +3345,9 @@ export type UserUpdateWithoutReviewedChapterSuggestionsInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewedChapterSuggestionsInput = {
@@ -3167,6 +3385,9 @@ export type UserUncheckedUpdateWithoutReviewedChapterSuggestionsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUploadedMaterialsInput = {
@@ -3204,6 +3425,9 @@ export type UserCreateWithoutUploadedMaterialsInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUploadedMaterialsInput = {
@@ -3241,6 +3465,9 @@ export type UserUncheckedCreateWithoutUploadedMaterialsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUploadedMaterialsInput = {
@@ -3294,6 +3521,9 @@ export type UserUpdateWithoutUploadedMaterialsInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUploadedMaterialsInput = {
@@ -3331,6 +3561,9 @@ export type UserUncheckedUpdateWithoutUploadedMaterialsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutStudyMaterialReportsInput = {
@@ -3368,6 +3601,9 @@ export type UserCreateWithoutStudyMaterialReportsInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStudyMaterialReportsInput = {
@@ -3405,6 +3641,9 @@ export type UserUncheckedCreateWithoutStudyMaterialReportsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStudyMaterialReportsInput = {
@@ -3447,6 +3686,9 @@ export type UserCreateWithoutResolvedStudyMaterialReportsInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutResolvedStudyMaterialReportsInput = {
@@ -3484,6 +3726,9 @@ export type UserUncheckedCreateWithoutResolvedStudyMaterialReportsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutResolvedStudyMaterialReportsInput = {
@@ -3537,6 +3782,9 @@ export type UserUpdateWithoutStudyMaterialReportsInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStudyMaterialReportsInput = {
@@ -3574,6 +3822,9 @@ export type UserUncheckedUpdateWithoutStudyMaterialReportsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutResolvedStudyMaterialReportsInput = {
@@ -3622,6 +3873,9 @@ export type UserUpdateWithoutResolvedStudyMaterialReportsInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutResolvedStudyMaterialReportsInput = {
@@ -3659,6 +3913,9 @@ export type UserUncheckedUpdateWithoutResolvedStudyMaterialReportsInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCreditTransactionsInput = {
@@ -3696,6 +3953,9 @@ export type UserCreateWithoutCreditTransactionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCreditTransactionsInput = {
@@ -3733,6 +3993,9 @@ export type UserUncheckedCreateWithoutCreditTransactionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCreditTransactionsInput = {
@@ -3775,6 +4038,9 @@ export type UserCreateWithoutCreatedCreditAdjustmentsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCreatedCreditAdjustmentsInput = {
@@ -3812,6 +4078,9 @@ export type UserUncheckedCreateWithoutCreatedCreditAdjustmentsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCreatedCreditAdjustmentsInput = {
@@ -3865,6 +4134,9 @@ export type UserUpdateWithoutCreditTransactionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreditTransactionsInput = {
@@ -3902,6 +4174,9 @@ export type UserUncheckedUpdateWithoutCreditTransactionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutCreatedCreditAdjustmentsInput = {
@@ -3950,6 +4225,9 @@ export type UserUpdateWithoutCreatedCreditAdjustmentsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedCreditAdjustmentsInput = {
@@ -3987,6 +4265,9 @@ export type UserUncheckedUpdateWithoutCreatedCreditAdjustmentsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMaterialPurchasesInput = {
@@ -4024,6 +4305,9 @@ export type UserCreateWithoutMaterialPurchasesInput = {
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMaterialPurchasesInput = {
@@ -4061,6 +4345,9 @@ export type UserUncheckedCreateWithoutMaterialPurchasesInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMaterialPurchasesInput = {
@@ -4114,6 +4401,9 @@ export type UserUpdateWithoutMaterialPurchasesInput = {
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMaterialPurchasesInput = {
@@ -4151,6 +4441,9 @@ export type UserUncheckedUpdateWithoutMaterialPurchasesInput = {
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCouponRedemptionsInput = {
@@ -4188,6 +4481,9 @@ export type UserCreateWithoutCouponRedemptionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCouponRedemptionsInput = {
@@ -4225,6 +4521,9 @@ export type UserUncheckedCreateWithoutCouponRedemptionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
   creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCouponRedemptionsInput = {
@@ -4278,6 +4577,9 @@ export type UserUpdateWithoutCouponRedemptionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCouponRedemptionsInput = {
@@ -4315,6 +4617,537 @@ export type UserUncheckedUpdateWithoutCouponRedemptionsInput = {
   resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
   creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutPaidPayoutAdjustmentsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutPaidPayoutAdjustmentsInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPaidPayoutAdjustmentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPaidPayoutAdjustmentsInput, Prisma.UserUncheckedCreateWithoutPaidPayoutAdjustmentsInput>
+}
+
+export type UserUpsertWithoutPaidPayoutAdjustmentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPaidPayoutAdjustmentsInput, Prisma.UserUncheckedUpdateWithoutPaidPayoutAdjustmentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPaidPayoutAdjustmentsInput, Prisma.UserUncheckedCreateWithoutPaidPayoutAdjustmentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPaidPayoutAdjustmentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPaidPayoutAdjustmentsInput, Prisma.UserUncheckedUpdateWithoutPaidPayoutAdjustmentsInput>
+}
+
+export type UserUpdateWithoutPaidPayoutAdjustmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPaidPayoutAdjustmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutRecentlyViewedInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  searchHistory?: Prisma.SearchHistoryEntryCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutRecentlyViewedInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutRecentlyViewedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRecentlyViewedInput, Prisma.UserUncheckedCreateWithoutRecentlyViewedInput>
+}
+
+export type UserUpsertWithoutRecentlyViewedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRecentlyViewedInput, Prisma.UserUncheckedUpdateWithoutRecentlyViewedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRecentlyViewedInput, Prisma.UserUncheckedCreateWithoutRecentlyViewedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRecentlyViewedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRecentlyViewedInput, Prisma.UserUncheckedUpdateWithoutRecentlyViewedInput>
+}
+
+export type UserUpdateWithoutRecentlyViewedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRecentlyViewedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  searchHistory?: Prisma.SearchHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSearchHistoryInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSearchHistoryInput = {
+  id?: string
+  email: string
+  full_name: string
+  password_hash?: string | null
+  googleId?: string | null
+  githubId?: string | null
+  facebookId?: string | null
+  avatarUrl?: string | null
+  role?: $Enums.Role
+  created_at?: Date | string
+  updated_at?: Date | string
+  isVerified?: boolean
+  isBlocked?: boolean
+  phone?: string | null
+  creditBalance?: number
+  store?: Prisma.StoreUncheckedCreateNestedOneWithoutSellerInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutBuyerInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedCreateNestedManyWithoutUploadedByInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedCreateNestedManyWithoutUserInput
+  wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutUserInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutUserInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedCreateNestedManyWithoutGrantedByInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutSuggestedByInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedCreateNestedManyWithoutReviewedByInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutReportedByInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedCreateNestedManyWithoutResolvedByInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedCreateNestedManyWithoutUserInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutPaidByInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSearchHistoryInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSearchHistoryInput, Prisma.UserUncheckedCreateWithoutSearchHistoryInput>
+}
+
+export type UserUpsertWithoutSearchHistoryInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSearchHistoryInput, Prisma.UserUncheckedUpdateWithoutSearchHistoryInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSearchHistoryInput, Prisma.UserUncheckedCreateWithoutSearchHistoryInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSearchHistoryInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSearchHistoryInput, Prisma.UserUncheckedUpdateWithoutSearchHistoryInput>
+}
+
+export type UserUpdateWithoutSearchHistoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSearchHistoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creditBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  store?: Prisma.StoreUncheckedUpdateOneWithoutSellerNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutBuyerNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  verificationTokens?: Prisma.VerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  uploadedMaterials?: Prisma.StudyMaterialUncheckedUpdateManyWithoutUploadedByNestedInput
+  materialPurchases?: Prisma.StudyMaterialPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  contributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutUserNestedInput
+  reviewedContributorRequests?: Prisma.ContributorRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  contributorPermissions?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutUserNestedInput
+  grantedContributorPerms?: Prisma.ContributorPermissionUncheckedUpdateManyWithoutGrantedByNestedInput
+  chapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutSuggestedByNestedInput
+  reviewedChapterSuggestions?: Prisma.ChapterSuggestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  studyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutReportedByNestedInput
+  resolvedStudyMaterialReports?: Prisma.StudyMaterialReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  creditTransactions?: Prisma.CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+  createdCreditAdjustments?: Prisma.CreditTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  couponRedemptions?: Prisma.CouponRedemptionUncheckedUpdateManyWithoutUserNestedInput
+  paidPayoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutPaidByNestedInput
+  recentlyViewed?: Prisma.RecentlyViewedBookUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -4342,6 +5175,9 @@ export type UserCountOutputType = {
   creditTransactions: number
   createdCreditAdjustments: number
   couponRedemptions: number
+  paidPayoutAdjustments: number
+  recentlyViewed: number
+  searchHistory: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4364,6 +5200,9 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   creditTransactions?: boolean | UserCountOutputTypeCountCreditTransactionsArgs
   createdCreditAdjustments?: boolean | UserCountOutputTypeCountCreatedCreditAdjustmentsArgs
   couponRedemptions?: boolean | UserCountOutputTypeCountCouponRedemptionsArgs
+  paidPayoutAdjustments?: boolean | UserCountOutputTypeCountPaidPayoutAdjustmentsArgs
+  recentlyViewed?: boolean | UserCountOutputTypeCountRecentlyViewedArgs
+  searchHistory?: boolean | UserCountOutputTypeCountSearchHistoryArgs
 }
 
 /**
@@ -4509,6 +5348,27 @@ export type UserCountOutputTypeCountCouponRedemptionsArgs<ExtArgs extends runtim
   where?: Prisma.CouponRedemptionWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPaidPayoutAdjustmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SellerPayoutAdjustmentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRecentlyViewedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RecentlyViewedBookWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSearchHistoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SearchHistoryEntryWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4546,6 +5406,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   creditTransactions?: boolean | Prisma.User$creditTransactionsArgs<ExtArgs>
   createdCreditAdjustments?: boolean | Prisma.User$createdCreditAdjustmentsArgs<ExtArgs>
   couponRedemptions?: boolean | Prisma.User$couponRedemptionsArgs<ExtArgs>
+  paidPayoutAdjustments?: boolean | Prisma.User$paidPayoutAdjustmentsArgs<ExtArgs>
+  recentlyViewed?: boolean | Prisma.User$recentlyViewedArgs<ExtArgs>
+  searchHistory?: boolean | Prisma.User$searchHistoryArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -4625,6 +5488,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   creditTransactions?: boolean | Prisma.User$creditTransactionsArgs<ExtArgs>
   createdCreditAdjustments?: boolean | Prisma.User$createdCreditAdjustmentsArgs<ExtArgs>
   couponRedemptions?: boolean | Prisma.User$couponRedemptionsArgs<ExtArgs>
+  paidPayoutAdjustments?: boolean | Prisma.User$paidPayoutAdjustmentsArgs<ExtArgs>
+  recentlyViewed?: boolean | Prisma.User$recentlyViewedArgs<ExtArgs>
+  searchHistory?: boolean | Prisma.User$searchHistoryArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -4653,6 +5519,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     creditTransactions: Prisma.$CreditTransactionPayload<ExtArgs>[]
     createdCreditAdjustments: Prisma.$CreditTransactionPayload<ExtArgs>[]
     couponRedemptions: Prisma.$CouponRedemptionPayload<ExtArgs>[]
+    paidPayoutAdjustments: Prisma.$SellerPayoutAdjustmentPayload<ExtArgs>[]
+    recentlyViewed: Prisma.$RecentlyViewedBookPayload<ExtArgs>[]
+    searchHistory: Prisma.$SearchHistoryEntryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -5084,6 +5953,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   creditTransactions<T extends Prisma.User$creditTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$creditTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdCreditAdjustments<T extends Prisma.User$createdCreditAdjustmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdCreditAdjustmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   couponRedemptions<T extends Prisma.User$couponRedemptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$couponRedemptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CouponRedemptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  paidPayoutAdjustments<T extends Prisma.User$paidPayoutAdjustmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paidPayoutAdjustmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SellerPayoutAdjustmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  recentlyViewed<T extends Prisma.User$recentlyViewedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$recentlyViewedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecentlyViewedBookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  searchHistory<T extends Prisma.User$searchHistoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$searchHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SearchHistoryEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5993,6 +6865,78 @@ export type User$couponRedemptionsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.CouponRedemptionScalarFieldEnum | Prisma.CouponRedemptionScalarFieldEnum[]
+}
+
+/**
+ * User.paidPayoutAdjustments
+ */
+export type User$paidPayoutAdjustmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SellerPayoutAdjustment
+   */
+  select?: Prisma.SellerPayoutAdjustmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SellerPayoutAdjustment
+   */
+  omit?: Prisma.SellerPayoutAdjustmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SellerPayoutAdjustmentInclude<ExtArgs> | null
+  where?: Prisma.SellerPayoutAdjustmentWhereInput
+  orderBy?: Prisma.SellerPayoutAdjustmentOrderByWithRelationInput | Prisma.SellerPayoutAdjustmentOrderByWithRelationInput[]
+  cursor?: Prisma.SellerPayoutAdjustmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SellerPayoutAdjustmentScalarFieldEnum | Prisma.SellerPayoutAdjustmentScalarFieldEnum[]
+}
+
+/**
+ * User.recentlyViewed
+ */
+export type User$recentlyViewedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RecentlyViewedBook
+   */
+  select?: Prisma.RecentlyViewedBookSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RecentlyViewedBook
+   */
+  omit?: Prisma.RecentlyViewedBookOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecentlyViewedBookInclude<ExtArgs> | null
+  where?: Prisma.RecentlyViewedBookWhereInput
+  orderBy?: Prisma.RecentlyViewedBookOrderByWithRelationInput | Prisma.RecentlyViewedBookOrderByWithRelationInput[]
+  cursor?: Prisma.RecentlyViewedBookWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RecentlyViewedBookScalarFieldEnum | Prisma.RecentlyViewedBookScalarFieldEnum[]
+}
+
+/**
+ * User.searchHistory
+ */
+export type User$searchHistoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SearchHistoryEntry
+   */
+  select?: Prisma.SearchHistoryEntrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SearchHistoryEntry
+   */
+  omit?: Prisma.SearchHistoryEntryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SearchHistoryEntryInclude<ExtArgs> | null
+  where?: Prisma.SearchHistoryEntryWhereInput
+  orderBy?: Prisma.SearchHistoryEntryOrderByWithRelationInput | Prisma.SearchHistoryEntryOrderByWithRelationInput[]
+  cursor?: Prisma.SearchHistoryEntryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SearchHistoryEntryScalarFieldEnum | Prisma.SearchHistoryEntryScalarFieldEnum[]
 }
 
 /**

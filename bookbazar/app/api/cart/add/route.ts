@@ -49,7 +49,8 @@ const book = await prisma.book.findFirst({
     id: bookID,
     isActive: true,
     store: {
-      isActive: true
+      isActive: true,
+      isApproved: true
     }
   }
 })

@@ -196,3 +196,18 @@ export type Coupon = Prisma.CouponModel
  * 
  */
 export type CouponRedemption = Prisma.CouponRedemptionModel
+/**
+ * Model SellerPayoutAdjustment
+ * 
+ */
+export type SellerPayoutAdjustment = Prisma.SellerPayoutAdjustmentModel
+/**
+ * Model RecentlyViewedBook
+ * 
+ */
+export type RecentlyViewedBook = Prisma.RecentlyViewedBookModel
+/**
+ * Model SearchHistoryEntry
+ * 
+ */
+export type SearchHistoryEntry = Prisma.SearchHistoryEntryModel

@@ -3,6 +3,7 @@ import { randomInt } from "crypto";
 import { requireActiveUser } from "@/app/lib/active-user";
 import { applyCreditTransaction, getCreditSettings, InsufficientCreditsError } from "@/lib/credits";
 import { evaluateCoupon, redeemCoupon, CouponError } from "@/lib/coupons";
+import { allocatePayoutAdjustments } from "@/lib/seller-payouts";
 import { z } from "zod";
 
 export const orderSchema = z.object({
@@ -51,7 +52,7 @@ export async function POST(req: Request) {
       const cartItems = await tx.cartItem.findMany({
         where: {
           userId: user.id,
-          book: { isActive: true, store: { isActive: true } },
+          book: { isActive: true, store: { isActive: true, isApproved: true } },
         },
         include: { book: true },
       })
@@ -121,15 +122,23 @@ export async function POST(req: Request) {
         })
       }
 
-      await tx.orderItem.createMany({
-        data: cartItems.map((item) => ({
-          orderId: order.id,
-          bookId: item.bookId,
-          storeId: item.book.storeId,
-          quantity: item.quantity,
-          unitPrice: item.book.price,
-          totalPrice: Number(item.book.price) * item.quantity,
-        })),
+      const orderItemsData = cartItems.map((item) => ({
+        orderId: order.id,
+        bookId: item.bookId,
+        storeId: item.book.storeId,
+        quantity: item.quantity,
+        unitPrice: item.book.price,
+        totalPrice: Number(item.book.price) * item.quantity,
+      }))
+      await tx.orderItem.createMany({ data: orderItemsData })
+
+      // BookMandu's promotions (coupons, credits) are BookMandu's cost,
+      // not the seller's — this is what actually tracks that, split
+      // proportionally across sellers when an order spans more than one.
+      await allocatePayoutAdjustments(tx, {
+        orderId: order.id,
+        items: orderItemsData.map((i) => ({ storeId: i.storeId, totalPrice: i.totalPrice })),
+        totalDiscount: couponDiscount + creditsRupeeValue,
       })
 
       // Atomic per-book stock check-and-decrement — two buyers racing for

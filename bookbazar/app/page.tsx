@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { cookies } from "next/headers";
 import Footer from '@/components/home/footer';
 import Hero from '@/components/home/hero';
 import BannerCarousel from '@/components/home/BannerCarousel';
@@ -9,7 +10,14 @@ import TrustBadges from '@/components/home/TrustBadges';
 import Feature from '@/components/home/featuresbook';
 import Navbar from '@/components/Navbar';
 import ChatBot from './chat/page';
+import PersonalizedGreeting from '@/components/home/PersonalizedGreeting';
+import RecentSearchesChips from '@/components/home/RecentSearchesChips';
+import RecommendedForYou from '@/components/home/RecommendedForYou';
+import RecentlyViewedRow from '@/components/home/RecentlyViewedRow';
+import WishlistTeaser from '@/components/home/WishlistTeaser';
 import prisma from "@/lib/prisma";
+import { decrypt } from "@/app/lib/session";
+import { getPersonalizedHomepageData } from "@/lib/recommendations";
 import { getCanonicalUrl, SITE_NAME, SITE_URL, SITE_DESCRIPTION } from "@/lib/site";
 
 // Without this the page is prerendered once at build time and a banner added
@@ -80,8 +88,28 @@ async function getActiveBanners() {
   return banners;
 }
 
+// Logged-out visitors get exactly the homepage they always have — this
+// only runs (and only adds sections) when there's a real session.
+async function getLoggedInHomepageData() {
+  const sessionCookie = (await cookies()).get("session")?.value;
+  const payload = sessionCookie ? await decrypt(sessionCookie) : null;
+  if (!payload) return null;
+
+  const user = await prisma.user.findUnique({
+    where: { id: payload.id as string },
+    select: { full_name: true, isBlocked: true },
+  });
+  if (!user || user.isBlocked) return null;
+
+  const personalized = await getPersonalizedHomepageData(payload.id as string);
+  return {
+    firstName: user.full_name.trim().split(/\s+/)[0] || user.full_name,
+    ...personalized,
+  };
+}
+
 export default async function Page() {
-  const banners = await getActiveBanners();
+  const [banners, homepageData] = await Promise.all([getActiveBanners(), getLoggedInHomepageData()]);
 
   return (
     <>
@@ -90,8 +118,29 @@ export default async function Page() {
       </Script>
       <Navbar />
       {banners.length > 0 ? <BannerCarousel banners={banners} /> : <Hero />}
+
+      {homepageData && (
+        <>
+          <PersonalizedGreeting firstName={homepageData.firstName} />
+          <RecentSearchesChips queries={homepageData.recentSearches} />
+        </>
+      )}
+
       <CategoryStrip />
       <ChatBot />
+
+      {homepageData && (
+        <>
+          <RecommendedForYou
+            books={homepageData.recommended}
+            wishlistedIds={homepageData.wishlistedIds}
+            personalized={homepageData.hasPersonalizationSignal}
+          />
+          <RecentlyViewedRow books={homepageData.recentlyViewed} wishlistedIds={homepageData.wishlistedIds} />
+          <WishlistTeaser books={homepageData.wishlistPreview} />
+        </>
+      )}
+
       <Feature />
       <StudyHubTeaser />
       <TrustBadges />

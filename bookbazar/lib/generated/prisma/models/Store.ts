@@ -257,6 +257,7 @@ export type StoreWhereInput = {
   seller?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   books?: Prisma.BookListRelationFilter
   orderItems?: Prisma.OrderItemListRelationFilter
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentListRelationFilter
 }
 
 export type StoreOrderByWithRelationInput = {
@@ -277,6 +278,7 @@ export type StoreOrderByWithRelationInput = {
   seller?: Prisma.UserOrderByWithRelationInput
   books?: Prisma.BookOrderByRelationAggregateInput
   orderItems?: Prisma.OrderItemOrderByRelationAggregateInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentOrderByRelationAggregateInput
 }
 
 export type StoreWhereUniqueInput = Prisma.AtLeast<{
@@ -300,6 +302,7 @@ export type StoreWhereUniqueInput = Prisma.AtLeast<{
   seller?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   books?: Prisma.BookListRelationFilter
   orderItems?: Prisma.OrderItemListRelationFilter
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentListRelationFilter
 }, "id" | "sellerId" | "slug">
 
 export type StoreOrderByWithAggregationInput = {
@@ -359,6 +362,7 @@ export type StoreCreateInput = {
   seller: Prisma.UserCreateNestedOneWithoutStoreInput
   books?: Prisma.BookCreateNestedManyWithoutStoreInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutStoreInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateInput = {
@@ -378,6 +382,7 @@ export type StoreUncheckedCreateInput = {
   updatedAt?: Date | string
   books?: Prisma.BookUncheckedCreateNestedManyWithoutStoreInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutStoreInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUpdateInput = {
@@ -397,6 +402,7 @@ export type StoreUpdateInput = {
   seller?: Prisma.UserUpdateOneRequiredWithoutStoreNestedInput
   books?: Prisma.BookUpdateManyWithoutStoreNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutStoreNestedInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateInput = {
@@ -416,6 +422,7 @@ export type StoreUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   books?: Prisma.BookUncheckedUpdateManyWithoutStoreNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutStoreNestedInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateManyInput = {
@@ -589,6 +596,20 @@ export type StoreUpdateOneRequiredWithoutOrderItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutOrderItemsInput, Prisma.StoreUpdateWithoutOrderItemsInput>, Prisma.StoreUncheckedUpdateWithoutOrderItemsInput>
 }
 
+export type StoreCreateNestedOneWithoutPayoutAdjustmentsInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutPayoutAdjustmentsInput, Prisma.StoreUncheckedCreateWithoutPayoutAdjustmentsInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutPayoutAdjustmentsInput
+  connect?: Prisma.StoreWhereUniqueInput
+}
+
+export type StoreUpdateOneRequiredWithoutPayoutAdjustmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutPayoutAdjustmentsInput, Prisma.StoreUncheckedCreateWithoutPayoutAdjustmentsInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutPayoutAdjustmentsInput
+  upsert?: Prisma.StoreUpsertWithoutPayoutAdjustmentsInput
+  connect?: Prisma.StoreWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutPayoutAdjustmentsInput, Prisma.StoreUpdateWithoutPayoutAdjustmentsInput>, Prisma.StoreUncheckedUpdateWithoutPayoutAdjustmentsInput>
+}
+
 export type StoreCreateWithoutSellerInput = {
   id?: string
   name: string
@@ -605,6 +626,7 @@ export type StoreCreateWithoutSellerInput = {
   updatedAt?: Date | string
   books?: Prisma.BookCreateNestedManyWithoutStoreInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutStoreInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutSellerInput = {
@@ -623,6 +645,7 @@ export type StoreUncheckedCreateWithoutSellerInput = {
   updatedAt?: Date | string
   books?: Prisma.BookUncheckedCreateNestedManyWithoutStoreInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutStoreInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutSellerInput = {
@@ -657,6 +680,7 @@ export type StoreUpdateWithoutSellerInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   books?: Prisma.BookUpdateManyWithoutStoreNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutStoreNestedInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutSellerInput = {
@@ -675,6 +699,7 @@ export type StoreUncheckedUpdateWithoutSellerInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   books?: Prisma.BookUncheckedUpdateManyWithoutStoreNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutStoreNestedInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutBooksInput = {
@@ -693,6 +718,7 @@ export type StoreCreateWithoutBooksInput = {
   updatedAt?: Date | string
   seller: Prisma.UserCreateNestedOneWithoutStoreInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutStoreInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutBooksInput = {
@@ -711,6 +737,7 @@ export type StoreUncheckedCreateWithoutBooksInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutStoreInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutBooksInput = {
@@ -745,6 +772,7 @@ export type StoreUpdateWithoutBooksInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   seller?: Prisma.UserUpdateOneRequiredWithoutStoreNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutStoreNestedInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutBooksInput = {
@@ -763,6 +791,7 @@ export type StoreUncheckedUpdateWithoutBooksInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutStoreNestedInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutOrderItemsInput = {
@@ -781,6 +810,7 @@ export type StoreCreateWithoutOrderItemsInput = {
   updatedAt?: Date | string
   seller: Prisma.UserCreateNestedOneWithoutStoreInput
   books?: Prisma.BookCreateNestedManyWithoutStoreInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutOrderItemsInput = {
@@ -799,6 +829,7 @@ export type StoreUncheckedCreateWithoutOrderItemsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   books?: Prisma.BookUncheckedCreateNestedManyWithoutStoreInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutOrderItemsInput = {
@@ -833,6 +864,7 @@ export type StoreUpdateWithoutOrderItemsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   seller?: Prisma.UserUpdateOneRequiredWithoutStoreNestedInput
   books?: Prisma.BookUpdateManyWithoutStoreNestedInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutOrderItemsInput = {
@@ -851,6 +883,99 @@ export type StoreUncheckedUpdateWithoutOrderItemsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   books?: Prisma.BookUncheckedUpdateManyWithoutStoreNestedInput
+  payoutAdjustments?: Prisma.SellerPayoutAdjustmentUncheckedUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreCreateWithoutPayoutAdjustmentsInput = {
+  id?: string
+  name: string
+  slug: string
+  description?: string | null
+  logoUrl?: string | null
+  bannerUrl?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  phone?: string | null
+  identityUrl?: string | null
+  isApproved?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  seller: Prisma.UserCreateNestedOneWithoutStoreInput
+  books?: Prisma.BookCreateNestedManyWithoutStoreInput
+  orderItems?: Prisma.OrderItemCreateNestedManyWithoutStoreInput
+}
+
+export type StoreUncheckedCreateWithoutPayoutAdjustmentsInput = {
+  id?: string
+  sellerId: string
+  name: string
+  slug: string
+  description?: string | null
+  logoUrl?: string | null
+  bannerUrl?: string | null
+  isVerified?: boolean
+  isActive?: boolean
+  phone?: string | null
+  identityUrl?: string | null
+  isApproved?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutStoreInput
+  orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutStoreInput
+}
+
+export type StoreCreateOrConnectWithoutPayoutAdjustmentsInput = {
+  where: Prisma.StoreWhereUniqueInput
+  create: Prisma.XOR<Prisma.StoreCreateWithoutPayoutAdjustmentsInput, Prisma.StoreUncheckedCreateWithoutPayoutAdjustmentsInput>
+}
+
+export type StoreUpsertWithoutPayoutAdjustmentsInput = {
+  update: Prisma.XOR<Prisma.StoreUpdateWithoutPayoutAdjustmentsInput, Prisma.StoreUncheckedUpdateWithoutPayoutAdjustmentsInput>
+  create: Prisma.XOR<Prisma.StoreCreateWithoutPayoutAdjustmentsInput, Prisma.StoreUncheckedCreateWithoutPayoutAdjustmentsInput>
+  where?: Prisma.StoreWhereInput
+}
+
+export type StoreUpdateToOneWithWhereWithoutPayoutAdjustmentsInput = {
+  where?: Prisma.StoreWhereInput
+  data: Prisma.XOR<Prisma.StoreUpdateWithoutPayoutAdjustmentsInput, Prisma.StoreUncheckedUpdateWithoutPayoutAdjustmentsInput>
+}
+
+export type StoreUpdateWithoutPayoutAdjustmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  seller?: Prisma.UserUpdateOneRequiredWithoutStoreNestedInput
+  books?: Prisma.BookUpdateManyWithoutStoreNestedInput
+  orderItems?: Prisma.OrderItemUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreUncheckedUpdateWithoutPayoutAdjustmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sellerId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  books?: Prisma.BookUncheckedUpdateManyWithoutStoreNestedInput
+  orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 
@@ -861,11 +986,13 @@ export type StoreUncheckedUpdateWithoutOrderItemsInput = {
 export type StoreCountOutputType = {
   books: number
   orderItems: number
+  payoutAdjustments: number
 }
 
 export type StoreCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   books?: boolean | StoreCountOutputTypeCountBooksArgs
   orderItems?: boolean | StoreCountOutputTypeCountOrderItemsArgs
+  payoutAdjustments?: boolean | StoreCountOutputTypeCountPayoutAdjustmentsArgs
 }
 
 /**
@@ -892,6 +1019,13 @@ export type StoreCountOutputTypeCountOrderItemsArgs<ExtArgs extends runtime.Type
   where?: Prisma.OrderItemWhereInput
 }
 
+/**
+ * StoreCountOutputType without action
+ */
+export type StoreCountOutputTypeCountPayoutAdjustmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SellerPayoutAdjustmentWhereInput
+}
+
 
 export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -911,6 +1045,7 @@ export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   books?: boolean | Prisma.Store$booksArgs<ExtArgs>
   orderItems?: boolean | Prisma.Store$orderItemsArgs<ExtArgs>
+  payoutAdjustments?: boolean | Prisma.Store$payoutAdjustmentsArgs<ExtArgs>
   _count?: boolean | Prisma.StoreCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["store"]>
 
@@ -972,6 +1107,7 @@ export type StoreInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   books?: boolean | Prisma.Store$booksArgs<ExtArgs>
   orderItems?: boolean | Prisma.Store$orderItemsArgs<ExtArgs>
+  payoutAdjustments?: boolean | Prisma.Store$payoutAdjustmentsArgs<ExtArgs>
   _count?: boolean | Prisma.StoreCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StoreIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -987,6 +1123,7 @@ export type $StorePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     seller: Prisma.$UserPayload<ExtArgs>
     books: Prisma.$BookPayload<ExtArgs>[]
     orderItems: Prisma.$OrderItemPayload<ExtArgs>[]
+    payoutAdjustments: Prisma.$SellerPayoutAdjustmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1400,6 +1537,7 @@ export interface Prisma__StoreClient<T, Null = never, ExtArgs extends runtime.Ty
   seller<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   books<T extends Prisma.Store$booksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$booksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   orderItems<T extends Prisma.Store$orderItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  payoutAdjustments<T extends Prisma.Store$payoutAdjustmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$payoutAdjustmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SellerPayoutAdjustmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1889,6 +2027,30 @@ export type Store$orderItemsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.OrderItemScalarFieldEnum | Prisma.OrderItemScalarFieldEnum[]
+}
+
+/**
+ * Store.payoutAdjustments
+ */
+export type Store$payoutAdjustmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SellerPayoutAdjustment
+   */
+  select?: Prisma.SellerPayoutAdjustmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SellerPayoutAdjustment
+   */
+  omit?: Prisma.SellerPayoutAdjustmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SellerPayoutAdjustmentInclude<ExtArgs> | null
+  where?: Prisma.SellerPayoutAdjustmentWhereInput
+  orderBy?: Prisma.SellerPayoutAdjustmentOrderByWithRelationInput | Prisma.SellerPayoutAdjustmentOrderByWithRelationInput[]
+  cursor?: Prisma.SellerPayoutAdjustmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SellerPayoutAdjustmentScalarFieldEnum | Prisma.SellerPayoutAdjustmentScalarFieldEnum[]
 }
 
 /**

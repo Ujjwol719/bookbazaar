@@ -16,7 +16,13 @@ import { decrypt } from "@/app/lib/session";
 
 async function getBook(slug: string) {
   return prisma.book.findFirst({
-    where: { slug, isActive: true, store: { isActive: true } },
+    // store.isApproved matters here, not just isActive — a book from a
+    // seller who hasn't been approved yet shouldn't be viewable/orderable
+    // anywhere, matching what /api/book/all already enforces for browse
+    // and search. Without this, a direct link to the book worked, the
+    // "View storefront" link on it didn't (the storefront page itself
+    // does check isApproved) — same bug, now closed at the source.
+    where: { slug, isActive: true, store: { isActive: true, isApproved: true } },
     include: {
       store: {
         select: {
@@ -298,6 +304,7 @@ export default async function Book({ params }: { params: Promise<{ slug: string 
                 price={Number(book.price)}
                 author={book.author}
                 slug={book.slug}
+                loggedIn={!!payload}
               />
 
               <Addtocart bookID={book.id} bookTitle={book.title} bookPrice={Number(book.price)} initialWishlisted={initialWishlisted} />

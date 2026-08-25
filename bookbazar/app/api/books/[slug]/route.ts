@@ -7,7 +7,7 @@ export async function GET(
   const { slug } = await context.params;
 
   const book = await prisma.book.findFirst({
-    where: { slug, isActive: true, store: { isActive: true } },
+    where: { slug, isActive: true, store: { isActive: true, isApproved: true } },
     include: {
       category: true,
       store: {

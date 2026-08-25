@@ -717,6 +717,15 @@ export default function AdminPage() {
                 </svg>
                 Coupons
               </Link>
+              <Link
+                href="/admin/seller-payouts"
+                className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
+              >
+                <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-slate-400">
+                  <path d="M3 10h18M7 15h3M3 6h18a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Seller Payouts
+              </Link>
             </div>
           </nav>
 

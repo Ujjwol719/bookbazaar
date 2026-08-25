@@ -81,7 +81,10 @@ export const ModelName = {
   CreditSettings: 'CreditSettings',
   StudyMaterialPurchase: 'StudyMaterialPurchase',
   Coupon: 'Coupon',
-  CouponRedemption: 'CouponRedemption'
+  CouponRedemption: 'CouponRedemption',
+  SellerPayoutAdjustment: 'SellerPayoutAdjustment',
+  RecentlyViewedBook: 'RecentlyViewedBook',
+  SearchHistoryEntry: 'SearchHistoryEntry'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -534,6 +537,41 @@ export const CouponRedemptionScalarFieldEnum = {
 } as const
 
 export type CouponRedemptionScalarFieldEnum = (typeof CouponRedemptionScalarFieldEnum)[keyof typeof CouponRedemptionScalarFieldEnum]
+
+
+export const SellerPayoutAdjustmentScalarFieldEnum = {
+  id: 'id',
+  storeId: 'storeId',
+  orderId: 'orderId',
+  amount: 'amount',
+  reason: 'reason',
+  status: 'status',
+  createdAt: 'createdAt',
+  paidAt: 'paidAt',
+  paidById: 'paidById'
+} as const
+
+export type SellerPayoutAdjustmentScalarFieldEnum = (typeof SellerPayoutAdjustmentScalarFieldEnum)[keyof typeof SellerPayoutAdjustmentScalarFieldEnum]
+
+
+export const RecentlyViewedBookScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  bookId: 'bookId',
+  viewedAt: 'viewedAt'
+} as const
+
+export type RecentlyViewedBookScalarFieldEnum = (typeof RecentlyViewedBookScalarFieldEnum)[keyof typeof RecentlyViewedBookScalarFieldEnum]
+
+
+export const SearchHistoryEntryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  query: 'query',
+  createdAt: 'createdAt'
+} as const
+
+export type SearchHistoryEntryScalarFieldEnum = (typeof SearchHistoryEntryScalarFieldEnum)[keyof typeof SearchHistoryEntryScalarFieldEnum]
 
 
 export const SortOrder = {

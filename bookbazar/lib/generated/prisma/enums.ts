@@ -127,3 +127,11 @@ export const CouponType = {
 } as const
 
 export type CouponType = (typeof CouponType)[keyof typeof CouponType]
+
+
+export const PayoutAdjustmentStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID'
+} as const
+
+export type PayoutAdjustmentStatus = (typeof PayoutAdjustmentStatus)[keyof typeof PayoutAdjustmentStatus]

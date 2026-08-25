@@ -477,6 +477,23 @@ export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedIntNullableFilter<$PrismaModel>
 }
 
+export type EnumPayoutAdjustmentStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.PayoutAdjustmentStatus | Prisma.EnumPayoutAdjustmentStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PayoutAdjustmentStatus[] | Prisma.ListEnumPayoutAdjustmentStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PayoutAdjustmentStatus[] | Prisma.ListEnumPayoutAdjustmentStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPayoutAdjustmentStatusFilter<$PrismaModel> | $Enums.PayoutAdjustmentStatus
+}
+
+export type EnumPayoutAdjustmentStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PayoutAdjustmentStatus | Prisma.EnumPayoutAdjustmentStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PayoutAdjustmentStatus[] | Prisma.ListEnumPayoutAdjustmentStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PayoutAdjustmentStatus[] | Prisma.ListEnumPayoutAdjustmentStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPayoutAdjustmentStatusWithAggregatesFilter<$PrismaModel> | $Enums.PayoutAdjustmentStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPayoutAdjustmentStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPayoutAdjustmentStatusFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -951,6 +968,23 @@ export type NestedFloatNullableFilter<$PrismaModel = never> = {
   gt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   gte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   not?: Prisma.NestedFloatNullableFilter<$PrismaModel> | number | null
+}
+
+export type NestedEnumPayoutAdjustmentStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.PayoutAdjustmentStatus | Prisma.EnumPayoutAdjustmentStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PayoutAdjustmentStatus[] | Prisma.ListEnumPayoutAdjustmentStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PayoutAdjustmentStatus[] | Prisma.ListEnumPayoutAdjustmentStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPayoutAdjustmentStatusFilter<$PrismaModel> | $Enums.PayoutAdjustmentStatus
+}
+
+export type NestedEnumPayoutAdjustmentStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PayoutAdjustmentStatus | Prisma.EnumPayoutAdjustmentStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PayoutAdjustmentStatus[] | Prisma.ListEnumPayoutAdjustmentStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PayoutAdjustmentStatus[] | Prisma.ListEnumPayoutAdjustmentStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPayoutAdjustmentStatusWithAggregatesFilter<$PrismaModel> | $Enums.PayoutAdjustmentStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPayoutAdjustmentStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPayoutAdjustmentStatusFilter<$PrismaModel>
 }
 
 

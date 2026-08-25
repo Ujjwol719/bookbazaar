@@ -24,6 +24,7 @@ export  async function GET(res:Request)
         where: { id: payload.id as string },
         select: {
             isBlocked: true,
+            full_name: true,
         },
     })
 
@@ -31,7 +32,10 @@ export  async function GET(res:Request)
         return Response.json(null)
     }
 
-    return Response.json(payload)
+    // The JWT payload alone (id/email/role) never carried the display
+    // name — the navbar needs it, so it's merged in here rather than
+    // changing what's stored in the session cookie itself.
+    return Response.json({ ...payload, full_name: user.full_name })
 
 
 

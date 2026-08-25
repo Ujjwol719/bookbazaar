@@ -4,7 +4,7 @@ import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { FormEvent } from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { trackEvent } from '@/lib/analytics'
 
 const NAV_LINKS = [
@@ -33,10 +33,12 @@ function CartIcon() {
 }
 
 export default function Navbar() {
-  const [user, setUser] = useState<{ email: string; role: "ADMIN" | "BUYER" | "SELLER" } | null>(null)
+  const [user, setUser] = useState<{ email: string; role: "ADMIN" | "BUYER" | "SELLER"; full_name?: string } | null>(null)
   const [wishlistCount, setWishlistCount] = useState(0)
   const [search, setSearch] = useState("")
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const userMenuRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
 
   async function handleLogout() {
@@ -57,6 +59,12 @@ export default function Navbar() {
     trackEvent("search", {
       search_term: query,
     })
+
+    if (user) {
+      axios.post("/api/search-history", { query }).catch(() => {
+        // Homepage "recent searches" chips just won't include this one.
+      })
+    }
 
     router.push(`/books?search=${encodeURIComponent(query)}`)
     setDrawerOpen(false)
@@ -97,7 +105,27 @@ export default function Navbar() {
     }
   }, [drawerOpen])
 
-  const avatarLabel = user?.email?.split('@')[0]?.slice(0, 4).toUpperCase()
+  // Click anywhere outside the user menu (or Escape) closes it.
+  useEffect(() => {
+    if (!userMenuOpen) return
+    function onClickOutside(e: MouseEvent) {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setUserMenuOpen(false)
+      }
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setUserMenuOpen(false)
+    }
+    document.addEventListener("mousedown", onClickOutside)
+    window.addEventListener("keydown", onKey)
+    return () => {
+      document.removeEventListener("mousedown", onClickOutside)
+      window.removeEventListener("keydown", onKey)
+    }
+  }, [userMenuOpen])
+
+  const firstName = user?.full_name?.trim()?.split(/\s+/)[0] || user?.email?.split('@')[0] || ""
+  const avatarLabel = (user?.full_name?.trim()?.slice(0, 1) || user?.email?.slice(0, 1) || "?").toUpperCase()
 
   const contributorLinks = user && user.role !== "ADMIN" ? (
     <>
@@ -203,22 +231,51 @@ export default function Navbar() {
 
               <div className="mx-1.5 h-5 w-px bg-slate-200" />
 
-              <div title={user.email} className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-[11px] font-semibold text-white uppercase select-none cursor-default">
-                {avatarLabel}
-              </div>
+              {/* User menu — click to toggle, click outside or Escape to close */}
+              <div ref={userMenuRef} className="relative">
+                <button
+                  onClick={() => setUserMenuOpen((open) => !open)}
+                  aria-haspopup="menu"
+                  aria-expanded={userMenuOpen}
+                  className="flex items-center gap-2 rounded-full py-1 pl-1 pr-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100"
+                >
+                  <span title={user.email} className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-[13px] font-semibold text-white select-none">
+                    {avatarLabel}
+                  </span>
+                  <span className="max-w-24 truncate">{firstName}</span>
+                  <svg viewBox="0 0 24 24" className={`h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform ${userMenuOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
 
-              <button
-                onClick={handleLogout}
-                className="flex h-9 w-9 items-center justify-center rounded-full text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors"
-                aria-label="Logout"
-                title="Logout"
-              >
-                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                  <path d="M16 17l5-5-5-5" />
-                  <path d="M21 12H9" />
-                </svg>
-              </button>
+                <div
+                  role="menu"
+                  className={`absolute right-0 top-full z-10 mt-2 w-52 origin-top-right rounded-xl border border-slate-200 bg-white py-1.5 shadow-lg transition-all duration-150 ease-out ${
+                    userMenuOpen ? "translate-y-0 scale-100 opacity-100" : "pointer-events-none -translate-y-1 scale-95 opacity-0"
+                  }`}
+                >
+                  <div className="border-b border-slate-100 px-3.5 pb-2 pt-1">
+                    <p className="truncate text-sm font-semibold text-slate-900">{user.full_name || firstName}</p>
+                    <p className="truncate text-xs text-slate-400">{user.email}</p>
+                  </div>
+                  <Link href="/profile" onClick={() => setUserMenuOpen(false)} className="block px-3.5 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                    My Profile
+                  </Link>
+                  <Link href="/wishlist" onClick={() => setUserMenuOpen(false)} className="block px-3.5 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                    Wishlist
+                  </Link>
+                  <Link href="/settings" onClick={() => setUserMenuOpen(false)} className="block px-3.5 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                    Settings
+                  </Link>
+                  <div className="my-1 border-t border-slate-100" />
+                  <button
+                    onClick={() => { setUserMenuOpen(false); handleLogout() }}
+                    className="block w-full px-3.5 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
             </div>
           )}
 
@@ -313,6 +370,12 @@ export default function Navbar() {
                 <nav className="flex flex-col gap-0.5 px-3">
                   <Link href="/orders" onClick={() => setDrawerOpen(false)} className="rounded-md px-3 py-2.5 text-sm text-slate-600 hover:bg-slate-100">
                     My orders
+                  </Link>
+                  <Link href="/profile" onClick={() => setDrawerOpen(false)} className="rounded-md px-3 py-2.5 text-sm text-slate-600 hover:bg-slate-100">
+                    My Profile
+                  </Link>
+                  <Link href="/settings" onClick={() => setDrawerOpen(false)} className="rounded-md px-3 py-2.5 text-sm text-slate-600 hover:bg-slate-100">
+                    Settings
                   </Link>
                   {user.role === "BUYER" && (
                     <Link href="/become-seller" onClick={() => setDrawerOpen(false)} className="rounded-md px-3 py-2.5 text-sm text-slate-600 hover:bg-slate-100">

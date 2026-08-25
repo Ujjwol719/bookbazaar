@@ -414,7 +414,10 @@ export const ModelName = {
   CreditSettings: 'CreditSettings',
   StudyMaterialPurchase: 'StudyMaterialPurchase',
   Coupon: 'Coupon',
-  CouponRedemption: 'CouponRedemption'
+  CouponRedemption: 'CouponRedemption',
+  SellerPayoutAdjustment: 'SellerPayoutAdjustment',
+  RecentlyViewedBook: 'RecentlyViewedBook',
+  SearchHistoryEntry: 'SearchHistoryEntry'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -430,7 +433,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "store" | "category" | "book" | "order" | "orderItem" | "cartItem" | "wishlistItem" | "verificationToken" | "passwordResetToken" | "banner" | "review" | "schoolClass" | "stream" | "subject" | "classSubject" | "university" | "program" | "contributorRequest" | "contributorPermission" | "semester" | "programSubject" | "chapter" | "chapterSuggestion" | "studyMaterial" | "studyMaterialReport" | "creditTransaction" | "creditSettings" | "studyMaterialPurchase" | "coupon" | "couponRedemption"
+    modelProps: "user" | "store" | "category" | "book" | "order" | "orderItem" | "cartItem" | "wishlistItem" | "verificationToken" | "passwordResetToken" | "banner" | "review" | "schoolClass" | "stream" | "subject" | "classSubject" | "university" | "program" | "contributorRequest" | "contributorPermission" | "semester" | "programSubject" | "chapter" | "chapterSuggestion" | "studyMaterial" | "studyMaterialReport" | "creditTransaction" | "creditSettings" | "studyMaterialPurchase" | "coupon" | "couponRedemption" | "sellerPayoutAdjustment" | "recentlyViewedBook" | "searchHistoryEntry"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2728,6 +2731,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SellerPayoutAdjustment: {
+      payload: Prisma.$SellerPayoutAdjustmentPayload<ExtArgs>
+      fields: Prisma.SellerPayoutAdjustmentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SellerPayoutAdjustmentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SellerPayoutAdjustmentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SellerPayoutAdjustmentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SellerPayoutAdjustmentPayload>
+        }
+        findFirst: {
+          args: Prisma.SellerPayoutAdjustmentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SellerPayoutAdjustmentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SellerPayoutAdjustmentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SellerPayoutAdjustmentPayload>
+        }
+        findMany: {
+          args: Prisma.SellerPayoutAdjustmentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SellerPayoutAdjustmentPayload>[]
+        }
+        create: {
+          args: Prisma.SellerPayoutAdjustmentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SellerPayoutAdjustmentPayload>
+        }
+        createMany: {
+          args: Prisma.SellerPayoutAdjustmentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SellerPayoutAdjustmentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SellerPayoutAdjustmentPayload>[]
+        }
+        delete: {
+          args: Prisma.SellerPayoutAdjustmentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SellerPayoutAdjustmentPayload>
+        }
+        update: {
+          args: Prisma.SellerPayoutAdjustmentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SellerPayoutAdjustmentPayload>
+        }
+        deleteMany: {
+          args: Prisma.SellerPayoutAdjustmentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SellerPayoutAdjustmentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SellerPayoutAdjustmentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SellerPayoutAdjustmentPayload>[]
+        }
+        upsert: {
+          args: Prisma.SellerPayoutAdjustmentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SellerPayoutAdjustmentPayload>
+        }
+        aggregate: {
+          args: Prisma.SellerPayoutAdjustmentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSellerPayoutAdjustment>
+        }
+        groupBy: {
+          args: Prisma.SellerPayoutAdjustmentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SellerPayoutAdjustmentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SellerPayoutAdjustmentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SellerPayoutAdjustmentCountAggregateOutputType> | number
+        }
+      }
+    }
+    RecentlyViewedBook: {
+      payload: Prisma.$RecentlyViewedBookPayload<ExtArgs>
+      fields: Prisma.RecentlyViewedBookFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RecentlyViewedBookFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecentlyViewedBookPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RecentlyViewedBookFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecentlyViewedBookPayload>
+        }
+        findFirst: {
+          args: Prisma.RecentlyViewedBookFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecentlyViewedBookPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RecentlyViewedBookFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecentlyViewedBookPayload>
+        }
+        findMany: {
+          args: Prisma.RecentlyViewedBookFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecentlyViewedBookPayload>[]
+        }
+        create: {
+          args: Prisma.RecentlyViewedBookCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecentlyViewedBookPayload>
+        }
+        createMany: {
+          args: Prisma.RecentlyViewedBookCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RecentlyViewedBookCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecentlyViewedBookPayload>[]
+        }
+        delete: {
+          args: Prisma.RecentlyViewedBookDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecentlyViewedBookPayload>
+        }
+        update: {
+          args: Prisma.RecentlyViewedBookUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecentlyViewedBookPayload>
+        }
+        deleteMany: {
+          args: Prisma.RecentlyViewedBookDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RecentlyViewedBookUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RecentlyViewedBookUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecentlyViewedBookPayload>[]
+        }
+        upsert: {
+          args: Prisma.RecentlyViewedBookUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecentlyViewedBookPayload>
+        }
+        aggregate: {
+          args: Prisma.RecentlyViewedBookAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRecentlyViewedBook>
+        }
+        groupBy: {
+          args: Prisma.RecentlyViewedBookGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RecentlyViewedBookGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RecentlyViewedBookCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RecentlyViewedBookCountAggregateOutputType> | number
+        }
+      }
+    }
+    SearchHistoryEntry: {
+      payload: Prisma.$SearchHistoryEntryPayload<ExtArgs>
+      fields: Prisma.SearchHistoryEntryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SearchHistoryEntryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SearchHistoryEntryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SearchHistoryEntryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SearchHistoryEntryPayload>
+        }
+        findFirst: {
+          args: Prisma.SearchHistoryEntryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SearchHistoryEntryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SearchHistoryEntryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SearchHistoryEntryPayload>
+        }
+        findMany: {
+          args: Prisma.SearchHistoryEntryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SearchHistoryEntryPayload>[]
+        }
+        create: {
+          args: Prisma.SearchHistoryEntryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SearchHistoryEntryPayload>
+        }
+        createMany: {
+          args: Prisma.SearchHistoryEntryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SearchHistoryEntryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SearchHistoryEntryPayload>[]
+        }
+        delete: {
+          args: Prisma.SearchHistoryEntryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SearchHistoryEntryPayload>
+        }
+        update: {
+          args: Prisma.SearchHistoryEntryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SearchHistoryEntryPayload>
+        }
+        deleteMany: {
+          args: Prisma.SearchHistoryEntryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SearchHistoryEntryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SearchHistoryEntryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SearchHistoryEntryPayload>[]
+        }
+        upsert: {
+          args: Prisma.SearchHistoryEntryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SearchHistoryEntryPayload>
+        }
+        aggregate: {
+          args: Prisma.SearchHistoryEntryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSearchHistoryEntry>
+        }
+        groupBy: {
+          args: Prisma.SearchHistoryEntryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SearchHistoryEntryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SearchHistoryEntryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SearchHistoryEntryCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -3203,6 +3428,41 @@ export const CouponRedemptionScalarFieldEnum = {
 export type CouponRedemptionScalarFieldEnum = (typeof CouponRedemptionScalarFieldEnum)[keyof typeof CouponRedemptionScalarFieldEnum]
 
 
+export const SellerPayoutAdjustmentScalarFieldEnum = {
+  id: 'id',
+  storeId: 'storeId',
+  orderId: 'orderId',
+  amount: 'amount',
+  reason: 'reason',
+  status: 'status',
+  createdAt: 'createdAt',
+  paidAt: 'paidAt',
+  paidById: 'paidById'
+} as const
+
+export type SellerPayoutAdjustmentScalarFieldEnum = (typeof SellerPayoutAdjustmentScalarFieldEnum)[keyof typeof SellerPayoutAdjustmentScalarFieldEnum]
+
+
+export const RecentlyViewedBookScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  bookId: 'bookId',
+  viewedAt: 'viewedAt'
+} as const
+
+export type RecentlyViewedBookScalarFieldEnum = (typeof RecentlyViewedBookScalarFieldEnum)[keyof typeof RecentlyViewedBookScalarFieldEnum]
+
+
+export const SearchHistoryEntryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  query: 'query',
+  createdAt: 'createdAt'
+} as const
+
+export type SearchHistoryEntryScalarFieldEnum = (typeof SearchHistoryEntryScalarFieldEnum)[keyof typeof SearchHistoryEntryScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -3479,6 +3739,20 @@ export type ListEnumCouponTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$P
 
 
 /**
+ * Reference to a field of type 'PayoutAdjustmentStatus'
+ */
+export type EnumPayoutAdjustmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PayoutAdjustmentStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'PayoutAdjustmentStatus[]'
+ */
+export type ListEnumPayoutAdjustmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PayoutAdjustmentStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -3632,6 +3906,9 @@ export type GlobalOmitConfig = {
   studyMaterialPurchase?: Prisma.StudyMaterialPurchaseOmit
   coupon?: Prisma.CouponOmit
   couponRedemption?: Prisma.CouponRedemptionOmit
+  sellerPayoutAdjustment?: Prisma.SellerPayoutAdjustmentOmit
+  recentlyViewedBook?: Prisma.RecentlyViewedBookOmit
+  searchHistoryEntry?: Prisma.SearchHistoryEntryOmit
 }
 
 /* Types for Logging */
