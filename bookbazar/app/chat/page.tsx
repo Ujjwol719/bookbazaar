@@ -19,14 +19,14 @@ export default function ChatBot() {
       {/* Floating Button */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-indigo-600 text-white text-2xl shadow-xl hover:bg-indigo-700"
+        className="fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] right-6 z-50 h-14 w-14 rounded-full bg-indigo-600 text-white text-2xl shadow-xl hover:bg-indigo-700"
       >
         💬
       </button>
 
       {/* Chat Window */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 flex h-[500px] w-[380px] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+        <div className="fixed inset-x-4 bottom-[calc(6rem+env(safe-area-inset-bottom))] z-50 flex h-[min(70dvh,500px)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:h-125 sm:w-95">
 
           {/* Header */}
           <div className="flex items-center justify-between border-b bg-indigo-600 px-4 py-3 text-white">
