@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Analytics from "@/components/Analytics";
+import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 const geistSans = Geist({
@@ -77,9 +78,18 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/icon.svg",
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
     shortcut: "/icon.svg",
-    apple: "/icon.svg",
+    apple: "/icons/apple-touch-icon.png",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: SITE_NAME,
   },
   other: {
     "geo.region": "NP",
@@ -123,6 +133,13 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#163C7A",
+  colorScheme: "light",
+  width: "device-width",
+  initialScale: 1,
 };
 
 // JSON-LD structured data — tells Google exactly which areas you serve.
@@ -196,6 +213,7 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <Analytics />
         </Suspense>
+        <ServiceWorkerRegister />
       </body>
     </html>
   );
